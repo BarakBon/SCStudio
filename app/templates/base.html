@@ -45,6 +45,26 @@
         <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">התנתקות</span> </a>
       </nav>
     </div>
+
+    <!--Show messages in screen-->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %} {% if category ==
+      'error' %}
+      <div class="alert alert-danger alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% else %}
+      <div class="alert alert-success alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
+  
     <!--Container Main start-->
     <div>
       {% block content %}
