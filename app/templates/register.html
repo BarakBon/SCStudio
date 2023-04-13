@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>הרשמה</title>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css' rel='stylesheet'>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="/static/auth-style.css">
+
+</head>
+
+<body class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://img.freepik.com/free-vector/add-user-concept-illustration_114360-458.jpg"
+                    class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form>
+
+                    <p class="fst-normal fs-2 text-end">הרשמה</p>
+                    </br>
+
+                    <!-- Full name input -->
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="form3Example3">שם מלא</label>
+                        <input type="text" id="form3Example3" aria-describedby="emailHelp"
+                            class="form-control form-control-lg text-end" placeholder="ישראל ישראלי" />
+                    </div>
+
+                    <!-- telephone input -->
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="form3Example3">מספר טלפון נייד</label>
+                        <input type="tel" id="form3Example3" class="form-control form-control-lg text-end"
+                            placeholder="050-1111111" />
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="form3Example3">אימייל</label>
+                        <input type="email" id="form3Example3" aria-describedby="emailHelp"
+                            class="form-control form-control-lg text-end" placeholder="הכנס מייל של המכללה" />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="form3Example4">סיסמא</label>
+                        <input type="password" id="form3Example4" class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
+                            placeholder="הכנס סיסמא" />
+                    </div>
+
+                    <!-- Password validation input -->
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="form3Example4">אימות סיסמא</label>
+                        <input type="password" id="form3Example4" class="form-control form-control-lg text-end"
+                            placeholder="הכנס סיסמא שוב" />
+                    </div>
+
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="button" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">הרשם</button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">אז כן יש לך משתמש? <a href="/login"
+                                class="link-danger">התחבר</a></p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type='text/javascript'
+    src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script>
