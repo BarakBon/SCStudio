@@ -10,16 +10,35 @@
         height: 10px;
         content: '';
         border-radius: 50%; }
-.table tbody td.status .active {
+
+.table tbody td.status .available {
     background: #cff6dd;
     color: #1fa750; }
-    .table tbody td.status .active:after {
+    .table tbody td.status .available:after {
         background: #23bd5a; }
-.table tbody td.status .waiting {
+
+.table tbody td.status .borrowed {
     background: #fdf5dd;
     color: #cfa00c; }
-    .table tbody td.status .waiting:after {
+    .table tbody td.status .borrowed:after {
         background: #f2be1d; }
+
+.table tbody td.status .borrowed {
+    background: #fdf5dd;
+    color: #cfa00c; }
+    .table tbody td.status .borrowed:after {
+        background: #f2be1d; }
+
+.table tbody td.status .faulty {
+    background: #fddddd;
+    color: #cf130c; }
+    .table tbody td.status .faulty:after {
+        background: #f22f1d; }
+
+
+
+
+        
 
 .table-active,
 .table-active > th,
@@ -31,3 +50,4 @@
     .table-hover .table-active:hover > td,
     .table-hover .table-active:hover > th {
         background-color: rgba(0, 0, 0, 0.075); }
+
