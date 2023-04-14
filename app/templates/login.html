@@ -1,6 +1,27 @@
 <!doctype html>
 <html>
 
+   <!--Show error/success messages in screen-->
+   {% with messages = get_flashed_messages(with_categories=true) %}
+   {% if messages %} 
+     {% for category, message in messages %}
+     {% if category =='error' %}
+     <div class="alert alert-danger alter-dismissable fade show" role="alert">
+       {{ message }}
+       <button type="button" class="close" data-dismiss="alert">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     {% else %}
+     <div class="alert alert-success alter-dismissable fade show" role="alert">
+       {{ message }}
+       <button type="button" class="close" data-dismiss="alert">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     {% endif %} {% endfor %} {% endif %} {% endwith %}
+ 
+
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -20,7 +41,7 @@
                     class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <form>
+                <form method="POST">
 
                     <p class="fst-bold fs-2 text-end">התחברות</p>
                     </br>
@@ -28,15 +49,14 @@
                     <!-- Email input -->
                     <div class="form-outline mb-4 text-end">
                         <label class="form-label" for="form3Example3">אימייל</label>
-                        <input type="email" id="form3Example3" aria-describedby="emailHelp" <input type="password"
-                            id="form3Example4" class="form-control form-control-lg text-end"
+                        <input type="email" id="form3Example3" name='email' aria-describedby="emailHelp"
                             class="form-control form-control-lg text-end" placeholder="הכנס מייל תקין" />
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-3 text-end">
                         <label class="form-label" for="form3Example4">סיסמא</label>
-                        <input type="password" id="form3Example4" class="form-control form-control-lg text-end"
+                        <input type="password" id="form3Example4" name='password' class="form-control form-control-lg text-end"
                             placeholder="הכנס סיסמא" />
                     </div>
 
@@ -52,7 +72,7 @@
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2 ">
-                        <button type="button" class="btn btn-primary btn-lg "
+                        <button type="submit" class="btn btn-primary btn-lg "
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">התחבר</button>
                         <p class="small fw-bold mt-2 pt-1 mb-0">אין לך משתמש? <a href="/register"
                                 class="link-danger">הרשם</a></p>
