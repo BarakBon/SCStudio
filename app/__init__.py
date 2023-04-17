@@ -1,15 +1,14 @@
 from flask import Flask
 from os import path
-from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-User_Det = "database.db"
+App_DataBase = "database.db"
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'some key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{User_Det}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{App_DataBase}'
     db.init_app(app)
 
     from .auth import auth
@@ -17,12 +16,15 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(views, url_prefix='/')
 
-    from app.models.user import User
-    create_database(app)
+    from .models import User
 
     return app
 
 def create_database(app):
-    if not path.exists('app/' + User_Det):
-        db.create_all(app=app)
-        print('Created Database!')
+    with app.app_context():
+        if not path.exists(App_DataBase):
+            db.create_all()
+            print('Created Database!')
+
+app = create_app()
+create_database(app)
