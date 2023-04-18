@@ -30,13 +30,17 @@ def login():
 def register():
     if request.method == 'POST':
         email = request.form.get('email')
-        first_name = request.form.get('firstName')
+        first_name = request.form.get('name')
+        phone = request.form.get('phone')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email already exists.', category='error')
+        if not email:
+            flash('Email is required.', category='error')
+        elif not first_name:
+            flash('First name is required.', category='error')
+        elif not password1 or not password2:
+            flash('Passwords are required.', category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif len(first_name) < 2:
@@ -46,13 +50,15 @@ def register():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(
-                password1, method='sha256'))
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user, remember=True)
-            flash('Account created!', category='success')
-            return redirect(url_for('views.equipment'))
+            user = User.query.filter_by(email=email).first()
+            if user:
+                flash('Email already exists.', category='error')
+            else:
+                new_user = User(email=email, name=first_name, password=generate_password_hash(password1, method='sha256'),phone=phone)
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user, remember=True)
+                flash('Account created!', category='success')
+                return redirect(url_for('views.equipment'))
 
     return render_template("register.html", user=current_user)
-
