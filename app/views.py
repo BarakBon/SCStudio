@@ -8,4 +8,9 @@ def equipment():
     
     return render_template("equipment.html")
 
+@views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
+def Borrowing_Equipment():
+    
+    return render_template("Borrowing_Equipment.html")
+
 
