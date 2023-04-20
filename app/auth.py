@@ -35,6 +35,8 @@ def register():
         phone = request.form.get('phone')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        userType = request.form.get('userType')
+        print(userType)
 
         if not email:
             flash('Email is required.', category='error')
@@ -55,7 +57,7 @@ def register():
             if user:
                 flash('Email already exists.', category='error')
             else:
-                new_user = User(email=email, name=first_name, password=generate_password_hash(password1, method='sha256'),phone=phone)
+                new_user = User(userType=userType, email=email, name=first_name, password=generate_password_hash(password1, method='sha256'),phone=phone)
                 db.session.add(new_user)
                 db.session.commit()
                 login_user(new_user, remember=True)
