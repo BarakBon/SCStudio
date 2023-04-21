@@ -7,6 +7,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     phone = db.Column(db.String(10))
     name = db.Column(db.String(150))
+
+
+
     
 from . import login_manager
 
@@ -14,4 +17,4 @@ from . import login_manager
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-    
+      
