@@ -20,3 +20,9 @@ def equipment_failure():
     
     return render_template("equipment_failure.html")
 
+@views.route('/Fixing_equipment', methods=['GET', 'POST'])
+def Fixing_equipment():
+    
+    return render_template("Fixing_equipment.html")
+
+
