@@ -8,6 +8,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     phone = db.Column(db.String(10))
     name = db.Column(db.String(150))
-    
+
+
 
     
+
+      
