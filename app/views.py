@@ -1,12 +1,15 @@
 from flask import Blueprint, render_template, request, flash, jsonify
+from app.models import Equipment
 
 views = Blueprint('views', __name__)
 
 
 @views.route('/equipment', methods=['GET', 'POST'])
+@login_required
 def equipment():
+    equipment_list = Equipment.query.all()
+    return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
     
-    return render_template("equipment.html")
 
 @views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
 def Borrowing_Equipment():

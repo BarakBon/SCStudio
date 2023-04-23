@@ -9,7 +9,12 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(150))
 
 
-
+class Equipment(db.Model, UserMixin):
+    Type= db.Column(db.String(10))
+    model=db.Column(db.String(150))
+    Serial_Number= db.Column(db.String(150), primary_key=True)
+    Available = db.Column(db.String(150))
+    Time = db.Column(db.String(150))
     
 from . import login_manager
 

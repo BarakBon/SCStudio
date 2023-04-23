@@ -3,80 +3,29 @@
 {% block title %} Equipment {% endblock %}
 
 {% block content %}
-
-<!doctype html>
-<html lang="en">
-  <head>
-  	<title>Table 03</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-    <link rel="stylesheet" href="/static/equipment-style.css">
-
-	</head>
-	<body>
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"> Equipment Table </h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 text-end">
-					<div class="table-wrap ">
-						<table class="table">
-					    <thead class="thead-primary text-end">
-					      <tr>
-					        <th>?תקול</th>
-                            <td>מצב</td>
-					        <th>כמות</th>
-                            <th>מספר סידורי</th>
-                            <th>ציוד</th>
-					      </tr>
-					    </thead>
-					    <tbody>
-					      <tr>
-					        <td><a href="#" class="btn btn-primary">דיווח תקלה</a></td>
-                            <td class="status"><span class="available">זמין</span></td>
-					        <td>3</td>
-                            <td>X1N79D6THQ</td>
-                            <th scope="row" class="scope" >iPad Pro</th>
-					      </tr>
-                          <tr>
-					        <td><a href="#" class="btn btn-primary">דיווח תקלה</a></td>
-                            <td class="status"><span class="borrowed">מושאל</span></td>
-					        <td>1</td>
-                            <td>X61HPQYXF</td>
-                            <th scope="row" class="scope" >MacBook Pro</th>
-					      </tr>
-                          <tr>
-					        <td><a href="#" class="btn btn-primary">דיווח תקלה</a></td>
-                            <td class="status"><span class="faulty">תקול</span></td>
-					        <td>6</td>
-                            <td></td>
-                            <th scope="row" class="scope" >Manfrotto BeFree Advanced</th>
-					      </tr>
-                          
-					    </tbody>
-					  </table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<script src="js/jquery.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
-
-	</body>
-</html>
-
-
+<div class="container">
+  <h1>רשימת ציוד</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>סוג ציוד</th>
+        <th>מודל</th>
+        <th>מק"ט</th>
+        <th>זמינות</th>
+        <th>זמן השאלה מקסימלי </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for equipment in equipment_list %}
+      <tr>
+        <td>{{ equipment.Type }}</td>
+        <td>{{ equipment.model }}</td>
+        <td>{{ equipment.Serial_Number }}</td>
+        <td>{{ equipment.Available }}</td>
+        <td>{{ equipment.Time }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
