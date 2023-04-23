@@ -5,8 +5,9 @@ views = Blueprint('views', __name__)
 
 @views.route('/equipment', methods=['GET', 'POST'])
 def equipment():
-    
-    return render_template("equipment.html")
+    equipment_list = Equipment.query.all()
+    return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
+
 
 @views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
 def Borrowing_Equipment():
