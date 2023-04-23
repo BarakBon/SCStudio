@@ -9,8 +9,21 @@ views = Blueprint('views', __name__)
 @views.route('/equipment')
 @login_required
 def equipment():
-    equipment_list = Equipment.query.all()
+    # Filter equipment by Type, model and Available
+    type_filter = request.args.get('type')
+    model_filter = request.args.get('model')
+    available_filter = request.args.get('available')
+    query = Equipment.query
+    if type_filter:
+        query = query.filter_by(Type=type_filter)
+    if model_filter:
+        query = query.filter_by(model=model_filter)
+    if available_filter:
+        query = query.filter_by(Available=available_filter)
+    equipment_list = query.all()
+
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
+
 
 @views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
 def Borrowing_Equipment():
