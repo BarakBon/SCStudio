@@ -29,6 +29,11 @@
     
                         <p class="fst-normal fs-2 text-end">השאלת ציוד</p>
                         <br>
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3">ת.ז</label>
+                            <input type="text" id="form3Example3" name='id' aria-describedby="emailHelp"
+                                class="form-control form-control-lg text-end" placeholder="123123123" />
+                        </div>
 
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="form3Example3">שם מלא</label>
@@ -47,14 +52,49 @@
                                 placeholder="050-1111111" />
                         </div>
                         <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">ציוד להשאלה</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                            <label class="form-label" for="form3Example3">סוג ציוד</label>
+                            <select type="text" id="typeSelect" name="type" class="form-control form-control-lg text-end">
+                                <option value="type">בחר סוג ציוד </option>
+                                <optgroup label="Camera">>מצלמות </optgroup>
+                                <option value="Sony A7III">Sony A7III</option>
+                                <option value="Panasonic DC-S5">Panasonic DC-S5</option>
+                                <option value="Sony A7III lens 105">Sony A7III lens 105</option>
+                                <optgroup label="Rec">>מקרופוני </optgroup>
+                                <option value="Mic">Mic</option>
+                                <optgroup label="Apple">>מוצרי אפל </optgroup>
                                 <option value="iPad Pro">iPad Pro</option>
                                 <option value="MacBook Pro">MacBook Pro</option>
+                                <optgroup label="Tripod">>חצובות </optgroup>
+                                <option value="Manfrotto 190X">Manfrotto 190X</option>
                                 <option value="Manfrotto BeFree Advanced">Manfrotto BeFree Advanced</option>
+                                <option value="Manfrotto 1004BAC-3">Manfrotto 1004BAC-3</option>
+                                <option value="Manfrotto 1052BAC">Manfrotto 1052BAC</option>
+                                <optgroup label="Projectors">>פרוזקטורים </optgroup>
+                                <option value="CP-X3042WN-EF">CP-X3042WN-EF</option>
+                                <option value="CP-EX250N-EF">CP-EX250N-EF</option>
+                                <option value="CP-WX4022WN-GF">CP-WX4022WN-GF</option>
+                                <option value="CP-X300EF">CP-X300EF</option>
+                                <option value="CP-X2510N-EF">CP-X2510N-EF</option>
+                                <option value="CP-X3021WN">CP-X3021WN</option>
+                                <optgroup label="Cables">כבלים </optgroup>
+                                <option value="HDMI 5M">HDMI 5M</option>
+                                <option value="VGA">VGA</option>
+                                <option value="AC">AC</option>
+                                <option value="SDI 12G">SDI 12G</option>
+                                <option value="SDI 6G">SDI 6G</option>
+                                <option value="Micro Hdmi">Micro Hdmi</option>
+                                <option value="PL TRS">PL TRS</option>
+                                <option value="XLR">XLR</option>
+                                <option value="XLR To PL 1/8''">XLR To PL 1/8''</option>
+                                <optgroup label="Lights">תאורה</optgroup>
+                                <option value="FalconEyes BL-30TD II">FalconEyes BL-30TD II</option>
+                                <option value="FalconEyes RX-24TDX">FalconEyes RX-24TDX</option>
+                                <option value="GODOX M1">GODOX M1</option>
+                                <optgroup label="Convertors">מתאמים</optgroup>
+                                <option value="HDMI to SDI 3G">HDMI to SDI 3G</option>
+                                <option value="BiDirectional SDI HDMI 12G">BiDirectional SDI HDMI 12G</option>
                             </select><br>
                         </div>
-                    
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="form3Example3">מתאריך</label>
                             <input type="date" id="form3Example3" name="pickup-date" class="form-control form-control-lg text-end"/>
@@ -77,7 +117,7 @@
 <script src="js/popper.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
-    </body>
+</body>
 </html>
 
 
