@@ -8,6 +8,6 @@ app = create_app()
 def home():
     return render_template("home.html")
 
-#ddd
+
 if __name__ == '__main__':
     app.run(debug=True)
