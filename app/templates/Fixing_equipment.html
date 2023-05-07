@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %} Fixing equipment {% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+        <link rel="stylesheet" href="/static/Fixing_equipment-style.css">
+    
+    </head>
+    <body class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://ih1.redbubble.net/image.1829565685.5078/st,small,507x507-pad,600x600,f8f8f8.jpg"
+                        class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-6 text-center mb-5">
+                    <form>
+    
+                        <p class="fst-normal fs-2 text-end">שליחת ציוד לתיקון </p>
+                        <br>
+                      
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3">ציוד תקול</label>
+                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                                <option value="iPad Pro">iPad Pro</option>
+                                <option value="MacBook Pro">MacBook Pro</option>
+                                <option value="Manfrotto BeFree Advanced">Manfrotto BeFree Advanced</option>
+                            </select><br>
+                        </div>
+                    
+                        
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3">תאור תקלה </label>
+                            <textarea class="form-control" id="form3Example3" name="message" rows="5" placeholder="תאור התקלה"></textarea>
+                        </div>                        
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">שלח לתיקון </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+    </body>
+</html>
+
+
+{% endblock %}
