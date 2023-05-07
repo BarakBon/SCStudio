@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} borrowed_equipment {% endblock %}
+{% block title %} borrowing_history {% endblock %}
 
 <!--Show error/success messages in screen-->
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -42,33 +42,49 @@
 	<body>
 	<section class="ftco-section">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"> ציוד הנמצא בהשאלה  </h2>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-md-12 text-end">
 					<div class="table-wrap ">
+                        <h3> ציוד הנמצא בהשאלה</h3>
 						<table class="table">
 					    <thead class="thead-primary text-end">
 					      <tr>
-                            <th> החזרת ציוד</th>
-					        <th>המשאיל הנוכחי</th>
-                            <th>מספר סידורי</th>
-                            <th>ציוד</th>
+                            <th>תאריך החזרה </th>
+                            <th>מק"ט</th>
+                            <th>מודל</th>
+                            <th>סוג ציוד</th>
 					      </tr>
 					    </thead>
 					    <tbody>
 					      <tr>
-					        <td><a href="#" class="btn btn-primary">החזרה</a></td>
-					        <td> שלמה </td>
-                            <td>X1N79D6THQ</td>
-                            <th scope="row" class="scope" >iPad Pro</th>
+                            <td> 12/05/2023 </td>
+					        <td> X1N79D6THQ </td>
+                            <td> iPad Pro</td>
+                            <th scope="row" class="scope" > Apple</th>
 					      </tr>
                           
 					    </tbody>
 					  </table>
+
+                      <br><br>
+                      <h3> הסטוריית השאלות </h3>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>מק"ט</th>
+                            <th>מודל</th>
+                            <th>סוג ציוד</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <tr>
+                            <td> X1N79D6THQ </td>
+                            <td> iPad Pro</td>
+                            <th scope="row" class="scope" > Apple</th>
+                          </tr>
+                        </tbody>
+                      </table>
 					</div>
 				</div>
 			</div>

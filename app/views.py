@@ -52,3 +52,10 @@ def Fixing_equipment():
 def borrowed_equipment():
     
     return render_template("borrowed_equipment.html")
+
+
+@views.route('/borrowing_history', methods=['GET', 'POST'])
+def borrowing_history():
+    
+    return render_template("borrowing_history.html")
+
