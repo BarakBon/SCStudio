@@ -2,7 +2,6 @@ import dbm
 from flask import Blueprint, redirect, render_template, request, flash, jsonify, url_for
 from flask_login import login_required, current_user
 from flask import render_template
-from mysqlx import DbDoc
 from app.models import Equipment
 
 views = Blueprint('views', __name__)
