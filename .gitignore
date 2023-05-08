@@ -1,0 +1,7 @@
+jenkins_ssh
+jenkins_ssh.pub
+__pycache__/
+/app/__pycache__/
+/.vscode
+*.pyc
+

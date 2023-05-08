@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %} borrowed_equipment {% endblock %}
+
+<!--Show error/success messages in screen-->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %} 
+  {% for category, message in messages %}
+  {% if category =='error' %}
+  <div class="alert alert-danger alter-dismissable fade show" role="alert">
+	{{ message }}
+	<button type="button" class="close" data-dismiss="alert">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  {% else %}
+  <div class="alert alert-success alter-dismissable fade show" role="alert">
+	{{ message }}
+	<button type="button" class="close" data-dismiss="alert">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
+  {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+  
+{% block content %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Table 03</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link rel="stylesheet" href="/static/equipment-style.css">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section"> ציוד הנמצא בהשאלה  </h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-end">
+					<div class="table-wrap ">
+						<table class="table">
+					    <thead class="thead-primary text-end">
+					      <tr>
+                            <th> החזרת ציוד</th>
+					        <th>המשאיל הנוכחי</th>
+                            <th>מספר סידורי</th>
+                            <th>ציוד</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr>
+					        <td><a href="#" class="btn btn-primary">החזרה</a></td>
+					        <td> שלמה </td>
+                            <td>X1N79D6THQ</td>
+                            <th scope="row" class="scope" >iPad Pro</th>
+					      </tr>
+                          
+					    </tbody>
+					  </table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+	</body>
+</html>
+
+
+{% endblock %}

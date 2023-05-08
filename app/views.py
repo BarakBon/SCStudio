@@ -2,7 +2,6 @@ import dbm
 from flask import Blueprint, redirect, render_template, request, flash, jsonify, url_for
 from flask_login import login_required, current_user
 from flask import render_template
-from mysqlx import DbDoc
 from app.models import Equipment
 
 views = Blueprint('views', __name__)
@@ -42,7 +41,21 @@ def equipment_failure():
     
     return render_template("equipment_failure.html")
 
+
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
 def Fixing_equipment():
     
     return render_template("Fixing_equipment.html")
+
+
+@views.route('/borrowed_equipment', methods=['GET', 'POST'])
+def borrowed_equipment():
+    
+    return render_template("borrowed_equipment.html")
+
+
+@views.route('/borrowing_history', methods=['GET', 'POST'])
+def borrowing_history():
+    
+    return render_template("borrowing_history.html")
+
