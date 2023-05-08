@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 db = SQLAlchemy()
-App_DataBase = "database.db"
+#App_DataBase = "database.db"
 #-----
 #login_manager = LoginManager()
 
@@ -12,7 +12,8 @@ App_DataBase = "database.db"
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'some key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{App_DataBase}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:scstudio@main-database.ce63v0984odx.eu-central-1.rds.amazonaws.com:3306/scstudio'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     #-----
     #login_manager.init_app(app)
@@ -39,11 +40,11 @@ def create_app():
 
     return app
 
+
 def create_database(app):
     with app.app_context():
-        if not path.exists(App_DataBase):
-            db.create_all()
-            print('Created Database!')
+        db.create_all()
+
 
 app = create_app()
 create_database(app)
