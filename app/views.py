@@ -61,3 +61,8 @@ def borrowing_history():
     borrows = query.all()
     return render_template("borrowing_history.html", borrows=borrows)
 
+
+@views.route('/rooms', methods=['GET', 'POST'])
+def rooms():
+    
+    return render_template("rooms.html")
