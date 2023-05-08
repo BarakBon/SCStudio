@@ -5,64 +5,67 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='equipment-style.css') }}">
-  </head>
-  <body>
-<div class="container">
-  <h1>רשימת ציוד</h1>
-  <form method="GET">
-    <div class="row">
-      <div class="col">
-        <select name="type">
-          <option value="">סוג ציוד</option>
-		  <option value="Camera">מצלמות </option>
-          <option value="Rec">מקרופונים</option>
-		  <option value="Apple">מוצרי אפל </option>
-		  <option value="Tripod">חצובות </option>
-		  <option value="Projectors">פרוזקטורים </option>
-		  <option value="Cables">כבלים </option>
-    	  <option value="Lights">תאורה </option>
-		  <option value="Convertors">מתאמים </option>
-        </select>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='equipment-style.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <h1>רשימת ציוד</h1>
+    <form method="GET">
+      <div class="row">
+        <div class="col">
+          <select name="type">
+            <option value="">סוג ציוד</option>
+            <option value="Camera">מצלמות </option>
+            <option value="Rec">מקרופונים</option>
+            <option value="Apple">מוצרי אפל </option>
+            <option value="Tripod">חצובות </option>
+            <option value="Projectors">פרוזקטורים </option>
+            <option value="Cables">כבלים </option>
+            <option value="Lights">תאורה </option>
+            <option value="Convertors">מתאמים </option>
+          </select>
+        </div>
+        <div class="col">
+          <select name="available">
+            <option value="">זמין</option>
+            <option value="yes">מושאל</option>
+            <option value="no">תקול </option>
+          </select>
+        </div>
+        <div class="col">
+          <button type="submit" class="btn btn-primary">סנן</button>
+        </div>
       </div>
-      <div class="col">
-        <select name="available">
-          <option value="">זמין</option>
-          <option value="yes">מושאל</option>
-          <option value="no">תקול </option>
-        </select>
-      </div>
-      <div class="col">
-        <button type="submit" class="btn btn-primary">סנן</button>
-      </div>
-    </div>
-  </form>
-  <br>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>סוג ציוד</th>
-        <th>מודל</th>
-        <th>מק"ט</th>
-        <th>זמינות</th>
-        <th>זמן השאלה מקסימלי </th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for equipment in equipment_list %}
-      <tr>
-        <td>{{ equipment.Type }}</td>
-        <td>{{ equipment.model }}</td>
-        <td>{{ equipment.Serial_Number }}</td>
-        <td>{{ equipment.Available }}</td>
-        <td>{{ equipment.Time }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+    </form>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>זמן השאלה מקסימלי</th>
+          <th>זמינות</th>
+          <th>מק"ט</th>
+          <th>מודל</th>
+          <th>סוג ציוד</th>          
+        </tr>
+      </thead>
+      <tbody>
+        {% for equipment in equipment_list %}
+        <tr>
+          <td>{{ equipment.max_time }}</td>
+          <td>{{ equipment.available }}</td>
+          <td>{{ equipment.serial_number }}</td>
+          <td>{{ equipment.model }}</td>
+          <td>{{ equipment.Type }}</td>                                    
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </body>
+
 </html>
 {% endblock %}
