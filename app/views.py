@@ -22,6 +22,7 @@ def equipment():
     if available_filter:
         query = query.filter_by(status=available_filter)
     equipment_list = query.all()
+    print(current_user.userType)
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
 
@@ -35,34 +36,33 @@ def borrow():
     return render_template("borrow.html", equipment=equipment, user=current_user)
 
 
-
-@views.route('/equipment_failure', methods=['GET', 'POST'])
-def equipment_failure():
+@views.route('/fault_report', methods=['GET', 'POST'])
+def fault_report():
     
-    return render_template("equipment_failure.html")
+    return render_template("fault_report.html", user=current_user)
 
 
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
 def Fixing_equipment():
     
-    return render_template("Fixing_equipment.html")
+    return render_template("Fixing_equipment.html" , user=current_user)
 
 
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
 def borrowed_equipment():
     
-    return render_template("borrowed_equipment.html")
+    return render_template("borrowed_equipment.html" , user=current_user)
 
 
-@views.route('/borrowing_history', methods=['GET', 'POST'])
-def borrowing_history():
+@views.route('/user_borrowing', methods=['GET', 'POST'])
+def user_borrowing():
     query = Borrow.query
     query = query.filter_by(borrower=current_user.id)
     borrows = query.all()
-    return render_template("borrowing_history.html", borrows=borrows)
+    return render_template("user_borrowing.html", borrows=borrows , user=current_user)
 
 
 @views.route('/rooms', methods=['GET', 'POST'])
 def rooms():
     
-    return render_template("rooms.html")
+    return render_template("rooms.html", user=current_user)
