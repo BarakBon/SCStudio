@@ -7,6 +7,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+{% if category =='error' %}
+<div class="alert alert-danger alter-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% else %}
+<div class="alert alert-success alter-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
+
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,15 +48,14 @@
                     class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-6 text-center mb-5">
-                <form>
+                <form method="POST">
 
                     <p class="fst-normal fs-2 text-end">השאלת ציוד</p>
                     <br>
 
                     <div class="form-outline mb-4 text-end">
                         <label class="form-label" for="type_drop"> סוג הציוד</label>
-                        <select type="text" id="type_drop" name="equipment"
-                            class="form-control form-control-lg text-end">
+                        <select type="text" id="type_drop" name="type" class="form-control form-control-lg text-end">
                             <option value="">-- בחר סוג --</option>
                             <option value="Camera">מצלמות </option>
                             <option value="Rec">מקרופונים</option>
@@ -50,8 +70,7 @@
 
                     <div class="form-outline mb-4 text-end">
                         <label class="form-label" for="model_drop">ציוד להשאלה</label>
-                        <select type="text" id="model_drop" name="equipment"
-                            class="form-control form-control-lg text-end">
+                        <select type="text" id="model_drop" name="model" class="form-control form-control-lg text-end">
                             <option value="">-- בחר ציוד --</option>
                         </select><br>
                     </div>

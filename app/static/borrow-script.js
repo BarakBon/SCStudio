@@ -14,13 +14,13 @@ const model_drop = document.getElementById('model_drop');
 
 
 $(document).ready(function () {
-
-
+   
     $("#from_date").attr({ "min": new Date().toJSON().split('T')[0] })
 
     $("#from_date").change(function () {
         $("#to_date").attr({ "min": $("#from_date").val() })
     });
+
 });
 
 // Event listener for when the first dropdown value changes
