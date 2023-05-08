@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %} rooms {% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+        <link rel="stylesheet" href="/static/Borrowing_Equipment-style.css">
+    
+    </head>
+    <body class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://media.istockphoto.com/id/1144733747/vector/retro-microphone-illustration-vector-icon.jpg?s=612x612&w=0&k=20&c=B0nZ-QiKh1n_EZq6y6QTYag9IvZADdqO2Lo93XKr0qc="
+                        class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-6 text-center mb-5">
+                    <form>
+    
+                        <p class="fst-normal fs-2 text-end">הזמנת חדר</p>
+                        <br>
+
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3"> סוג הציוד</label>
+                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                                <option value="podcast">חדר פודקסט </option>
+                                <option value="studio">אולפן</option>
+                            </select><br>
+                        </div>
+                    
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3">תאריך</label>
+                            <input type="date" id="form3Example3" name="pickup-date" class="form-control form-control-lg text-end"/>
+                        </div>
+                        
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3"> משעה</label>
+                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                                <option value="8"> 8:00 </option>
+                                <option value="11">11:00</option>
+                                <option value="16">16:00</option>
+
+                            </select><br>
+                        </div>
+                        
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="form3Example3"> עד שעה</label>
+                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                                <option value="8"> 9:00 </option>
+                                <option value="11">11:00</option>
+                                <option value="17">17:00</option>
+
+                            </select><br>
+                        </div>
+
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">השאל ציוד</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+    </body>
+</html>
+
+
+{% endblock %}

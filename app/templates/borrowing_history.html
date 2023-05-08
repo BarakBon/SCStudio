@@ -1,102 +1,115 @@
 {% extends "base.html" %}
 
-{% block title %} borrowing_history {% endblock %}
+{% block title %} borrowing history {% endblock %}
 
 <!--Show error/success messages in screen-->
 {% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %} 
-  {% for category, message in messages %}
-  {% if category =='error' %}
-  <div class="alert alert-danger alter-dismissable fade show" role="alert">
-	{{ message }}
-	<button type="button" class="close" data-dismiss="alert">
-	  <span aria-hidden="true">&times;</span>
-	</button>
-  </div>
-  {% else %}
-  <div class="alert alert-success alter-dismissable fade show" role="alert">
-	{{ message }}
-	<button type="button" class="close" data-dismiss="alert">
-	  <span aria-hidden="true">&times;</span>
-	</button>
-  </div>
-  {% endif %} {% endfor %} {% endif %} {% endwith %}
+{% if messages %}
+{% for category, message in messages %}
+{% if category =='error' %}
+<div class="alert alert-danger alter-dismissable fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% else %}
+<div class="alert alert-success alter-dismissable fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
 
-  
+
 {% block content %}
 
 <!doctype html>
 <html lang="en">
-  <head>
-  	<title>Table 03</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+<head>
+  <title>Table 03</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-    <link rel="stylesheet" href="/static/equipment-style.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 
-	</head>
-	<body>
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 text-end">
-					<div class="table-wrap ">
-                        <h3> ציוד הנמצא בהשאלה</h3>
-						<table class="table">
-					    <thead class="thead-primary text-end">
-					      <tr>
-                            <th>תאריך החזרה </th>
-                            <th>מק"ט</th>
-                            <th>מודל</th>
-                            <th>סוג ציוד</th>
-					      </tr>
-					    </thead>
-					    <tbody>
-					      <tr>
-                            <td> 12/05/2023 </td>
-					        <td> X1N79D6THQ </td>
-                            <td> iPad Pro</td>
-                            <th scope="row" class="scope" > Apple</th>
-					      </tr>
-                          
-					    </tbody>
-					  </table>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-                      <br><br>
-                      <h3> הסטוריית השאלות </h3>
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>מק"ט</th>
-                            <th>מודל</th>
-                            <th>סוג ציוד</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                          <tr>
-                            <td> X1N79D6THQ </td>
-                            <td> iPad Pro</td>
-                            <th scope="row" class="scope" > Apple</th>
-                          </tr>
-                        </tbody>
-                      </table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <link rel="stylesheet" href="/static/equipment-style.css">
 
-	<script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-end">
+          <div class="table-wrap ">
+            <h3> ציוד הנמצא בהשאלה</h3>
+            <table class="table">
+              <thead class="thead-primary text-end">
+                <tr>
+                  <th>תאריך החזרה דרוש</th>
+                  <th>מק"ט</th>
+                  <th>מודל</th>
+                  <th>סוג ציוד</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for borrow in borrows %}
+                {% if borrow.return_status == 'no' %}
+                <tr>
+                  <td>{{ borrow.return_date }}</td>
+                  <td>{{ borrow.aq_serial }}</td>
+                  <td>{{ borrow.item.model }}</td>
+                  <th scope="row" class="scope">{{ borrow.item.Type }}</th>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+
+            <br><br><br>
+            <h3> הסטוריית השאלות </h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>תאריך החזרה</th>
+                  <th>תאריך השאלה</th>
+                  <th>מק"ט</th>
+                  <th>מודל</th>
+                  <th>סוג ציוד</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for borrow in borrows %}
+                {% if borrow.return_status != 'no' %}
+                <tr>
+                  <td>{{ borrow.return_date }}</td>
+                  <td>{{ borrow.borrow_date }}</td>
+                  <td>{{ borrow.aq_serial }}</td>
+                  <td>{{ borrow.item.model }}</td>
+                  <th scope="row" class="scope">{{ borrow.item.Type }}</th>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/jquery.min.js"></script>
   <script src="js/popper.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
 
-	</body>
+</body>
+
 </html>
 
 

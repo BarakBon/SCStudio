@@ -2,7 +2,7 @@ import dbm
 from flask import Blueprint, redirect, render_template, request, flash, jsonify, url_for
 from flask_login import login_required, current_user
 from flask import render_template
-from app.models import Equipment
+from app.models import *
 
 views = Blueprint('views', __name__)
 
@@ -20,7 +20,7 @@ def equipment():
     if model_filter:
         query = query.filter_by(model=model_filter)
     if available_filter:
-        query = query.filter_by(Available=available_filter)
+        query = query.filter_by(status=available_filter)
     equipment_list = query.all()
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
@@ -28,11 +28,11 @@ def equipment():
 
 
 
-@views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
+@views.route('/borrow', methods=['GET', 'POST'])
 @login_required
-def Borrowing_Equipment():
+def borrow():
    
-    return render_template("Borrowing_Equipment.html", equipment=equipment, user=current_user)
+    return render_template("borrow.html", equipment=equipment, user=current_user)
 
 
 
@@ -56,6 +56,13 @@ def borrowed_equipment():
 
 @views.route('/borrowing_history', methods=['GET', 'POST'])
 def borrowing_history():
-    
-    return render_template("borrowing_history.html")
+    query = Borrow.query
+    query = query.filter_by(borrower=current_user.id)
+    borrows = query.all()
+    return render_template("borrowing_history.html", borrows=borrows)
 
+
+@views.route('/rooms', methods=['GET', 'POST'])
+def rooms():
+    
+    return render_template("rooms.html")

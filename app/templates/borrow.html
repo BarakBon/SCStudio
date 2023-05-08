@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Borrowing Equipment {% endblock %}
+{% block title %} borrow {% endblock %}
 
 {% block content %}
 
@@ -31,21 +31,13 @@
                         <br>
 
                         <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">שם מלא</label>
-                            <input type="text" id="form3Example3" name='name' aria-describedby="emailHelp"
-                                class="form-control form-control-lg text-end" placeholder="ישראל ישראלי" />
+                            <label class="form-label" for="form3Example3"> סוג הציוד</label>
+                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                                <option value="Apple">Apple</option>
+                                <option value="Camera">Camera</option>
+                            </select><br>
                         </div>
-                        
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">אימייל</label>
-                            <input type="email" id="form3Example3" name='email' aria-describedby="emailHelp"
-                                class="form-control form-control-lg text-end" placeholder="הכנס מייל של המכללה" />
-                        </div>
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">מספר טלפון נייד</label>
-                            <input type="text" id="form3Example3" name="phone" class="form-control form-control-lg text-end"
-                                placeholder="050-1111111" />
-                        </div>
+
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="form3Example3">ציוד להשאלה</label>
                             <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
