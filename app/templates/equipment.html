@@ -31,9 +31,9 @@
         </div>
         <div class="col">
           <select name="available">
-            <option value="">זמין</option>
-            <option value="yes">מושאל</option>
-            <option value="no">תקול </option>
+            <option value="available">זמין</option>
+            <option value="borrowed">מושאל</option>
+            <option value="faulty">תקול </option>
           </select>
         </div>
         <div class="col">
@@ -45,7 +45,6 @@
     <table class="table">
       <thead>
         <tr>
-          <th>זמן השאלה מקסימלי</th>
           <th>זמינות</th>
           <th>מק"ט</th>
           <th>מודל</th>
@@ -55,8 +54,19 @@
       <tbody>
         {% for equipment in equipment_list %}
         <tr>
-          <td>{{ equipment.max_time }}</td>
-          <td>{{ equipment.available }}</td>
+          {% if equipment.status == 'available'%}
+            <td class="status"><span class="available">זמין</span></td>
+          {% endif%}
+
+          {% if equipment.status == 'borrowed'%}
+          <td class="status"><span class="borrowed">מושאל</span></td>
+          {% endif%}
+
+          {% if equipment.status == 'faulty'%}
+          <td class="status"><span class="faulty">תקול</span></td>
+          {% endif%}
+
+          <!-- <td>{{ equipment.status }}</td> -->
           <td>{{ equipment.serial_number }}</td>
           <td>{{ equipment.model }}</td>
           <td>{{ equipment.Type }}</td>                                    

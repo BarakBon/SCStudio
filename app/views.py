@@ -20,7 +20,7 @@ def equipment():
     if model_filter:
         query = query.filter_by(model=model_filter)
     if available_filter:
-        query = query.filter_by(available=available_filter)
+        query = query.filter_by(status=available_filter)
     equipment_list = query.all()
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)

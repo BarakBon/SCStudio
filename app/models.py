@@ -6,7 +6,7 @@ class Equipment(db.Model, UserMixin):
     Type= db.Column(db.String(10))
     model=db.Column(db.String(50))
     serial_number= db.Column(db.String(50), primary_key=True)
-    available = db.Column(db.String(15))
+    status = db.Column(db.String(15))
     max_time = db.Column(db.Integer) # in days
     
     
