@@ -20,7 +20,7 @@ def equipment():
     if model_filter:
         query = query.filter_by(model=model_filter)
     if available_filter:
-        query = query.filter_by(available=available_filter)
+        query = query.filter_by(status=available_filter)
     equipment_list = query.all()
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
@@ -28,11 +28,11 @@ def equipment():
 
 
 
-@views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
+@views.route('/borrow', methods=['GET', 'POST'])
 @login_required
-def Borrowing_Equipment():
+def borrow():
    
-    return render_template("Borrowing_Equipment.html", equipment=equipment, user=current_user)
+    return render_template("borrow.html", equipment=equipment, user=current_user)
 
 
 
