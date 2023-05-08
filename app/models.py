@@ -7,7 +7,7 @@ class Equipment(db.Model, UserMixin):
     model=db.Column(db.String(50))
     serial_number= db.Column(db.String(50), primary_key=True)
     available = db.Column(db.String(15))
-    max_time = db.Column(db.Integer)
+    max_time = db.Column(db.Integer) # in days
     
     
 class User(db.Model, UserMixin):
@@ -23,9 +23,17 @@ class Borrow(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     borrower = db.Column(db.Integer, db.ForeignKey('user.id'))
     aq_serial = db.Column(db.String(50), db.ForeignKey('equipment.serial_number'))
-    borrow_date = db.Column(db.String(10))
-    return_date = db.Column(db.String(10))
+    borrow_date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
+    return_date = db.Column(db.String(10)) # ^
 
+
+class Room_Book(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(8)) # podcast / studio
+    inviter = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
+    start_hour = db.Column(db.Integer) # will be in 'hh' (hour) format 
+    end_hour = db.Column(db.Integer) # ^
 
 '''from . import login_manager
 
