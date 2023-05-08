@@ -28,11 +28,11 @@ def equipment():
 
 
 
-@views.route('/Borrowing_Equipment', methods=['GET', 'POST'])
+@views.route('/borrow', methods=['GET', 'POST'])
 @login_required
-def Borrowing_Equipment():
+def borrow():
    
-    return render_template("Borrowing_Equipment.html", equipment=equipment, user=current_user)
+    return render_template("borrow.html", equipment=equipment, user=current_user)
 
 
 
