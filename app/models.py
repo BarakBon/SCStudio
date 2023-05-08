@@ -6,8 +6,9 @@ class Equipment(db.Model, UserMixin):
     Type= db.Column(db.String(10))
     model=db.Column(db.String(50))
     serial_number= db.Column(db.String(50), primary_key=True)
-    available = db.Column(db.String(15))
+    status = db.Column(db.String(15))
     max_time = db.Column(db.Integer) # in days
+    borrow=db.relationship('Borrow', backref='item', lazy=True)
     
     
 class User(db.Model, UserMixin):
@@ -25,6 +26,7 @@ class Borrow(db.Model, UserMixin):
     aq_serial = db.Column(db.String(50), db.ForeignKey('equipment.serial_number'))
     borrow_date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
     return_date = db.Column(db.String(10)) # ^
+    return_status = db.Column(db.String(10)) # yes / no / late (=returned late)
 
 
 class Room_Book(db.Model, UserMixin):

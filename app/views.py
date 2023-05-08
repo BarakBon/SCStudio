@@ -2,7 +2,7 @@ import dbm
 from flask import Blueprint, redirect, render_template, request, flash, jsonify, url_for
 from flask_login import login_required, current_user
 from flask import render_template
-from app.models import Equipment
+from app.models import *
 
 views = Blueprint('views', __name__)
 
@@ -56,6 +56,8 @@ def borrowed_equipment():
 
 @views.route('/borrowing_history', methods=['GET', 'POST'])
 def borrowing_history():
-    
-    return render_template("borrowing_history.html")
+    query = Borrow.query
+    query = query.filter_by(borrower=current_user.id)
+    borrows = query.all()
+    return render_template("borrowing_history.html", borrows=borrows)
 
