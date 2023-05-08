@@ -31,9 +31,9 @@ def equipment():
 @views.route('/borrow', methods=['GET', 'POST'])
 @login_required
 def borrow():
-   
-    return render_template("borrow.html", equipment=equipment, user=current_user)
-
+    unique_types = db.session.query(Equipment.Type).distinct().all()
+    types_list = [t[0] for t in unique_types]
+    return render_template("borrow.html", types=types_list, user=current_user)
 
 
 @views.route('/equipment_failure', methods=['GET', 'POST'])
