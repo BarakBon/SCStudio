@@ -25,14 +25,14 @@
                         class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-6 text-center mb-5">
-                    <form>
+                    <form method="POST">
     
                         <p class="fst-normal fs-2 text-end">הזמנת אולפן/חדר פודקסט </p>
                         <br>
 
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="form3Example3"> סוג הציוד</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
+                            <select type="text" id="form3Example3" name="type" class="form-control form-control-lg text-end">
                                 <option value="podcast">חדר פודקסט </option>
                                 <option value="studio">אולפן</option>
                             </select><br>
@@ -40,16 +40,23 @@
                     
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="form3Example3">תאריך</label>
-                            <input type="date" id="form3Example3" name="pickup-date" class="form-control form-control-lg text-end"/>
+                            <input type="date" id="date" name="date" class="form-control form-control-lg text-end"/>
                         </div><br>
                         
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="form3Example3"> שעה</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
-                                <option value="8"> 8:00 </option>
-                                <option value="11">11:00</option>
-                                <option value="16">16:00</option>
-
+                            <select type="text" id="time" name="time" class="form-control form-control-lg text-end">
+                                <option value="8:00">8:00</option>
+                                <option value="9:00">9:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
                             </select><br>
                         </div>
                     <!-- 
@@ -72,10 +79,7 @@
                 </div>
             </div>
         </div>
-        <script src="js/jquery.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
+        <script src="/static/room-script.js"></script>
     </body>
 </html>
 

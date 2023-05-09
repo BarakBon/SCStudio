@@ -34,8 +34,8 @@ class Room_Book(db.Model, UserMixin):
     type = db.Column(db.String(8)) # podcast / studio
     inviter = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
-    start_hour = db.Column(db.Integer) # will be in 'hh' (hour) format 
-    end_hour = db.Column(db.Integer) # ^
+    start_hour = db.Column(db.String(5)) # will be in 'hh' (hour) format 
+
 
 '''from . import login_manager
 

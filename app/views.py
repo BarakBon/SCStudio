@@ -108,5 +108,26 @@ def user_borrowing():
 @login_required
 def rooms():
     if request.method == 'POST':
-        pass
+        room_type = request.form.get('type')
+        date = request.form.get('date')
+        time = request.form.get('time')        
+        if date != "" and time != "":
+            try:
+                d = parser.parse(date)  
+                book = Room_Book.query.filter_by(date=d.strftime('%d/%m/%Y')).filter_by(start_hour=time).first()
+                if not book:
+                    new_room_book = Room_Book(type=room_type, inviter=current_user.id, date=d.strftime('%d/%m/%Y'), start_hour=time)
+                    db.session.add(new_room_book)
+                    db.session.commit()
+                    date = ""
+                    flash('!הזמנתך נקלטה בהצלחה', category='success')
+                    return redirect(url_for('views.user_borrowing'))
+                else:
+                    date = ""
+                    flash('החדר תפוס בזמן זה', category='error')       
+            except:
+                date = ""
+                pass
+    date = ""                    
     return render_template("rooms.html", user=current_user)
+
