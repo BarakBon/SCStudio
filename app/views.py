@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from flask import render_template
 from app.models import *
 from dateutil import parser
+from datetime import datetime
 
 views = Blueprint('views', __name__)
 
@@ -79,10 +80,22 @@ def Fixing_equipment():
 
 
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
+@login_required
 def borrowed_equipment():
-    query = Borrow.query
-    borrows = query.all()
-    return render_template("borrowed_equipment.html" ,  borrows=borrows ,user=current_user)
+    borrows = Borrow.query.all()
+    if request.method == 'POST':
+        borrow_id = request.form.get('borrow_id')
+        borrow = Borrow.query.get(borrow_id)
+        equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
+        if equipment:
+            equipment.status = 'available'
+            db.session.delete(borrow)
+            db.session.commit()
+            flash('Equipment returned successfully', 'success')
+            return redirect(url_for('views.equipment'))
+        else:
+            flash('Equipment not found', 'error')
+    return render_template("borrowed_equipment.html", borrows=borrows, user=current_user)
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
