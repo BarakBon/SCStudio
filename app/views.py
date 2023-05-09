@@ -131,3 +131,13 @@ def rooms():
     date = ""                    
     return render_template("rooms.html", user=current_user)
 
+
+@views.route('/adding_equipment', methods=['GET', 'POST'])
+def adding_equipment():
+    
+    return render_template("adding_equipment.html" , user=current_user)
+
+
+
+
+

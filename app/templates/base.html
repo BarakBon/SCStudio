@@ -31,6 +31,8 @@
               <span class="nav_name">ציוד</span> </a>
             
 
+        
+
             {% if user.userType == 'Manager' %}
             <a href="/borrowed_equipment" class='nav_link {{' active' if 'borrowed_equipment' in request.endpoint }}'> <i
               class='bx bx-message-square-detail nav_icon'></i>
@@ -51,6 +53,13 @@
             {% endif %}
 
 
+
+            <a href="/adding_equipment" class='nav_link {{' active' if request.endpoint=='views.equipment' }}'> <i
+              <i class="bx bx-plus nav_icon"></i>
+            <span class="nav_name">הוספת ציוד</span> </a>
+
+
+
             {% if user.userType == 'Manager' %}
             
             {% else %}
@@ -69,6 +78,12 @@
               <i class='bx bx-bug nav_icon'></i>
               <span class="nav_name">דיווח ציוד תקול</span> </a>
             {% endif %}
+
+
+
+
+
+
 
               <!-- 
             <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i>
