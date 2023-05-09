@@ -3,6 +3,7 @@ from flask import Blueprint, redirect, render_template, request, flash, jsonify,
 from flask_login import login_required, current_user
 from flask import render_template
 from app.models import *
+from dateutil import parser
 
 views = Blueprint('views', __name__)
 
@@ -22,6 +23,7 @@ def equipment():
     if available_filter:
         query = query.filter_by(status=available_filter)
     equipment_list = query.all()
+    print(current_user.userType)
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
 
@@ -31,38 +33,66 @@ def equipment():
 @views.route('/borrow', methods=['GET', 'POST'])
 @login_required
 def borrow():
-   
-    return render_template("borrow.html", equipment=equipment, user=current_user)
+    if request.method == 'POST':
+        type = request.form.get('type')
+        model = request.form.get('model')
+        from_date = request.form.get('pickup-date')
+        to_date = request.form.get('return-date')
+        if type != "" and model:
+            equ = Equipment.query.filter_by(Type=type).filter_by(model=model).first()
+            try:
+                from_d = parser.parse(from_date)
+                to_d = parser.parse(to_date)
+                diff = to_d - from_d
+                if diff.days <= equ.max_time :
+                    equ = Equipment.query.filter_by(Type=type).filter_by(model=model).filter_by(status="available").first()
+                    if equ:
+                        new_order = Borrow(borrower=current_user.id, aq_serial=equ.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=from_d.strftime('%d/%m/%Y'), return_status="no")
+                        db.session.add(new_order)
+                        equ.status = "borrowed"
+                        db.session.commit()
+                        type= ""
+                        flash('!הזמנתך נקלטה בהצלחה', category='success')
+                        return redirect(url_for('views.borrowing_history'))
+                    else:
+                       type= ""
+                       flash('!אין מוצר זמין להשאלה', category='error') 
+                else:
+                    type= ""
+                    flash('!כמות ימים גבוהה מידי למוצר זה', category='error')
+            except:
+                type= ""
+                pass 
+    type= ""                       
+    return render_template("borrow.html",  user=current_user)
 
-
-
-@views.route('/equipment_failure', methods=['GET', 'POST'])
-def equipment_failure():
+@views.route('/fault_report', methods=['GET', 'POST'])
+def fault_report():
     
-    return render_template("equipment_failure.html")
+    return render_template("fault_report.html", user=current_user)
 
 
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
 def Fixing_equipment():
     
-    return render_template("Fixing_equipment.html")
+    return render_template("Fixing_equipment.html" , user=current_user)
 
 
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
 def borrowed_equipment():
     
-    return render_template("borrowed_equipment.html")
+    return render_template("borrowed_equipment.html" , user=current_user)
 
 
-@views.route('/borrowing_history', methods=['GET', 'POST'])
-def borrowing_history():
+@views.route('/user_borrowing', methods=['GET', 'POST'])
+def user_borrowing():
     query = Borrow.query
     query = query.filter_by(borrower=current_user.id)
     borrows = query.all()
-    return render_template("borrowing_history.html", borrows=borrows)
+    return render_template("user_borrowing.html", borrows=borrows , user=current_user)
 
 
 @views.route('/rooms', methods=['GET', 'POST'])
 def rooms():
     
-    return render_template("rooms.html")
+    return render_template("rooms.html", user=current_user)

@@ -51,6 +51,7 @@
             <table class="table">
               <thead class="thead-primary text-end">
                 <tr>
+                  <th></th>
                   <th>תאריך החזרה דרוש</th>
                   <th>מק"ט</th>
                   <th>מודל</th>
@@ -61,6 +62,7 @@
                 {% for borrow in borrows %}
                 {% if borrow.return_status == 'no' %}
                 <tr>
+                  <td><a href="#" class="btn btn-primary">החזרה</a></td>
                   <td>{{ borrow.return_date }}</td>
                   <td>{{ borrow.aq_serial }}</td>
                   <td>{{ borrow.item.model }}</td>

@@ -6,70 +6,99 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-    
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      
-        <link rel="stylesheet" href="/static/Borrowing_Equipment-style.css">
-    
-    </head>
-    <body class="vh-100">
-        <div class="container-fluid h-custom">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-md-9 col-lg-6 col-xl-5">
-                    <img src="https://i.pinimg.com/originals/b4/ac/e5/b4ace54b45cb820a6d19ca17488d86fb.jpg"
-                        class="img-fluid" alt="Sample image">
-                </div>
-                <div class="col-md-6 text-center mb-5">
-                    <form>
-    
-                        <p class="fst-normal fs-2 text-end">השאלת ציוד</p>
-                        <br>
 
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3"> סוג הציוד</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
-                                <option value="Apple">Apple</option>
-                                <option value="Camera">Camera</option>
-                            </select><br>
-                        </div>
-
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">ציוד להשאלה</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
-                                <option value="iPad Pro">iPad Pro</option>
-                                <option value="MacBook Pro">MacBook Pro</option>
-                                <option value="Manfrotto BeFree Advanced">Manfrotto BeFree Advanced</option>
-                            </select><br>
-                        </div>
-                    
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">מתאריך</label>
-                            <input type="date" id="form3Example3" name="pickup-date" class="form-control form-control-lg text-end"/>
-                        </div>
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">עד תאריך</label>
-                            <input type="date" id="form3Example3" name="return-date" class="form-control form-control-lg text-end"/>
-                        </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+{% if category =='error' %}
+<div class="alert alert-danger alter-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% else %}
+<div class="alert alert-success alter-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
 
 
-                        <div class="text-center text-lg-start mt-4 pt-2">
-                            <button type="submit" class="btn btn-primary btn-lg"
-                                style="padding-left: 2.5rem; padding-right: 2.5rem;">השאל ציוד</button>
-                        </div>
-                    </form>
-                </div>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/static/equipment-style.css">
+
+</head>
+
+<body class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://i.pinimg.com/originals/b4/ac/e5/b4ace54b45cb820a6d19ca17488d86fb.jpg"
+                    class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-6 text-center mb-5">
+                <form method="POST">
+
+                    <p class="fst-normal fs-2 text-end">השאלת ציוד</p>
+                    <br>
+
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="type_drop"> סוג הציוד</label>
+                        <select type="text" id="type_drop" name="type" class="form-control form-control-lg text-end">
+                            <option value="">-- בחר סוג --</option>
+                            <option value="Camera">מצלמות </option>
+                            <option value="Rec">מקרופונים</option>
+                            <option value="Apple">מוצרי אפל </option>
+                            <option value="Tripod">חצובות </option>
+                            <option value="Projectors">פרוזקטורים </option>
+                            <option value="Cables">כבלים </option>
+                            <option value="Lights">תאורה </option>
+                            <option value="Convertors">מתאמים </option>
+                        </select><br>
+                    </div>
+
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="model_drop">ציוד להשאלה</label>
+                        <select type="text" id="model_drop" name="model" class="form-control form-control-lg text-end">
+                            <option value="">-- בחר ציוד --</option>
+                        </select><br>
+                    </div>
+
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="from_date">מתאריך</label>
+                        <input type="date" id="from_date" name="pickup-date"
+                            class="form-control form-control-lg text-end" />
+                    </div><br>
+
+                    <div class="form-outline mb-4 text-end">
+                        <label class="form-label" for="to_date">עד תאריך</label>
+                        <input type="date" id="to_date" name="return-date"
+                            class="form-control form-control-lg text-end" />
+                    </div>
+
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">השאל ציוד</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <script src="js/jquery.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
-    </body>
+    </div>
+    <script src="/static/borrow-script.js"></script>
+</body>
+
 </html>
 
 
