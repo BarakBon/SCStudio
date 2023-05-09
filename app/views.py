@@ -83,6 +83,12 @@ def Fixing_equipment():
 @login_required
 def borrowed_equipment():
     borrows = Borrow.query.all()
+    today = datetime.now().date()  # get today's date
+    borrows_today = []  # list to store borrows with borrow_date = today's date
+    for borrow in borrows:
+        borrow_date = datetime.strptime(borrow.borrow_date, '%d/%m/%Y').date()  # convert borrow date string to datetime object
+        if borrow_date == today:
+            borrows_today.append(borrow)
     if request.method == 'POST':
         borrow_id = request.form.get('borrow_id')
         borrow = Borrow.query.get(borrow_id)
@@ -95,7 +101,7 @@ def borrowed_equipment():
             return redirect(url_for('views.equipment'))
         else:
             flash('Equipment not found', 'error')
-    return render_template("borrowed_equipment.html", borrows=borrows, user=current_user)
+    return render_template("borrowed_equipment.html", borrows=borrows_today, user=current_user)
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
