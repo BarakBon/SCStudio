@@ -61,14 +61,19 @@
 					      </tr>
 					    </thead>
 					    <tbody>
-					      <tr>
-					        <td><a href="#" class="btn btn-primary">הוחזר</a></td>
-					        <td> שלמה </td>
-                            <td>X1N79D6THQ</td>
-                            <th scope="row" class="scope" >iPad Pro</th>
-							<th> Apple</th>
-					      </tr>
-                          
+						  {% for borrow in borrows %}
+						  {% if borrow.return_status == 'no' %}
+							{% if borrow.aq_serial == borrow.item.serial_number %}
+							<tr>
+								<td><a href="#" class="btn btn-primary">הוחזר</a></td>
+								<td>{{ borrow.borrower }}</td>
+								<td>{{ borrow.aq_serial }}</td>
+								<td>{{ borrow.item.model }}</td>
+								<th scope="row" class="scope">{{ borrow.item.Type }}</th>
+							</tr>
+							{% endif %}
+						  {% endif %}
+						  {% endfor %}
 					    </tbody>
 					  </table>
 					</div>
