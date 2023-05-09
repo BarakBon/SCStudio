@@ -53,12 +53,6 @@ def borrow():
                     for borrow in borrows_list:
                         bor_from_d = datetime.strptime(borrow.borrow_date, '%d/%m/%Y')
                         bor_to_d = datetime.strptime(borrow.return_date, '%d/%m/%Y')
-                        #bor_from_d = parser.parse(borrow.borrow_date)
-                        #bor_to_d = parser.parse(borrow.return_date)                                                
-                        #borrow_range = Range(start=aq_from_d, end=aq_to_d)
-                        #latest_start = max(chosen_range.start, borrow_range.start)
-                        #earliest_end = min(chosen_range.end, borrow_range.end)
-                        #delta = (earliest_end - latest_start).days + 1
                         if (from_d <= bor_to_d) and (to_d >= bor_from_d):
                             overlaped = True
                             break                        
