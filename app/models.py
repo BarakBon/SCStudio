@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100))
     phone = db.Column(db.String(10))
     name = db.Column(db.String(50))
-    borrow=db.relationship('Borrow', backref='items', lazy=True)
+    borrow=db.relationship('Borrow', backref='user', lazy=True)
 
 class Borrow(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +27,7 @@ class Borrow(db.Model, UserMixin):
     borrow_date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
     return_date = db.Column(db.String(10)) # ^
     return_status = db.Column(db.String(10)) # yes / no / late (=returned late)
-
+    
 
 class Room_Book(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

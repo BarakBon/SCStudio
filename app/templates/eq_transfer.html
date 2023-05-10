@@ -44,7 +44,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"> ציוד הנמצא בהשאלה  </h2>
+					<h2 class="heading-section"> מסירת ציוד </h2>
 				</div>
 			</div>
 			<div class="row">
@@ -53,8 +53,8 @@
 						<table class="table">
 					    <thead class="thead-primary text-end">
 					      <tr>
-                            <th> החזרת ציוד</th>
-					        <th>המשאיל הנוכחי</th>
+                            <th>  </th>
+                            <th> למי נמסר </th>
                             <th>מספר סידורי</th>
                             <th>מודל</th>
          					<th>סוג ציוד</th> 
@@ -67,7 +67,7 @@
 							<tr>
 								<td><form method="POST">
                                     <input type="hidden" name="borrow_id" value="{{ borrow.id }}">
-                                    <input type="submit" class="btn btn-primary" value="הוחזר">
+                                    <input type="submit" class="btn btn-primary" value="נמסר">
                                     </form></td>
 								<td>{{ borrow.user.name }}</td>
 								<td>{{ borrow.aq_serial }}</td>
