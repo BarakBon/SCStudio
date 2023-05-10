@@ -7,7 +7,7 @@ from dateutil import parser
 from datetime import datetime
 from collections import namedtuple
 
-views = Blueprint('views', __name__)
+views = Blueprint('views', __name__, template_folder='templates')
 
 
 @views.route('/equipment')
