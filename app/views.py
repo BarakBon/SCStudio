@@ -183,5 +183,10 @@ def adding_equipment():
     return render_template('adding_equipment.html', user=user)
 
 
+@views.route('/eq_transfer', methods=['GET', 'POST'])
+@login_required
+def eq_transfer():
+                        
+    return render_template("eq_transfer.html", user=current_user)
 
 
