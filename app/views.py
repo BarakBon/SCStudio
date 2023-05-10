@@ -97,12 +97,11 @@ def Fixing_equipment():
 @login_required
 def borrowed_equipment():
     borrows = Borrow.query.filter_by(return_status='no').all()
-    #today = datetime.now().date()  # get today's date
-    #borrows_today = []  # list to store borrows with borrow_date = today's date
-    '''for borrow in borrows:
-        borrow_date = datetime.strptime(borrow.borrow_date, '%d/%m/%Y').date()  # convert borrow date string to datetime object
-        if borrow_date == today:
-            borrows_today.append(borrow)'''
+    all_borrowed = []
+    for borrow in borrows:
+        if borrow.item.status == 'borrowed':
+            all_borrowed.append(borrow)
+    
     if request.method == 'POST':
         borrow_id = request.form.get('borrow_id')
         borrow = Borrow.query.get(borrow_id)
@@ -115,7 +114,7 @@ def borrowed_equipment():
             return redirect(url_for('views.equipment'))
         else:
             flash('Equipment not found', 'error')
-    return render_template("borrowed_equipment.html", borrows=borrows, user=current_user)
+    return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
@@ -187,7 +186,27 @@ def adding_equipment():
 @views.route('/eq_transfer', methods=['GET', 'POST'])
 @login_required
 def eq_transfer():
-                        
-    return render_template("eq_transfer.html", user=current_user)
+    borrows = Borrow.query.all()
+    borrows = Borrow.query.filter_by(return_status='no').all()
+    today = datetime.now().date()  # get today's date
+    borrows_today = []  # list to store borrows with borrow_date = today's date
+    for borrow in borrows:
+        borrow_date = datetime.strptime(borrow.borrow_date, '%d/%m/%Y').date()  # convert borrow date string to datetime object
+       
+        if borrow_date == today and borrow.return_status=='no' and borrow.item.status=='available':
+            borrows_today.append(borrow)
+
+    if request.method == 'POST':
+        borrow_id = request.form.get('borrow_id')
+        borrow = Borrow.query.get(borrow_id)
+        equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
+        if equipment:
+            equipment.status = 'borrowed'
+            db.session.commit()
+            flash('Equipment returned successfully', 'success')
+            return redirect(url_for('views.equipment'))
+
+    return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
+
 
 

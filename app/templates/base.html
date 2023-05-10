@@ -45,6 +45,15 @@
 
 
             {% if user.userType == 'Manager' %}
+            <a href="/eq_transfer" class='nav_link {{' active' if 'eq_transfer' in request.endpoint }}'> <i
+              class='bx bx-message-check nav_icon'></i>
+            <span class="nav_name">מסירת ציוד</span> </a>
+            {% else %}
+            
+            {% endif %}
+
+
+            {% if user.userType == 'Manager' %}
             
             {% else %}
             <a href="/borrow" class='nav_link {{' active' if request.endpoint=='views.borrow' }}'> 
@@ -61,7 +70,7 @@
             
             {% endif %}
             
-            
+
             {% if user.userType == 'Manager' %}
             
             {% else %}
