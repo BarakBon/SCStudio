@@ -2,8 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import pytest
-
-db = SQLAlchemy()
+from app import db
 
 def create_test_app():
     app = Flask(__name__)
@@ -30,14 +29,14 @@ def create_test_app():
     def load_user(id):
         return User.query.get(int(id))
 
-    
-    #with app.test_client() as client:
+
+    '''
     with app.app_context():
         db.create_all()
-        '''
+        
         yield client
         with app.app_context():
             db.drop_all()
-        '''
+    '''
     return app
 
