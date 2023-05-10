@@ -27,8 +27,7 @@ class Borrow(db.Model, UserMixin):
     borrow_date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
     return_date = db.Column(db.String(10)) # ^
     return_status = db.Column(db.String(10)) # yes / no / late (=returned late)
-    equipment=db.relationship('Equipment', backref='item', lazy=True)
-    user=db.relationship('User', backref='items', lazy=True)
+
 
 class Room_Book(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
