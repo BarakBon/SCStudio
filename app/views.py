@@ -95,7 +95,7 @@ def Fixing_equipment():
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
 @login_required
 def borrowed_equipment():
-    borrows = Borrow.query.all()
+    borrows = Borrow.query.filter_by(return_status='no').all()
     today = datetime.now().date()  # get today's date
     borrows_today = []  # list to store borrows with borrow_date = today's date
     for borrow in borrows:
@@ -106,9 +106,9 @@ def borrowed_equipment():
         borrow_id = request.form.get('borrow_id')
         borrow = Borrow.query.get(borrow_id)
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
-        if equipment:
+        if equipment and borrows:
             equipment.status = 'available'
-            db.session.delete(borrow)
+            borrow.return_status='yes'
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))

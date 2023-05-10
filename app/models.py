@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100))
     phone = db.Column(db.String(10))
     name = db.Column(db.String(50))
-
+    borrow=db.relationship('Borrow', backref='bi', lazy=True)
 
 class Borrow(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
