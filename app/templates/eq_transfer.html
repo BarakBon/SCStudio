@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} borrowing_history {% endblock %}
+{% block title %} borrowed_equipment {% endblock %}
 
 <!--Show error/success messages in screen-->
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -42,49 +42,43 @@
 	<body>
 	<section class="ftco-section">
 		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section"> מסירת ציוד </h2>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-12 text-end">
 					<div class="table-wrap ">
-                        <h3> ציוד הנמצא בהשאלה</h3>
 						<table class="table">
 					    <thead class="thead-primary text-end">
 					      <tr>
-                            <th>תאריך החזרה </th>
-                            <th>מק"ט</th>
+                            <th>  </th>
+                            <th> למי נמסר </th>
+                            <th>מספר סידורי</th>
                             <th>מודל</th>
-                            <th>סוג ציוד</th>
+         					<th>סוג ציוד</th> 
 					      </tr>
 					    </thead>
 					    <tbody>
-					      <tr>
-                            <td> 12/05/2023 </td>
-					        <td> X1N79D6THQ </td>
-                            <td> iPad Pro</td>
-                            <th scope="row" class="scope" > Apple</th>
-					      </tr>
-                          
+						  {% for borrow in borrows %}
+						  {% if borrow.return_status == 'no' %}
+							{% if borrow.aq_serial == borrow.item.serial_number %}
+							<tr>
+								<td><form method="POST">
+                                    <input type="hidden" name="borrow_id" value="{{ borrow.id }}">
+                                    <input type="submit" class="btn btn-primary" value="נמסר">
+                                    </form></td>
+								<td>{{ borrow.user.name }}</td>
+								<td>{{ borrow.aq_serial }}</td>
+								<td>{{ borrow.item.model }}</td>
+								<th scope="row" class="scope">{{ borrow.item.Type }}</th>
+							</tr>
+							{% endif %}
+						  {% endif %}
+						  {% endfor %}
 					    </tbody>
 					  </table>
-
-                      <br><br>
-                      <h3> הסטוריית השאלות </h3>
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>מק"ט</th>
-                            <th>מודל</th>
-                            <th>סוג ציוד</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                          <tr>
-                            <td> X1N79D6THQ </td>
-                            <td> iPad Pro</td>
-                            <th scope="row" class="scope" > Apple</th>
-                          </tr>
-                        </tbody>
-                      </table>
 					</div>
 				</div>
 			</div>

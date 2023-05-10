@@ -31,9 +31,12 @@
         </div>
         <div class="col">
           <select name="available">
-            <option value="">זמין</option>
-            <option value="yes">מושאל</option>
-            <option value="no">תקול </option>
+            <option value="">הכל</option>
+            <option value="available">זמין</option>
+            <option value="borrowed">מושאל</option>
+            {% if user.userType == 'Manager' %}
+            <option value="faulty">תקול </option>
+            {% endif %}
           </select>
         </div>
         <div class="col">
@@ -45,7 +48,6 @@
     <table class="table">
       <thead>
         <tr>
-          <th>זמן השאלה מקסימלי</th>
           <th>זמינות</th>
           <th>מק"ט</th>
           <th>מודל</th>
@@ -53,15 +55,49 @@
         </tr>
       </thead>
       <tbody>
+
+        <!-- for Manager-->
+        {% if user.userType == 'Manager' %}
         {% for equipment in equipment_list %}
         <tr>
-          <td>{{ equipment.max_time }}</td>
-          <td>{{ equipment.available }}</td>
+          {% if equipment.status == 'available'%}
+            <td class="status"><span class="available">זמין</span></td>
+          {% endif%}
+
+          {% if equipment.status == 'borrowed'%}
+          <td class="status"><span class="borrowed">מושאל</span></td>
+          {% endif%}
+
+          {% if equipment.status == 'faulty'%}
+          <td class="status"><span class="faulty">תקול</span></td>
+          {% endif%}
+
           <td>{{ equipment.serial_number }}</td>
           <td>{{ equipment.model }}</td>
           <td>{{ equipment.Type }}</td>                                    
         </tr>
         {% endfor %}
+
+        <!-- for Student / Teacher-->
+        {% else %}
+        {% for equipment in equipment_list %}
+        {% if equipment.status != 'faulty'%}
+        <tr>
+          {% if equipment.status == 'available'%}
+            <td class="status"><span class="available">זמין</span></td>
+          {% endif%}
+
+          {% if equipment.status == 'borrowed'%}
+          <td class="status"><span class="borrowed">מושאל</span></td>
+          {% endif%}
+          <td>{{ equipment.serial_number }}</td>
+          <td>{{ equipment.model }}</td>
+          <td>{{ equipment.Type }}</td>                                    
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+        {% endif%}
       </tbody>
     </table>
   </div>

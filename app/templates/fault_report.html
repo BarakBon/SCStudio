@@ -29,30 +29,10 @@
     
                         <p class="fst-normal fs-2 text-end">דיווח על ציוד תקול  </p>
                         <br>
-
                         <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">שם מלא</label>
-                            <input type="text" id="form3Example3" name='name' aria-describedby="emailHelp"
-                                class="form-control form-control-lg text-end" placeholder="ישראל ישראלי" />
-                        </div>
-                        
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">אימייל</label>
-                            <input type="email" id="form3Example3" name='email' aria-describedby="emailHelp"
-                                class="form-control form-control-lg text-end" placeholder="הכנס מייל של המכללה" />
-                        </div>
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">מספר טלפון נייד</label>
-                            <input type="text" id="form3Example3" name="phone" class="form-control form-control-lg text-end"
-                                placeholder="050-1111111" />
-                        </div>
-                        <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3">ציוד תקול</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
-                                <option value="iPad Pro">iPad Pro</option>
-                                <option value="MacBook Pro">MacBook Pro</option>
-                                <option value="Manfrotto BeFree Advanced">Manfrotto BeFree Advanced</option>
-                            </select><br>
+                            <p> {{ item_type }} :סוג ציוד</p>
+                            <p> {{ item_model }} :מודל</p>
+                            <p> {{ aq_serial }} :מקט</p>
                         </div>
                     
                         

@@ -25,30 +25,99 @@
           <a class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i>
             <span class="nav_logo-name">SCStudio</span> </a>
           <div class="nav_list">
-            <a href="/" class='nav_link {{' active' if request.endpoint=='/' }}'> <i
+
+            <a href="/equipment" class='nav_link {{' active' if request.endpoint=='views.equipment' }}'> <i
                 class='bx bx-grid-alt nav_icon'></i>
-              <span class="nav_name">Dashboard</span> </a>
+              <span class="nav_name">ציוד</span> </a>
+            
+
+        
+
+            {% if user.userType == 'Manager' %}
+            <a href="/borrowed_equipment" class='nav_link {{' active' if 'borrowed_equipment' in request.endpoint }}'> <i
+              class='bx bx-message-square-detail nav_icon'></i>
+            <span class="nav_name">ציוד מושאל</span> </a>
+            {% else %}
+            <a href="/user_borrowing" class='nav_link {{' active' if 'user_borrowing' in request.endpoint }}'> <i
+              class='bx bx-message-square-detail nav_icon'></i>
+            <span class="nav_name">ההשאלות שלי</span> </a>
+            {% endif %}
+
+
+            {% if user.userType == 'Manager' %}
+            <a href="/eq_transfer" class='nav_link {{' active' if 'eq_transfer' in request.endpoint }}'> <i
+              class='bx bx-message-check nav_icon'></i>
+            <span class="nav_name">מסירת ציוד</span> </a>
+            {% else %}
+            
+            {% endif %}
+
+
+            {% if user.userType == 'Manager' %}
+            
+            {% else %}
+            <a href="/borrow" class='nav_link {{' active' if request.endpoint=='views.borrow' }}'> 
+              <i class='bx bxs-component nav_icon'></i>
+              <span class="nav_name">השאלת ציוד</span> </a>
+            {% endif %}
+
+
+            {% if user.userType == 'Manager' %}
+            <a href="/adding_equipment" class='nav_link {{' active' if request.endpoint=='views.equipment' }}'>
+              <i class="bx bx-plus nav_icon"></i>
+            <span class="nav_name">הוספת ציוד</span> </a>
+            {% else %}
+            
+            {% endif %}
+            
+
+            {% if user.userType == 'Manager' %}
+            
+            {% else %}
+            <a href="/rooms" class='nav_link {{' active' if 'rooms' in request.endpoint }}'> 
+              <i class='bx bx-camera nav_icon'></i>
+              <span class="nav_name">הזמנת אולפן</span> </a>
+            {% endif %}
+
+
+            {% if user.userType == 'Manager' %}
+            <a href="/Fixing_equipment" class='nav_link {{' active' if 'Fixing_equipment' in request.endpoint }}'> 
+              <i class='bx bx-bug nav_icon'></i>
+              <span class="nav_name"> שליחה לתיקון  </span> </a>
+            {% else %}
+            
+            {% endif %}
+
+
+
+
+          <!-- 
+            
+          -->
+
+          <!-- 
+            <a href=# class='nav_link'> 
+              <i class='bx bx-bug nav_icon'></i>
+              <span class="nav_name">כלום</span> </a>
+              
             <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i>
               <span class="nav_name">Users</span> </a>
-            <a href="/borrowing_history" class='nav_link {{' active' if 'borrowing_history' in request.endpoint }}'> <i
-                class='bx bx-message-square-detail nav_icon'></i>
-              <span class="nav_name">ההשאלות שלי</span> </a>
+
             <a href="#" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i>
               <span class="nav_name">Bookmark</span></a>
-            <a href="{{ url_for('views.equipment') }}" class='nav_link {{' active' if 'equipment' in request.endpoint
-              }}'> <i class='bx bxs-component nav_icon'></i>
-              <span class="nav_name">מעקב ציוד</span></a>
+          -->
+              
             <a href="/test" class='nav_link {{' active' if request.endpoint=='test' }}'> <i
                 class='bx bx-bar-chart-alt-2 nav_icon'></i>
               <span class="nav_name">סטטיסטיקה</span> </a>
-            <a href="#" class="nav_link"> <i class='bx bx-bug nav_icon'></i>
-              <span class="nav_name">דיווח ציוד תקול</span> </a>
+
           </div>
-          <a href="{{ url_for('views.Borrowing_Equipment') }}" class="nav_link"> <i class='bx bx-camera nav_icon'></i>
-            <span class="nav_name">השאלת ציוד</span> </a>
+          
         </div>
         <a href="{{ url_for('auth.logout') }}" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span
             class="nav_name">התנתקות</span> </a>
+        </div>
+        
     </div>
 
     </nav>
