@@ -79,8 +79,11 @@ def borrow():
 
 @views.route('/fault_report', methods=['GET', 'POST'])
 def fault_report():
-    
-    return render_template("fault_report.html", user=current_user)
+    aq_serial = request.args.get('aq_serial')
+    item_model = request.args.get('item_model')
+    item_type = request.args.get('item_type')
+
+    return render_template("fault_report.html", user=current_user,aq_serial=aq_serial, item_model=item_model, item_type=item_type)
 
 
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
