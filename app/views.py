@@ -95,26 +95,26 @@ def Fixing_equipment():
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
 @login_required
 def borrowed_equipment():
-    borrows = Borrow.query.all()
-    today = datetime.now().date()  # get today's date
-    borrows_today = []  # list to store borrows with borrow_date = today's date
-    for borrow in borrows:
+    borrows = Borrow.query.filter_by(return_status='no').all()
+    #today = datetime.now().date()  # get today's date
+    #borrows_today = []  # list to store borrows with borrow_date = today's date
+    '''for borrow in borrows:
         borrow_date = datetime.strptime(borrow.borrow_date, '%d/%m/%Y').date()  # convert borrow date string to datetime object
         if borrow_date == today:
-            borrows_today.append(borrow)
+            borrows_today.append(borrow)'''
     if request.method == 'POST':
         borrow_id = request.form.get('borrow_id')
         borrow = Borrow.query.get(borrow_id)
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
-        if equipment:
+        if equipment and borrows:
             equipment.status = 'available'
-            db.session.delete(borrow)
+            borrow.return_status='yes'
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
         else:
             flash('Equipment not found', 'error')
-    return render_template("borrowed_equipment.html", borrows=borrows_today, user=current_user)
+    return render_template("borrowed_equipment.html", borrows=borrows, user=current_user)
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
