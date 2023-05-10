@@ -80,8 +80,11 @@ def borrow():
 
 @views.route('/fault_report', methods=['GET', 'POST'])
 def fault_report():
-    
-    return render_template("fault_report.html", user=current_user)
+    aq_serial = request.args.get('aq_serial')
+    item_model = request.args.get('item_model')
+    item_type = request.args.get('item_type')
+
+    return render_template("fault_report.html", user=current_user,aq_serial=aq_serial, item_model=item_model, item_type=item_type)
 
 
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
@@ -91,9 +94,28 @@ def Fixing_equipment():
 
 
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
+@login_required
 def borrowed_equipment():
-    
-    return render_template("borrowed_equipment.html" , user=current_user)
+    borrows = Borrow.query.filter_by(return_status='no').all()
+    #today = datetime.now().date()  # get today's date
+    #borrows_today = []  # list to store borrows with borrow_date = today's date
+    '''for borrow in borrows:
+        borrow_date = datetime.strptime(borrow.borrow_date, '%d/%m/%Y').date()  # convert borrow date string to datetime object
+        if borrow_date == today:
+            borrows_today.append(borrow)'''
+    if request.method == 'POST':
+        borrow_id = request.form.get('borrow_id')
+        borrow = Borrow.query.get(borrow_id)
+        equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
+        if equipment and borrows:
+            equipment.status = 'available'
+            borrow.return_status='yes'
+            db.session.commit()
+            flash('Equipment returned successfully', 'success')
+            return redirect(url_for('views.equipment'))
+        else:
+            flash('Equipment not found', 'error')
+    return render_template("borrowed_equipment.html", borrows=borrows, user=current_user)
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
@@ -132,11 +154,34 @@ def rooms():
     return render_template("rooms.html", user=current_user)
 
 
+
 @views.route('/adding_equipment', methods=['GET', 'POST'])
 def adding_equipment():
-    
-    return render_template("adding_equipment.html" , user=current_user)
+    # Check if the user is logged in and exists
+    if current_user.is_authenticated:
+        user = current_user
+    else:
+        user = None
 
+    if request.method == 'POST':
+        # Get the form data from the request object
+        equipment_type = request.form.get('equipment')
+        model = request.form.get('model')
+        serial_number = request.form.get('serialNumber')
+        max_time = request.form.get('maxTime')
+        
+        # Create a new Equipment object
+        new_equipment = Equipment(Type=equipment_type, model=model, serial_number=serial_number, status='available', max_time=max_time)
+        
+        # Add the new equipment to the database
+        db.session.add(new_equipment)
+        db.session.commit()
+        flash('הציוד נוסף בהצלחה!', category='success')
+        # Redirect the user to the equipment list page
+        return redirect(url_for('views.equipment'))
+    
+    # Render the add equipment template
+    return render_template('adding_equipment.html', user=user)
 
 
 
