@@ -1,10 +1,7 @@
-from app import create_app
+from app import app
 from flask import render_template
 from flask import redirect, url_for
 
-
-
-app = create_app()
 
 
 @app.route("/")
