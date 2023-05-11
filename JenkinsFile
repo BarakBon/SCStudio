@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh 'python main.py &'
                 sh 'sleep 30'
-                sh '^C'
+                sh 'timeout 5s pkill -f main.py'
             }
         }
     }
