@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'pip install --upgrade pip'
-                sh 'pip install -r -U requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
         
@@ -24,7 +24,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'python main.py &'
-                sh 'sleep 10'
+                sh 'sleep 30'
                 sh '^C'
             }
         }
