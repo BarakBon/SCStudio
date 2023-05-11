@@ -24,6 +24,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'python main.py'
+                sh 'sleep 10'
+                sh 'timeout 5s pkill -f main.py'
             }
         }
     }
