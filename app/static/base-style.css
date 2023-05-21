@@ -71,6 +71,20 @@ a {
     cursor: pointer
 }
 
+.notu-icon {
+    position: relative;
+    font-size: 1.5rem;
+    margin-top: 8px;
+}
+
+.notu-icon span {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: block;
+    font-size:0.8rem;
+}
+
 .header_img {
     width: 35px;
     height: 35px;
