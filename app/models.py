@@ -36,6 +36,13 @@ class Room_Book(db.Model, UserMixin):
     date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
     start_hour = db.Column(db.String(5)) # will be in 'hh' (hour) format 
 
+'''
+class Notification:
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(8))
+    borrow = 
+'''
+
 
 '''from . import login_manager
 

@@ -209,4 +209,7 @@ def eq_transfer():
     return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
 
 
-
+@views.route('/notifications', methods=['GET', 'POST'])
+@login_required
+def notifications():
+    return render_template("notifications.html", user=current_user)
