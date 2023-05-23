@@ -88,8 +88,14 @@
           {% endif%}
 
           {% if equipment.status == 'borrowed'%}
-          <td class="status"><span class="borrowed">מושאל</span></td>
+          <td class="status">
+            <form method="POST">
+              <input type="submit" class="btn btn-primary" value="פרטי משאיל">
+              <span class="borrowed">מושאל</span>
+            </form>
+          </td>
           {% endif%}
+
           <td>{{ equipment.serial_number }}</td>
           <td>{{ equipment.model }}</td>
           <td>{{ equipment.Type }}</td>                                    
