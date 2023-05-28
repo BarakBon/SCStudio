@@ -36,16 +36,16 @@ class Room_Book(db.Model, UserMixin):
     date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
     start_hour = db.Column(db.String(5)) # will be in 'hh' (hour) format 
 
-'''
+
 class Notification:
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(8))
     date = db.Column(db.String(10))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     item = db.Column(db.Integer) # its optional (-1 if not needed) 
-    # is_read = db.Column(db.String(4)) # yes/no if needed for manager
+    is_read = db.Column(db.String(4)) # yes/no
 
-'''
+
 
 
 '''from . import login_manager
