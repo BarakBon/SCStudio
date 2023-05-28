@@ -40,7 +40,7 @@ class Room_Book(db.Model, UserMixin):
     start_hour = db.Column(db.String(5)) # will be in 'hh' (hour) format 
 
 
-class Notification:
+class Notification(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(8)) # return / order / fault
     date = db.Column(db.String(10))
