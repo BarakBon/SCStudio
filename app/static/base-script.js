@@ -35,6 +35,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
     linkColor.forEach(l => l.addEventListener('click', colorLink))
 
     // Your code to run since DOM is loaded and ready
+    
+    const notificationCountElement = document.getElementById('notificationCount');
+    fetch('/notifications/count')
+            .then(response => response.json())
+            .then(data => {
+                notificationCountElement.textContent = 'Notification Count: ' + data.count;
+            })
+            .catch(error => {
+                console.log(error);
+            });
 });
 
 var myLink = document.querySelector('a[href="#"]');

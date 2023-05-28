@@ -203,13 +203,25 @@ def eq_transfer():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
-            #TODO: add new notification for the return date (maybe day bedore)
+            #TODO: add new notification for the return date (maybe day before)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
 
     return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
 
+
+
+@views.route('/notifications/count', methods=['GET'])
+@login_required
+def notifications_count():
+    today = datetime.now().date().strftime("%d/%m/%Y")
+    count = 0
+    if current_user.userType == "Manager":
+        count = Notification.query.filter_by(date=today).filter_by(is_read="no").count()
+    else:
+        count = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter_by(is_read="no").count()
+    return jsonify({'count': count})
 
 @views.route('/notifications', methods=['GET', 'POST'])
 @login_required
