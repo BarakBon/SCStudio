@@ -59,6 +59,7 @@ def borrow():
                     if diff.days <= aquip.max_time:
                         if overlaped == False:
                             new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
+                            #TODO: add borrow notification
                             db.session.add(new_order)
                             #equ.status = "borrowed" 
                             db.session.commit()
@@ -83,7 +84,7 @@ def fault_report():
     aq_serial = request.args.get('aq_serial')
     item_model = request.args.get('item_model')
     item_type = request.args.get('item_type')
-
+    #TODO: add notification of report on post request
     return render_template("fault_report.html", user=current_user,aq_serial=aq_serial, item_model=item_model, item_type=item_type)
 
 

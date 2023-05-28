@@ -42,8 +42,8 @@ class Notification:
     type = db.Column(db.String(8))
     date = db.Column(db.String(10))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    borrow = db.Column(db.Integer) # its optional (-1 if not needed) 
-    # manager = db.Column(db.String(4)) # yes/no if needed for manager
+    item = db.Column(db.Integer) # its optional (-1 if not needed) 
+    # is_read = db.Column(db.String(4)) # yes/no if needed for manager
 
 '''
 
