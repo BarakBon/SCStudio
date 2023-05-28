@@ -202,6 +202,7 @@ def eq_transfer():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
+            #TODO: add new notification for the return date (maybe day bedore)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
