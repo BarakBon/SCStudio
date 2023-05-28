@@ -112,6 +112,7 @@ def borrowed_equipment():
         if equipment and borrows:
             equipment.status = 'available'
             borrow.return_status='yes'
+            #TODO: can add noti for returned borrows
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
@@ -232,4 +233,31 @@ def notifications_count():
 @views.route('/notifications', methods=['GET', 'POST'])
 @login_required
 def notifications():
-    return render_template("notifications.html", user=current_user)
+    today = datetime.now().date().strftime("%d/%m/%Y")
+    
+    if current_user.userType == "Manager":
+        noti_today = Notification.query.filter_by(date=today).filter(or_(Notification.is_read == "no", Notification.is_read == "u")).all()
+        desc_dict = {'order': 'השאלה שהוזמנה להיום', 'return': 'השאלה שאמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה במוצר שבהשאלה'}
+    else:
+        noti_today = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).all()
+        desc_dict = {'order': 'השאלה שבוקשה על ידך מתקיימת היום', 'return': 'השאלה שברשותך אמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה שביצעת התקבלה במערכת'}
+    return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict )
+
+
+@views.route('/seen_notification', methods=['GET', 'POST'])
+@login_required
+def seen_notification():
+    noti_id = request.args.get('notif_id')
+    notification = Notification.query.filter_by(id=noti_id).first()
+    if current_user.userType == "Manager":
+        if notification.is_read == "no": 
+            notification.is_read = "m" 
+        else: 
+            notification.is_read = "both" 
+    else:
+        if notification.is_read == "no": 
+            notification.is_read = "u" 
+        else: 
+            notification.is_read = "both" 
+    
+    return redirect(url_for('views.notifications'))
