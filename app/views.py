@@ -6,6 +6,7 @@ from app.models import *
 from dateutil import parser
 from datetime import datetime
 from collections import namedtuple
+from sqlalchemy import or_
 
 views = Blueprint('views', __name__, template_folder='templates')
 
@@ -39,6 +40,8 @@ def borrow():
         model = request.form.get('model')
         from_date = request.form.get('pickup-date')
         to_date = request.form.get('return-date')
+        print("here")
+
         if type != "" and model != "":
             equipment_list = Equipment.query.filter_by(Type=type).filter_by(model=model).filter(Equipment.status !="faulty").all()
             try:
@@ -46,20 +49,28 @@ def borrow():
                 to_d = parser.parse(to_date)
                 diff = to_d - from_d
                 Range = namedtuple('Range', ['start', 'end'])
+                print("here1")
                 #chosen_range = Range(start=from_d, end=to_d)
                 for aquip in equipment_list:
                     borrows_list = Borrow.query.filter_by(aq_serial=aquip.serial_number).filter_by(return_status="no").all()
                     overlaped = False
-                    for borrow in borrows_list:
-                        bor_from_d = datetime.strptime(borrow.borrow_date, '%d/%m/%Y')
-                        bor_to_d = datetime.strptime(borrow.return_date, '%d/%m/%Y')
-                        if (from_d <= bor_to_d) and (to_d >= bor_from_d):
-                            overlaped = True
-                            break                        
+                    if borrows_list:
+                        for borrow in borrows_list:
+                            bor_from_d = datetime.strptime(borrow.borrow_date, '%d/%m/%Y')
+                            bor_to_d = datetime.strptime(borrow.return_date, '%d/%m/%Y')
+                            if (from_d <= bor_to_d) and (to_d >= bor_from_d):
+                                overlaped = True
+                                break                        
                     if diff.days <= aquip.max_time:
+                        print(overlaped)
                         if overlaped == False:
+                            print("here3")
                             new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
+                            print("here4")
+                            new_noti = Notification(type="order", date=from_d.strftime('%d/%m/%Y'), user=current_user.id, item=aquip.serial_number, is_read="no")
+                            print("here5")
                             db.session.add(new_order)
+                            db.session.add(new_noti)
                             #equ.status = "borrowed" 
                             db.session.commit()
                             type= ""
@@ -83,7 +94,7 @@ def fault_report():
     aq_serial = request.args.get('aq_serial')
     item_model = request.args.get('item_model')
     item_type = request.args.get('item_type')
-
+    #TODO: add notification of report on post request
     return render_template("fault_report.html", user=current_user,aq_serial=aq_serial, item_model=item_model, item_type=item_type)
 
 
@@ -109,6 +120,7 @@ def borrowed_equipment():
         if equipment and borrows:
             equipment.status = 'available'
             borrow.return_status='yes'
+            #TODO: can add noti for returned borrows
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
@@ -202,6 +214,8 @@ def eq_transfer():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
+            new_noti = Notification(Type="return", date=borrow.return_date, user=current_user.id, item=borrow.aq_serial, is_read="no")
+            db.session.add(new_noti)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
@@ -210,3 +224,51 @@ def eq_transfer():
 
 
 
+@views.route('/notifications/count', methods=['GET'])
+@login_required
+def notifications_count():
+    today = datetime.now().date().strftime("%d/%m/%Y")
+    count = 0
+    if current_user.userType == "Manager":
+        count = Notification.query.filter_by(date=today).filter(or_(Notification.is_read == "no", Notification.is_read == "u")).count()
+
+    else:
+        count = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).count()
+    return jsonify({'count': count})
+
+
+
+@views.route('/notifications', methods=['GET', 'POST'])
+@login_required
+def notifications():
+    today = datetime.now().date().strftime("%d/%m/%Y")
+    
+    if current_user.userType == "Manager":
+        noti_today = Notification.query.filter_by(date=today).filter(or_(Notification.is_read == "no", Notification.is_read == "u")).all()
+        desc_dict = {'order': 'השאלה שהוזמנה להיום', 'return': 'השאלה שאמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה במוצר שבהשאלה'}
+    else:
+        noti_today = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).all()
+        desc_dict = {'order': 'ההשאלה שבוקשה על ידך מתקיימת היום', 'return': 'ההשאלה שברשותך אמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה שביצעת התקבלה במערכת'}
+    return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict )
+
+
+@views.route('/seen_notification', methods=['GET', 'POST'])
+@login_required
+def seen_notification():
+    noti_id = request.args.get('notif_id')
+    print(noti_id)
+    notification = Notification.query.filter_by(id=noti_id).first()
+    if current_user.userType == "Manager":
+        if notification.is_read == "no": 
+            notification.is_read = "m" 
+        else: 
+            notification.is_read = "both" 
+        db.session.commit()
+    else:
+        if notification.is_read == "no": 
+            notification.is_read = "u" 
+        else: 
+            notification.is_read = "both"
+        db.session.commit()
+    
+    return redirect(url_for('views.notifications'))
