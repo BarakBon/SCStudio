@@ -39,11 +39,11 @@ class Room_Book(db.Model, UserMixin):
 
 class Notification:
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(8))
+    type = db.Column(db.String(8)) # return / order / fault
     date = db.Column(db.String(10))
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
     item = db.Column(db.Integer) # its optional (-1 if not needed) 
-    is_read = db.Column(db.String(4)) # yes/no
+    is_read = db.Column(db.String(4)) # u / m / no / both
 
 
 

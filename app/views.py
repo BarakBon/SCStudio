@@ -6,6 +6,7 @@ from app.models import *
 from dateutil import parser
 from datetime import datetime
 from collections import namedtuple
+from sqlalchemy import or_
 
 views = Blueprint('views', __name__, template_folder='templates')
 
@@ -218,10 +219,13 @@ def notifications_count():
     today = datetime.now().date().strftime("%d/%m/%Y")
     count = 0
     if current_user.userType == "Manager":
-        count = Notification.query.filter_by(date=today).filter_by(is_read="no").count()
+        count = Notification.query.filter_by(date=today).filter(or_(Notification.is_read == "no", Notification.is_read == "u")).count()
+
     else:
-        count = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter_by(is_read="no").count()
+        count = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).count()
     return jsonify({'count': count})
+
+
 
 @views.route('/notifications', methods=['GET', 'POST'])
 @login_required
