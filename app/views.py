@@ -60,8 +60,9 @@ def borrow():
                     if diff.days <= aquip.max_time:
                         if overlaped == False:
                             new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
-                            #TODO: add borrow notification
+                            new_noti = Notification(Type="order", date=from_d.strftime('%d/%m/%Y'), user=current_user.id, item=-1, is_read="no")
                             db.session.add(new_order)
+                            db.session.add(new_noti)
                             #equ.status = "borrowed" 
                             db.session.commit()
                             type= ""
@@ -204,7 +205,8 @@ def eq_transfer():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
-            #TODO: add new notification for the return date (maybe day before)
+            new_noti = Notification(Type="return", date=borrow.return_date, user=current_user.id, item=-1, is_read="no")
+            db.session.add(new_noti)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.equipment'))
