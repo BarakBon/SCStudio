@@ -20,5 +20,5 @@ def init_database(client):
     db.session.add(test_user)
     db.session.commit()
     yield  # this is where the testing happens!
-    User.query.filter_by(id=test_user.id).delete()
+    db.session.query(User).delete()
     db.session.commit()

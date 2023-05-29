@@ -214,7 +214,7 @@ def eq_transfer():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
-            new_noti = Notification(Type="return", date=borrow.return_date, user=current_user.id, item=borrow.aq_serial, is_read="no")
+            new_noti = Notification(type="return", date=borrow.return_date, user=current_user.id, item=borrow.aq_serial, is_read="no")
             db.session.add(new_noti)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
