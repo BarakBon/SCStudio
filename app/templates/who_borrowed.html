@@ -2,89 +2,72 @@
 
 {% block title %} who_borrowed {% endblock %}
 
-<!--Show error/success messages in screen-->
+<!-- Show error/success messages on the screen -->
 {% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %} 
-  {% for category, message in messages %}
-  {% if category =='error' %}
-  <div class="alert alert-danger alter-dismissable fade show" role="alert">
-	{{ message }}
-	<button type="button" class="close" data-dismiss="alert">
-	  <span aria-hidden="true">&times;</span>
-	</button>
-  </div>
-  {% else %}
-  <div class="alert alert-success alter-dismissable fade show" role="alert">
-	{{ message }}
-	<button type="button" class="close" data-dismiss="alert">
-	  <span aria-hidden="true">&times;</span>
-	</button>
-  </div>
-  {% endif %} {% endfor %} {% endif %} {% endwith %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
-  
 {% block content %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"> ציוד הנמצא בהשאלה  </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-end">
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead class="thead-primary text-end">
+                            <tr>
+                                <th>העברת אחריות </th>
+                                <th>המשאיל הנוכחי</th>
+                                <th>מספר טלפון</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for info in borrowed_info %}
+                            <tr>
+                                <td>
+                                    <form method="POST" action="{{ url_for('views.who_borrowed') }}">
+                                        <input type="hidden" name="equipment_serial" value="{{ info.equipment.serial_number }}">
+                                        <button type="submit" class="btn btn-primary">העבר אחריות אליי</button>
+                                    </form>
+                                </td>
+                                <td>{{ info.user.name if info.user else 'N/A' }}</td>
+                                <td>{{ info.user.phone if info.user else 'N/A' }}</td>
+                                <!-- Other table columns -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<!doctype html>
-<html lang="en">
-  <head>
-  	<title>Table 03</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-    <link rel="stylesheet" href="/static/equipment-style.css">
-
-	</head>
-	<body>
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section"> ציוד הנמצא בהשאלה  </h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 text-end">
-					<div class="table-wrap ">
-						<table class="table">
-					    <thead class="thead-primary text-end">
-					      <tr>
-					        <th>המשאיל הנוכחי</th>
-                  <th>מספר טלפון</th>
-					      </tr>
-					    </thead>
-              <tbody>
-                {% for borrow in borrows %}
-                  <tr>
-                    <td>
-                      <form method="POST" action="{{ url_for('views.who_borrowed') }}">
-                        <input type="hidden" name="borrow_id" value="{{ borrow.borrow_id }}">
-                        <button type="submit" class="btn btn-primary">העבר אחריות אליי</button>
-                      </form>
-                    </td>
-                    <td>{{ borrow.name }}</td>
-                    <td>{{ borrow.phone }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-					  </table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<script src="js/jquery.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
-
-	</body>
-</html>
-
-
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
 {% endblock %}

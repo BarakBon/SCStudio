@@ -273,8 +273,7 @@ def seen_notification():
     
     return redirect(url_for('views.notifications'))
 
-from flask import render_template
-from .models import Borrow, User
+
 
 @views.route('/who_borrowed', methods=['GET', 'POST'])
 @login_required
@@ -282,5 +281,23 @@ def who_borrowed():
     # Get the list of borrowed items
     borrowed_items = Borrow.query.filter_by(return_status='no').all()
 
-    return render_template('who_borrowed.html', user=current_user, borrowed_items=borrowed_items)
+    # Create a list to store the borrowed item information
+    borrowed_info = []
+
+    # Fetch the related equipment and user information based on the serial number
+    for borrow in borrowed_items:
+        equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
+        if equipment:
+            user = User.query.join(Borrow).filter(Borrow.aq_serial == equipment.serial_number).first()
+            borrowed_info.append({
+                'equipment': equipment,
+                'user': user
+            })
+
+    return render_template('who_borrowed.html', borrowed_info=borrowed_info, user=current_user)
+
+
+
+
+
 
