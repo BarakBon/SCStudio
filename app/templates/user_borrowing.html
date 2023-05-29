@@ -52,7 +52,6 @@
               <thead class="thead-primary text-end">
                 <tr>
                   <th></th>
-                  <th></th>
                   <th>תאריך החזרה דרוש</th>
                   <th>תאריך השאלה</th>
                   <th>מק"ט</th>
@@ -66,7 +65,6 @@
                 <form> 
                   <tr>
                     <td><a href="/fault_report?aq_serial={{ borrow.aq_serial }}&item_model={{ borrow.item.model }}&item_type={{ borrow.item.Type }}" class="btn btn-primary">תקול</a></td>
-                    <td><a href="#" class="btn btn-primary">החזרה</a></td>
                     <td>{{ borrow.return_date }}</td>
                     <td>{{ borrow.borrow_date }}</td>
                     <td>{{ borrow.aq_serial }}</td>

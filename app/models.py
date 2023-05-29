@@ -19,6 +19,8 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(10))
     name = db.Column(db.String(50))
     borrow=db.relationship('Borrow', backref='user', lazy=True)
+    notification=db.relationship('Notification', backref='to_user', lazy=True)
+
 
 class Borrow(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +37,17 @@ class Room_Book(db.Model, UserMixin):
     inviter = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.String(10)) # for now dd/mm/yyyy may be changed later
     start_hour = db.Column(db.String(5)) # will be in 'hh' (hour) format 
+
+
+class Notification(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(8)) # return / order / fault
+    date = db.Column(db.String(10))
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    item = db.Column(db.String(50), db.ForeignKey('equipment.serial_number'))
+    is_read = db.Column(db.String(4)) # u / m / no / both
+
+
 
 
 '''from . import login_manager
