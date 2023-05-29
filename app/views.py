@@ -272,3 +272,15 @@ def seen_notification():
         db.session.commit()
     
     return redirect(url_for('views.notifications'))
+
+from flask import render_template
+from .models import Borrow, User
+
+@views.route('/who_borrowed', methods=['GET', 'POST'])
+@login_required
+def who_borrowed():
+    # Get the list of borrowed items
+    borrowed_items = Borrow.query.filter_by(return_status='no').all()
+
+    return render_template('who_borrowed.html', user=current_user, borrowed_items=borrowed_items)
+

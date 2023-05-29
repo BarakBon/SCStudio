@@ -90,8 +90,9 @@
           {% if equipment.status == 'borrowed'%}
           
           <td class="status">
-            <form method="POST">
-              <input type="submit" class="btn btn-primary" value="פרטי משאיל">
+            <form method="POST" action="/who_borrowed">
+              <input type="hidden" name="equipment_id" value="{{ equipment.id }}">
+              <button type="submit" class="btn btn-primary">פרטי משאיל</button>
               <span class="borrowed">מושאל</span>
             </form>
           </td>
