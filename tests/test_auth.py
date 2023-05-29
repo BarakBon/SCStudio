@@ -41,7 +41,7 @@ def test_register(client, init_database):
                                                   password2="Aa123456"), follow_redirects=True)
     expected_url = url_for('views.equipment')
     assert response.request.path == expected_url
-    
+
     # logout
     response = client.post('/logout', follow_redirects=True)
     expected_url = url_for('auth.login')
@@ -49,7 +49,7 @@ def test_register(client, init_database):
 
 
 
-def test_login_logout(client, init_database):
+def test_login_logout(client):
     response = client.get('/login')
     assert response.status_code == 200
     assert b'email' in response.data
@@ -57,7 +57,7 @@ def test_login_logout(client, init_database):
 
     # bad login
     response = client.post('/login',
-                           data=dict(email='test@ac.sce.ac.il',
+                           data=dict(email='man@ac.sce.ac.il',
                                      password="Ab111111"),
                            follow_redirects=True)
     expected_url = url_for('auth.login')
@@ -65,10 +65,15 @@ def test_login_logout(client, init_database):
 
     # good login
     response = client.post('/login',
-                           data=dict(email='test@ac.sce.ac.il',
+                           data=dict(email='man@ac.sce.ac.il',
                                      password="Ab123456"),
                            follow_redirects=True)
     expected_url = url_for('views.equipment')
+    assert response.request.path == expected_url
+
+    # logout
+    response = client.post('/logout', follow_redirects=True)
+    expected_url = url_for('auth.login')
     assert response.request.path == expected_url
 
     
