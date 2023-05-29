@@ -10,7 +10,8 @@ def test_register(client, init_database):
                                                   phone="0521111111",
                                                   email="ploni@gmail.com",
                                                   password1="Aa123456", 
-                                                  password2="Aa123456"), follow_redirects=True)
+                                                  password2="Aa123456"), 
+                                        follow_redirects=True)
     expected_url = url_for('auth.register')
     assert response.request.path == expected_url
 
@@ -20,7 +21,8 @@ def test_register(client, init_database):
                                                   phone="05211",
                                                   email="ploni@ac.sce.ac.il",
                                                   password1="Aa123456", 
-                                                  password2="Aa123456"), follow_redirects=True)
+                                                  password2="Aa123456"), 
+                                        follow_redirects=True)
     assert response.request.path == expected_url
 
     # missmatch password
@@ -29,7 +31,8 @@ def test_register(client, init_database):
                                                   phone="0521111111",
                                                   email="ploni@ac.sce.ac.il",
                                                   password1="Aa123456", 
-                                                  password2="Aa123477"), follow_redirects=True)
+                                                  password2="Aa123477"), 
+                                        follow_redirects=True)
     assert response.request.path == expected_url
 
     # good register
@@ -38,7 +41,8 @@ def test_register(client, init_database):
                                                   phone="0521111111",
                                                   email="ploni@ac.sce.ac.il",
                                                   password1="Aa123456", 
-                                                  password2="Aa123456"), follow_redirects=True)
+                                                  password2="Aa123456"), 
+                                        follow_redirects=True)
     expected_url = url_for('views.equipment')
     assert response.request.path == expected_url
 
