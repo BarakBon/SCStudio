@@ -107,6 +107,18 @@ def Fixing_equipment():
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
 @login_required
 def borrowed_equipment():
+        borrows = Borrow.query.filter_by(return_status='no').all()
+        all_borrowed = []
+        for borrow in borrows:
+            if borrow.item.status == 'borrowed':
+                all_borrowed.append(borrow)
+        return render_template("borrowed_equipment.html" , borrows=all_borrowed , user=current_user)
+
+
+#Equipment return reporting process
+@views.route('/report_return', methods=['POST'])
+@login_required
+def report_return():
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
     for borrow in borrows:
@@ -123,10 +135,32 @@ def borrowed_equipment():
             #TODO: can add noti for returned borrows
             db.session.commit()
             flash('Equipment returned successfully', 'success')
-            return redirect(url_for('views.equipment'))
+            return redirect(url_for('views.borrowed_equipment'))
         else:
             flash('Equipment not found', 'error')
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
+
+#Equipment malfunction reporting process
+@views.route('/report_fault', methods=['POST'])
+@login_required
+def report_fault():
+    borrows = Borrow.query.filter_by(return_status='no').all()
+    all_borrowed = []
+    for borrow in borrows:
+        if borrow.item.status == 'borrowed':
+            all_borrowed.append(borrow)
+
+    borrow_id = request.form.get('borrow_id')
+    borrow = Borrow.query.get(borrow_id)
+    equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
+    if equipment and borrows:
+        equipment.status = 'faulty'
+        borrow.return_status='yes'
+        #TODO: can add noti for returned borrows
+        db.session.commit()
+        return redirect(url_for('views.borrowed_equipment'))
+    return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
+    
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
@@ -214,7 +248,7 @@ def eq_transfer():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
-            new_noti = Notification(Type="return", date=borrow.return_date, user=current_user.id, item=borrow.aq_serial, is_read="no")
+            new_noti = Notification(type="return", date=borrow.return_date, user=current_user.id, item=borrow.aq_serial, is_read="no")
             db.session.add(new_noti)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
