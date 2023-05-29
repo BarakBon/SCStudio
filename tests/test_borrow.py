@@ -11,3 +11,5 @@ def test_borrow(client, init_database):
     response = client.post('/borrow', follow_redirects=True)
     expected_url = url_for('views.borrow')
     assert response.request.path == expected_url
+    
+

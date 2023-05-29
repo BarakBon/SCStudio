@@ -1,6 +1,6 @@
 import pytest
 from .__init__ import create_test_app, db
-from app.models import User, Equipment
+from app.models import User, Equipment, Borrow
 from werkzeug.security import generate_password_hash
 
 
@@ -26,4 +26,5 @@ def init_database(client):
     yield  # this is where the testing happens!
     db.session.query(User).delete()
     db.session.query(Equipment).delete()
+    db.session.query(Borrow).delete()
     db.session.commit()
