@@ -22,11 +22,14 @@ pipeline {
         }
         
         stage('Deploy') {
-            steps {
-                sh 'python main.py &'
-                sh 'sleep 30'
-                sh 'timeout 5s pkill -f main.py'
-            }
+            sh 'python main.py &'
+            sh 'sleep 30'
+            script {
+                def exitCode = sh(returnStatus: true, script: 'timeout 5s pkill -f main.py || exit 0')
+                if (exitCode != 0 && exitCode != 143) {
+                    error "Failed to kill the process"
+                }
+            }            
         }
     }
 }
