@@ -87,13 +87,15 @@
             <td class="status"><span class="available">זמין</span></td>
           {% endif%}
           
-          {% if equipment.status == 'borrowed' %}
-          <td class="status">
-            <a href="{{ url_for('views.who_borrowed', serial_number=equipment.serial_number) }}" class="btn btn-primary">פרטי משאיל</a>
-            <span class="borrowed">מושאל</span>
-          </td>
-          {% endif %}
+          {% if equipment.status == 'borrowed'%}
           
+          <td class="status">
+            <form method="POST">
+              <input type="submit" class="btn btn-primary" value="פרטי משאיל">
+              <span class="borrowed">מושאל</span>
+            </form>
+          </td>
+          {% endif%}
 
           <td>{{ equipment.serial_number }}</td>
           <td>{{ equipment.model }}</td>
