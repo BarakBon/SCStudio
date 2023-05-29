@@ -3,7 +3,7 @@ import pytest
 from werkzeug.security import generate_password_hash
 
 
-def test_login_page(client, init_database):
+def test_login_logout(client, init_database):
     response = client.get('/login')
     assert response.status_code == 200
     assert b'email' in response.data
@@ -19,4 +19,7 @@ def test_login_page(client, init_database):
                            data=dict(email='test@ac.sce.ac.il',
                                      password="Ab123456"),
                            follow_redirects=True)
+    response.status_code == 302
+    #logout
+    response = client.post('/logout', follow_redirects=True)
     response.status_code == 302
