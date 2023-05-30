@@ -25,41 +25,26 @@
     {% endif %}
 {% endwith %}
 
+
 {% block content %}
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section"> ציוד הנמצא בהשאלה  </h2>
+                <h2 class="heading-section"> פרטי משאיל </h2>
             </div>
         </div>
+        
         <div class="row">
-            <div class="col-md-12 text-end">
-                <div class="table-wrap">
-                    <table class="table">
-                        <thead class="thead-primary text-end">
-                            <tr>
-                                <th>העברת אחריות </th>
-                                <th>המשאיל הנוכחי</th>
-                                <th>מספר טלפון</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for info in borrowed_info %}
-                            <tr>
-                                <td>
-                                    <form method="POST" action="{{ url_for('views.who_borrowed') }}">
-                                        <input type="hidden" name="equipment_serial" value="{{ info.equipment.serial_number }}">
-                                        <button type="submit" class="btn btn-primary">העבר אחריות אליי</button>
-                                    </form>
-                                </td>
-                                <td>{{ info.user.name if info.user else 'N/A' }}</td>
-                                <td>{{ info.user.phone if info.user else 'N/A' }}</td>
-                                <!-- Other table columns -->
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="col-md-12 text-end"> 
+                <br>
+                <div class="form-outline mb-4 text-end">
+                    <p> <h5> שם: {{borrowed_items.user.name}} </h5></p>
+                    <p> <h5> {{borrowed_items.user.phone}} :מספר פלאפון </h5></p>
+                    <p> <h5> {{borrowed_items.user.email}} :מייל </h5></p>
+                    <p> <h5> {{borrowed_items.item.Type}} :סוג ציוד </h5></p>
+                    <p> <h5> {{borrowed_items.item.model}} :מודל </h5></p>
+                    <p> <h5> {{borrowed_items.aq_serial }} :מקט  </h5></p>
                 </div>
             </div>
         </div>
