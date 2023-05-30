@@ -25,37 +25,35 @@
                 <div class="col-md-6 text-center mb-5">
                     <form method="POST">
 
-    
                         <p class="fst-normal fs-2 text-end">הוספת ציוד </p>
                         <br>
                       
                         <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="form3Example3"> סוג הציוד</label>
-                            <select type="text" id="form3Example3" name="equipment" class="form-control form-control-lg text-end">
-                                <option value="Camera">Camera</option>
-                            <option value="Rec">Rec</option>
-                            <option value="Apple">Apple</option>
-                            <option value="Tripod">Tripod</option>
-                            <option value="Projectors">Projectors</option>
-                            <option value="Cables">Cables</option>
-                            <option value="Lights">Lights</option>
-                            <option value="Convertors">Convertors</option>
+                            <label class="form-label" for="type_drop"> סוג הציוד</label>
+                            <select type="text" id="type_drop" name="type" class="form-control form-control-lg text-end">
+                                <option value="">-- בחר סוג --</option>
+                                <option value="Camera">מצלמות </option>
+                                <option value="Rec">מקרופונים</option>
+                                <option value="Apple">מוצרי אפל </option>
+                                <option value="Tripod">חצובות </option>
+                                <option value="Projectors">פרוזקטורים </option>
+                                <option value="Cables">כבלים </option>
+                                <option value="Lights">תאורה </option>
+                                <option value="Convertors">מתאמים </option>
                             </select><br>
                         </div>
-                            
-                        
     
                         <div class="form-outline mb-4 text-end">
-                            <label class="form-label" for="model">מודל</label>
-                            <input type="text" id="model" name="model" class="form-control form-control-lg text-end" >
+                            <label class="form-label" for="model_drop">מודל</label>
+                            <select type="text" id="model_drop" name="model" class="form-control form-control-lg text-end">
+                                <option value="">-- בחר ציוד --</option>
+                            </select><br>
                         </div>
     
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="serialNumber">מק"ט</label>
                             <input type="text" id="serialNumber" name="serialNumber" class="form-control form-control-lg text-end" >
                         </div>
-    
-                        
     
                         <div class="form-outline mb-4 text-end">
                             <label class="form-label" for="maxTime">זמן השאלה</label>
@@ -75,8 +73,11 @@
         <script src="js/popper.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
-            </body>
-        </html>
+
+        <script src="/static/borrow-script.js"></script>
+
+    </body>
+</html>
         
         
         {% endblock %}
