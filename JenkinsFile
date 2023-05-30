@@ -16,7 +16,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'pytest'
+                sh 'coverage run -m pytest'
             }
         }
 
@@ -30,6 +30,12 @@ pipeline {
                         sh "kill ${processId}"
                     }
                 }
+            }
+        }
+
+        stage('Coverage') {
+            steps {
+                sh 'coverage report'
             }
         }
     }
