@@ -62,14 +62,17 @@
         {% for equipment in equipment_list %}
         <tr>
           {% if equipment.status == 'available'%}
+            <td></td>
             <td class="status"><span class="available">זמין</span></td>
           {% endif%}
 
           {% if equipment.status == 'borrowed'%}
+          <td></td>
           <td class="status"><span class="borrowed">מושאל</span></td>
           {% endif%}
 
           {% if equipment.status == 'faulty'%}
+          <td></td>
           <td class="status"><span class="faulty">תקול</span></td>
           {% endif%}
 
