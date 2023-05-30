@@ -26,7 +26,7 @@ $(document).ready(function () {
 // Event listener for when the first dropdown value changes
 type_drop.addEventListener('change', () => {
     // Clear the options in the second dropdown
-    model_drop.innerHTML = '<option value="">-- בחר ציוד --</option>';
+    model_drop.innerHTML = '<option value="">-- בחר מודל --</option>';
     // Get the selected value of the first dropdown
     const selectedValue = type_drop.value;
 

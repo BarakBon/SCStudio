@@ -119,6 +119,8 @@ def borrowed_equipment():
 @views.route('/report_return', methods=['POST'])
 @login_required
 def report_return():
+    today = datetime.now().date().strftime("%d/%m/%Y")
+
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
     for borrow in borrows:
@@ -131,8 +133,11 @@ def report_return():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment and borrows:
             equipment.status = 'available'
-            borrow.return_status='yes'
-            #TODO: can add noti for returned borrows
+            if (borrow.return_date > today):
+                borrow.return_status='yes'
+            else:
+                borrow.return_status='late'
+            borrow.return_date = today
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.borrowed_equipment'))
@@ -156,7 +161,6 @@ def report_fault():
     if equipment and borrows:
         equipment.status = 'faulty'
         borrow.return_status='yes'
-        #TODO: can add noti for returned borrows
         db.session.commit()
         return redirect(url_for('views.borrowed_equipment'))
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
@@ -210,13 +214,13 @@ def adding_equipment():
 
     if request.method == 'POST':
         # Get the form data from the request object
-        equipment_type = request.form.get('equipment')
+        type = request.form.get('type')
         model = request.form.get('model')
         serial_number = request.form.get('serialNumber')
         max_time = request.form.get('maxTime')
         
         # Create a new Equipment object
-        new_equipment = Equipment(Type=equipment_type, model=model, serial_number=serial_number, status='available', max_time=max_time)
+        new_equipment = Equipment(Type=type, model=model, serial_number=serial_number, status='available', max_time=max_time)
         
         # Add the new equipment to the database
         db.session.add(new_equipment)
@@ -252,7 +256,7 @@ def eq_transfer():
             db.session.add(new_noti)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
-            return redirect(url_for('views.equipment'))
+            return redirect(url_for('views.eq_transfer'))
 
     return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
 
