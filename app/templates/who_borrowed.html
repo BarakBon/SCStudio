@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %} who_borrowed {% endblock %}
+
+<!-- Show error/success messages on the screen -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+{% block content %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"> פרטי משאיל </h2>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12 text-end"> 
+                <br>
+                <div class="form-outline mb-4 text-end">
+                    <p> <h5> שם: {{borrowed_items.user.name}} </h5></p>
+                    <p> <h5> {{borrowed_items.user.phone}} :מספר פלאפון </h5></p>
+                    <p> <h5> {{borrowed_items.user.email}} :מייל </h5></p>
+                    <p> <h5> {{borrowed_items.item.Type}} :סוג ציוד </h5></p>
+                    <p> <h5> {{borrowed_items.item.model}} :מודל </h5></p>
+                    <p> <h5> {{borrowed_items.aq_serial }} :מקט  </h5></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+{% endblock %}

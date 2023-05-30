@@ -48,6 +48,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th></th>
           <th>זמינות</th>
           <th>מק"ט</th>
           <th>מודל</th>
@@ -84,12 +85,19 @@
         {% if equipment.status != 'faulty'%}
         <tr>
           {% if equipment.status == 'available'%}
+            <td></td>
             <td class="status"><span class="available">זמין</span></td>
           {% endif%}
-
+          
           {% if equipment.status == 'borrowed'%}
+          <td><form method="POST" action="/who_borrowed">
+            <input type="hidden" name="eq_serial" value="{{ equipment.serial_number }}">
+            <button type="submit" class="btn btn-primary">פרטי משאיל</button>
+          </form></td>
+
           <td class="status"><span class="borrowed">מושאל</span></td>
           {% endif%}
+
           <td>{{ equipment.serial_number }}</td>
           <td>{{ equipment.model }}</td>
           <td>{{ equipment.Type }}</td>                                    

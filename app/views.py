@@ -102,6 +102,20 @@ def Fixing_equipment():
 @views.route('/borrowed_equipment', methods=['GET', 'POST'])
 @login_required
 def borrowed_equipment():
+        borrows = Borrow.query.filter_by(return_status='no').all()
+        all_borrowed = []
+        for borrow in borrows:
+            if borrow.item.status == 'borrowed':
+                all_borrowed.append(borrow)
+        return render_template("borrowed_equipment.html" , borrows=all_borrowed , user=current_user)
+
+
+#Equipment return reporting process
+@views.route('/report_return', methods=['POST'])
+@login_required
+def report_return():
+    today = datetime.now().date().strftime("%d/%m/%Y")
+
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
     for borrow in borrows:
@@ -114,14 +128,44 @@ def borrowed_equipment():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment and borrows:
             equipment.status = 'available'
-            borrow.return_status='yes'
-            #TODO: can add noti for returned borrows
+            if (borrow.return_date > today):
+                borrow.return_status='yes'
+            else:
+                borrow.return_status='late'
+            borrow.return_date = today
             db.session.commit()
             flash('Equipment returned successfully', 'success')
-            return redirect(url_for('views.equipment'))
+            return redirect(url_for('views.borrowed_equipment'))
         else:
             flash('Equipment not found', 'error')
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
+
+#Equipment malfunction reporting process
+@views.route('/report_fault', methods=['POST'])
+@login_required
+def report_fault():
+    today = datetime.now().date().strftime("%d/%m/%Y")
+
+    borrows = Borrow.query.filter_by(return_status='no').all()
+    all_borrowed = []
+    for borrow in borrows:
+        if borrow.item.status == 'borrowed':
+            all_borrowed.append(borrow)
+
+    borrow_id = request.form.get('borrow_id')
+    borrow = Borrow.query.get(borrow_id)
+    equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
+    if equipment and borrows:
+        equipment.status = 'faulty'
+        if (borrow.return_date > today):
+                borrow.return_status='yes'
+        else:
+            borrow.return_status='late'
+        borrow.return_date = today
+        db.session.commit()
+        return redirect(url_for('views.borrowed_equipment'))
+    return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
+    
 
 
 @views.route('/user_borrowing', methods=['GET', 'POST'])
@@ -171,13 +215,13 @@ def adding_equipment():
 
     if request.method == 'POST':
         # Get the form data from the request object
-        equipment_type = request.form.get('equipment')
+        type = request.form.get('type')
         model = request.form.get('model')
         serial_number = request.form.get('serialNumber')
         max_time = request.form.get('maxTime')
         
         # Create a new Equipment object
-        new_equipment = Equipment(Type=equipment_type, model=model, serial_number=serial_number, status='available', max_time=max_time)
+        new_equipment = Equipment(Type=type, model=model, serial_number=serial_number, status='available', max_time=max_time)
         
         # Add the new equipment to the database
         db.session.add(new_equipment)
@@ -213,7 +257,7 @@ def eq_transfer():
             db.session.add(new_noti)
             db.session.commit()
             flash('Equipment returned successfully', 'success')
-            return redirect(url_for('views.equipment'))
+            return redirect(url_for('views.eq_transfer'))
 
     return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
 
@@ -267,3 +311,22 @@ def seen_notification():
         db.session.commit()
     
     return redirect(url_for('views.notifications'))
+
+
+
+@views.route('/who_borrowed', methods=['GET', 'POST'])
+@login_required
+def who_borrowed():
+    serial = request.form.get('eq_serial')
+
+    # Get the list of borrowed items
+    borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
+    
+
+    return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user)
+
+
+
+
+
+

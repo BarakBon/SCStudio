@@ -64,7 +64,7 @@
                 {% if borrow.return_status == 'no' %}
                 <form> 
                   <tr>
-                    <td><a href="/fault_report?aq_serial={{ borrow.aq_serial }}&item_model={{ borrow.item.model }}&item_type={{ borrow.item.Type }}" class="btn btn-primary">תקול</a></td>
+                    <td><a href="/fault_report?aq_serial={{ borrow.aq_serial }}&item_model={{ borrow.item.model }}&item_type={{ borrow.item.Type }}" class="btn btn-primary">העבר ציוד</a></td>
                     <td>{{ borrow.return_date }}</td>
                     <td>{{ borrow.borrow_date }}</td>
                     <td>{{ borrow.aq_serial }}</td>
