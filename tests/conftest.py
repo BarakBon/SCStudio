@@ -26,6 +26,7 @@ def init_database(client):
     yield  # this is where the testing happens!
     db.session.query(Borrow).delete()
     db.session.query(Notification).delete()
+    db.session.query(Room_Book).delete()    
     db.session.query(User).delete()
     db.session.query(Equipment).delete()   
     db.session.commit()
