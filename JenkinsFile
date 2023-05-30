@@ -1,12 +1,11 @@
 pipeline {
-        agent {
+    agent {
         docker {
             image 'python:3.9' // Docker image to use
             args '-v /var/run/docker.sock:/var/run/docker.sock -u root' // Add -u root option for elevated permissions
         }
     }
 
-    
     stages {
         stage('Build') {
             steps {
@@ -14,18 +13,29 @@ pipeline {
                 sh 'pip install -r requirements.txt'
             }
         }
-        
+
         stage('Test') {
             steps {
-                sh 'pytest'
+                sh 'coverage run -m pytest'
             }
         }
-        
+
         stage('Deploy') {
             steps {
-                sh 'python main.py &'
-                sh 'sleep 30'
-                sh 'timeout 5s pkill -f main.py'
+                script {
+                    sh 'python main.py &'
+                    sh 'sleep 30'
+                    def processId = sh(script: 'pgrep -f "python main.py"', returnStdout: true).trim()
+                    if (processId) {
+                        sh "kill ${processId}"
+                    }
+                }
+            }
+        }
+
+        stage('Coverage') {
+            steps {
+                sh 'coverage report'
             }
         }
     }

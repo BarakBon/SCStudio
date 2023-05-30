@@ -38,9 +38,8 @@ def borrow():
     if request.method == 'POST':
         type = request.form.get('type')
         model = request.form.get('model')
-        from_date = request.form.get('pickup-date')
-        to_date = request.form.get('return-date')
-        print("here")
+        from_date = request.form.get('pickup_date')
+        to_date = request.form.get('return_date')
 
         if type != "" and model != "":
             equipment_list = Equipment.query.filter_by(Type=type).filter_by(model=model).filter(Equipment.status !="faulty").all()
@@ -49,7 +48,6 @@ def borrow():
                 to_d = parser.parse(to_date)
                 diff = to_d - from_d
                 Range = namedtuple('Range', ['start', 'end'])
-                print("here1")
                 #chosen_range = Range(start=from_d, end=to_d)
                 for aquip in equipment_list:
                     borrows_list = Borrow.query.filter_by(aq_serial=aquip.serial_number).filter_by(return_status="no").all()
@@ -64,11 +62,8 @@ def borrow():
                     if diff.days <= aquip.max_time:
                         print(overlaped)
                         if overlaped == False:
-                            print("here3")
                             new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
-                            print("here4")
                             new_noti = Notification(type="order", date=from_d.strftime('%d/%m/%Y'), user=current_user.id, item=aquip.serial_number, is_read="no")
-                            print("here5")
                             db.session.add(new_order)
                             db.session.add(new_noti)
                             #equ.status = "borrowed" 
@@ -248,7 +243,7 @@ def eq_transfer():
 
     if request.method == 'POST':
         borrow_id = request.form.get('borrow_id')
-        borrow = Borrow.query.get(borrow_id)
+        borrow = Borrow.query.filter_by(id=borrow_id).first()
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment:
             equipment.status = 'borrowed'
