@@ -38,7 +38,7 @@ def test_borrow_and_approve(client, init_database):
     borrow = Borrow.query.first()
     response = client.post('/eq_transfer', data=dict(borrow_id=borrow.id),
                            follow_redirects=True)
-    expected_url = url_for('views.equipment')
+    expected_url = url_for('views.eq_transfer')
     assert response.request.path == expected_url
 
     #check the item changed to borrowed

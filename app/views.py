@@ -124,7 +124,7 @@ def report_return():
     
     if request.method == 'POST':
         borrow_id = request.form.get('borrow_id')
-        borrow = Borrow.query.get(borrow_id)
+        borrow = Borrow.query.filter_by(id=borrow_id).first()
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment and borrows:
             equipment.status = 'available'
@@ -153,7 +153,7 @@ def report_fault():
             all_borrowed.append(borrow)
 
     borrow_id = request.form.get('borrow_id')
-    borrow = Borrow.query.get(borrow_id)
+    borrow = Borrow.query.filter_by(id=borrow_id).first()
     equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
     if equipment and borrows:
         equipment.status = 'faulty'
