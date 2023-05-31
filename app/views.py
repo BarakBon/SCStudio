@@ -8,14 +8,15 @@ from datetime import datetime
 from collections import namedtuple
 from sqlalchemy import or_
 from sqlalchemy import func
+from flask import request
 
 views = Blueprint('views', __name__, template_folder='templates')
-
 
 @views.route('/equipment')
 @login_required
 def equipment():
-    # Filter equipment by Type, model and Available
+    
+    # Filter equipment by Type, model, and Available
     type_filter = request.args.get('type')
     model_filter = request.args.get('model')
     available_filter = request.args.get('available')
@@ -29,6 +30,37 @@ def equipment():
     equipment_list = query.all()
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
+
+
+@views.route('/report_failure', methods=['POST'])
+@login_required
+def report_failure():
+    eq_serial = request.form['eq_serial']
+    equipment = Equipment.query.filter_by(serial_number=eq_serial).first()
+    if equipment:
+        equipment.status = 'faulty'
+        db.session.commit()
+        flash('סטטוס הציוד עודכן בהצלחה.')
+    else:
+        flash('ציוד לא נמצא במערכת.')
+
+    return redirect(url_for('views.equipment'))
+
+
+@views.route('/report_available', methods=['POST'])
+@login_required
+def report_available():
+    eq_serial = request.form['eq_serial']
+    equipment = Equipment.query.filter_by(serial_number=eq_serial).first()
+    if equipment:
+        equipment.status = 'available'
+        db.session.commit()
+        flash('סטטוס הציוד עודכן בהצלחה.')
+    else:
+        flash('ציוד לא נמצא במערכת.')
+
+    return redirect(url_for('views.equipment'))
+
 
 
 

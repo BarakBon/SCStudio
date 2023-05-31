@@ -60,27 +60,37 @@
         <!-- for Manager-->
         {% if user.userType == 'Manager' %}
         {% for equipment in equipment_list %}
-        <tr>
-          {% if equipment.status == 'available'%}
-            <td></td>
-            <td class="status"><span class="available">זמין</span></td>
-          {% endif%}
+          <tr>
+            {% if equipment.status == 'available' %}
+              <td>
+                <form method="POST" action="/report_failure">
+                  <input type="hidden" name="eq_serial" value="{{ equipment.serial_number }}">
+                  <button type="submit" class="btn btn-primary">תקול</button>
+                </form>
+              </td>
+              <td class="status"><span class="available">זמין</span></td>
+            {% elif equipment.status == 'borrowed' %}
+              <td></td>
+              <td class="status"><span class="borrowed">מושאל</span></td>
 
-          {% if equipment.status == 'borrowed'%}
-          <td></td>
-          <td class="status"><span class="borrowed">מושאל</span></td>
-          {% endif%}
-
-          {% if equipment.status == 'faulty'%}
-          <td></td>
-          <td class="status"><span class="faulty">תקול</span></td>
-          {% endif%}
-
-          <td>{{ equipment.serial_number }}</td>
-          <td>{{ equipment.model }}</td>
-          <td>{{ equipment.Type }}</td>                                    
-        </tr>
+              {% elif equipment.status == 'faulty' %}
+                <td>
+                  <form method="POST" action="/report_available">
+                    <input type="hidden" name="eq_serial" value="{{ equipment.serial_number }}">
+                    <button type="submit" class="btn btn-primary">תוקן</button>
+                  </form>
+                </td>
+                <td class="status"><span class="faulty">תקול</span></td>
+              {% endif %}
+              
+            <td>{{ equipment.serial_number }}</td>
+            <td>{{ equipment.model }}</td>
+            <td>{{ equipment.Type }}</td>                                    
+          </tr>
         {% endfor %}
+      
+
+      
 
         <!-- for Student / Teacher-->
         {% else %}
