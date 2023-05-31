@@ -38,5 +38,11 @@ pipeline {
                 sh 'coverage report'
             }
         }
+
+        stage('Bandit') {
+            steps {
+                sh 'bandit -r ./app'
+            }
+        }
     }
 }
