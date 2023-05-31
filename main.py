@@ -6,7 +6,7 @@ from flask import redirect, url_for
 
 @app.route("/")
 def home():
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.login')) 
 
 
 if __name__ == '__main__':
