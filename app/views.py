@@ -62,7 +62,10 @@ def borrow():
                     if diff.days <= aquip.max_time:
                         print(overlaped)
                         if overlaped == False:
-                            new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
+                            if current_user.userType == "Student":
+                                new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
+                            else:
+                                new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=from_d.strftime('%d/%m/%Y'), return_status="no")    
                             new_noti = Notification(type="order", date=from_d.strftime('%d/%m/%Y'), user=current_user.id, item=aquip.serial_number, is_read="no")
                             db.session.add(new_order)
                             db.session.add(new_noti)
@@ -126,7 +129,7 @@ def borrowed_equipment():
 @views.route('/report_return', methods=['POST'])
 @login_required
 def report_return():
-    today = datetime.now().date().strftime("%d/%m/%Y")
+    today = datetime.now().date()
 
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
@@ -136,15 +139,16 @@ def report_return():
     
     if request.method == 'POST':
         borrow_id = request.form.get('borrow_id')
-        borrow = Borrow.query.get(borrow_id)
+        borrow = Borrow.query.filter_by(id=borrow_id).first()
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment and borrows:
             equipment.status = 'available'
-            if (borrow.return_date > today):
+            return_date = datetime.strptime(borrow.return_date, '%d/%m/%Y').date()
+            if (return_date > today):
                 borrow.return_status='yes'
             else:
                 borrow.return_status='late'
-            borrow.return_date = today
+            borrow.return_date = today.strftime("%d/%m/%Y")
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.borrowed_equipment'))
@@ -152,11 +156,13 @@ def report_return():
             flash('Equipment not found', 'error')
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
 
+
+
 #Equipment malfunction reporting process
 @views.route('/report_fault', methods=['POST'])
 @login_required
 def report_fault():
-    today = datetime.now().date().strftime("%d/%m/%Y")
+    today = datetime.now().date()
 
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
@@ -165,15 +171,16 @@ def report_fault():
             all_borrowed.append(borrow)
 
     borrow_id = request.form.get('borrow_id')
-    borrow = Borrow.query.get(borrow_id)
+    borrow = Borrow.query.filter_by(id=borrow_id).first()
     equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
     if equipment and borrows:
         equipment.status = 'faulty'
-        if (borrow.return_date > today):
+        return_date = datetime.strptime(borrow.return_date, '%d/%m/%Y').date()
+        if (return_date > today):
                 borrow.return_status='yes'
         else:
             borrow.return_status='late'
-        borrow.return_date = today
+        borrow.return_date = today.strftime("%d/%m/%Y")
         db.session.commit()
         return redirect(url_for('views.borrowed_equipment'))
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
