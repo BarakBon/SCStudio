@@ -52,7 +52,7 @@ def test_borrow_approve_and_return(client, init_database):
 
     # check for statuses
     assert borrow.item.status == "available"
-    assert borrow.return_status == "yes" or "late"
+    assert borrow.return_status == "yes"
 
 
 

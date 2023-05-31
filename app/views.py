@@ -131,7 +131,8 @@ def report_return():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment and borrows:
             equipment.status = 'available'
-            if (datetime.strptime(borrow.return_date, '%d/%m/%Y') > today):
+            return_date = datetime.strptime(borrow.return_date, '%d/%m/%Y').date()
+            if (return_date > today):
                 borrow.return_status='yes'
             else:
                 borrow.return_status='late'
@@ -162,8 +163,8 @@ def report_fault():
     equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
     if equipment and borrows:
         equipment.status = 'faulty'
-        
-        if (datetime.strptime(borrow.return_date, '%d/%m/%Y') > today):
+        return_date = datetime.strptime(borrow.return_date, '%d/%m/%Y').date()
+        if (return_date > today):
                 borrow.return_status='yes'
         else:
             borrow.return_status='late'

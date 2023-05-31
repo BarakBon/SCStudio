@@ -21,6 +21,6 @@ def test_faulty_item(client, init_database):
 
     #check if the statuses changed
     borrow = Borrow.query.first()
-    assert borrow.return_status == "yes" or "late"
+    assert borrow.return_status == "yes"
     assert borrow.item.status == "faulty"
 
