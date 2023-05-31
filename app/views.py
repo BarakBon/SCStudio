@@ -87,13 +87,25 @@ def borrow():
     return render_template("borrow.html",  user=current_user)
 
 
-@views.route('/fault_report', methods=['GET', 'POST'])
-def fault_report():
-    aq_serial = request.args.get('aq_serial')
-    item_model = request.args.get('item_model')
-    item_type = request.args.get('item_type')
-    #TODO: add notification of report on post request
-    return render_template("fault_report.html", user=current_user,aq_serial=aq_serial, item_model=item_model, item_type=item_type)
+@views.route('/transfer_form', methods=['POST', 'GET'])
+@login_required
+def transfer_form():
+    serial = request.args.get('eq_serial')
+    borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
+        
+    return render_template("transfer_form.html", user=current_user, borrowed_items=borrowed_items)
+
+
+@views.route('/check_trans', methods=['POST', 'GET'])
+@login_required
+def check_trans():
+    mail = request.form.get('email')
+    user = User.query.filter_by(email=mail).first()
+    if user:
+        return redirect(url_for('views.equipment'))
+    else:
+        flash('User not found.', category='error')
+        return redirect(url_for('views.user_borrowing'))
 
 
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
