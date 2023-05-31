@@ -80,13 +80,13 @@
                         <input type="date" id="from_date" name="pickup_date"
                             class="form-control form-control-lg text-end" />
                     </div><br>
-
+                    {% if user.userType == 'Student' %}
                     <div class="form-outline mb-4 text-end">
                         <label class="form-label" for="to_date">עד תאריך</label>
                         <input type="date" id="to_date" name="return_date"
                             class="form-control form-control-lg text-end" />
                     </div>
-
+                    {% endif %}
 
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
