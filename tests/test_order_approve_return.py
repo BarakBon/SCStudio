@@ -4,7 +4,7 @@ import pytest
 from app.models import Borrow, Room_Book
 
 
-def test_borrow_and_approve(client, init_database):
+def test_borrow_approve_and_return(client, init_database):
     # login to student
     response = client.post('/login', data=dict(email='stud@ac.sce.ac.il',
                                                password="Ab123456"),
@@ -35,7 +35,7 @@ def test_borrow_and_approve(client, init_database):
     assert response.request.path == expected_url
 
     # make new borrow
-    borrow = Borrow.query.first()
+    borrow = Borrow.query.filter_by(aq_serial="1234567").first()
     response = client.post('/eq_transfer', data=dict(borrow_id=borrow.id),
                            follow_redirects=True)
     expected_url = url_for('views.eq_transfer')
@@ -43,6 +43,17 @@ def test_borrow_and_approve(client, init_database):
 
     #check the item changed to borrowed
     assert borrow.item.status == "borrowed"
+
+    # return the borrow
+    response = client.post('/report_return', data=dict(borrow_id=borrow.id),
+                           follow_redirects=True)
+    expected_url = url_for('views.borrowed_equipment')
+    assert response.request.path == expected_url
+
+    # check for statuses
+    assert borrow.item.status == "available"
+    assert borrow.return_status == "yes" or "late"
+
 
 
 
