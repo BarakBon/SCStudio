@@ -117,7 +117,7 @@ def borrowed_equipment():
 @views.route('/report_return', methods=['POST'])
 @login_required
 def report_return():
-    today = datetime.now().date().strftime("%d/%m/%Y")
+    today = datetime.now().date()
 
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
@@ -131,11 +131,11 @@ def report_return():
         equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
         if equipment and borrows:
             equipment.status = 'available'
-            if (borrow.return_date > today):
+            if (datetime.strptime(borrow.return_date, '%d/%m/%Y') > today):
                 borrow.return_status='yes'
             else:
                 borrow.return_status='late'
-            borrow.return_date = today
+            borrow.return_date = today.strftime("%d/%m/%Y")
             db.session.commit()
             flash('Equipment returned successfully', 'success')
             return redirect(url_for('views.borrowed_equipment'))
@@ -143,11 +143,13 @@ def report_return():
             flash('Equipment not found', 'error')
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
 
+
+
 #Equipment malfunction reporting process
 @views.route('/report_fault', methods=['POST'])
 @login_required
 def report_fault():
-    today = datetime.now().date().strftime("%d/%m/%Y")
+    today = datetime.now().date()
 
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
@@ -160,11 +162,12 @@ def report_fault():
     equipment = Equipment.query.filter_by(serial_number=borrow.aq_serial).first()
     if equipment and borrows:
         equipment.status = 'faulty'
-        if (borrow.return_date > today):
+        
+        if (datetime.strptime(borrow.return_date, '%d/%m/%Y') > today):
                 borrow.return_status='yes'
         else:
             borrow.return_status='late'
-        borrow.return_date = today
+        borrow.return_date = today.strftime("%d/%m/%Y")
         db.session.commit()
         return redirect(url_for('views.borrowed_equipment'))
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
