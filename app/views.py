@@ -62,7 +62,10 @@ def borrow():
                     if diff.days <= aquip.max_time:
                         print(overlaped)
                         if overlaped == False:
-                            new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
+                            if current_user.userType == "Student":
+                                new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=to_d.strftime('%d/%m/%Y'), return_status="no")
+                            else:
+                                new_order = Borrow(borrower=current_user.id, aq_serial=aquip.serial_number, borrow_date=from_d.strftime('%d/%m/%Y'), return_date=from_d.strftime('%d/%m/%Y'), return_status="no")    
                             new_noti = Notification(type="order", date=from_d.strftime('%d/%m/%Y'), user=current_user.id, item=aquip.serial_number, is_read="no")
                             db.session.add(new_order)
                             db.session.add(new_noti)
