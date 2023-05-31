@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %} Return Policy {% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/adding_equipment-style.css">
+    </head>
+  
+    <body class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5"></div>
+                <div class="col-md-6 text-center mb-5">
+                    <form method="POST">
+                        <p class="fst-normal fs-2 text-end">מדיניות החזרה</p>
+                        <br>
+                      
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="type_drop"> סוג הציוד</label>
+                            <select type="text" id="type_drop" name="type" class="form-control form-control-lg text-end">
+                                <option value="">-- בחר סוג --</option>
+                                <option value="Camera">מצלמות </option>
+                                <option value="Rec">מקרופונים</option>
+                                <option value="Apple">מוצרי אפל </option>
+                                <option value="Tripod">חצובות </option>
+                                <option value="Projectors">פרוזקטורים </option>
+                                <option value="Cables">כבלים </option>
+                                <option value="Lights">תאורה </option>
+                                <option value="Convertors">מתאמים </option>
+                            </select><br>
+                        </div>
+    
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="model_drop">מודל</label>
+                            <select type="text" id="model_drop" name="model" class="form-control form-control-lg text-end">
+                                <option value="">-- בחר ציוד --</option>
+                                {% for equipment in equipment_list %}
+                                    <option value="{{ equipment.model }}">{{ equipment.model }}</option>
+                                {% endfor %}
+                            </select><br>
+                        </div>
+    
+
+
+                        
+
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="maxTime">זמן השאלה</label>
+                            <input type="text" id="maxTime" name="maxTime" class="form-control form-control-lg text-end" value="{{ max_time }}" readonly>
+                        </div>
+                        
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                // Function to update the loan time based on the selected product type and model
+                                function updateLoanTime() {
+                                    var productType = $('#type_drop').val();
+                                    var productModel = $('#model_drop').val();
+                        
+                                    $.ajax({
+                                        url: '/get_old_loan_time',
+                                        method: 'POST',
+                                        data: {
+                                            type: productType,
+                                            model: productModel
+                                        },
+                                        success: function(response) {
+                                            $('#maxTime').val(response.old_loan_time);
+                                        },
+                                        error: function(error) {
+                                            console.log(error);
+                                        }
+                                    });
+                                }
+                        
+                                // Update loan time when product type or model fields lose focus
+                                $('#type_drop, #model_drop').blur(function() {
+                                    updateLoanTime();
+                                });
+                            });
+                        </script>
+                        
+                        
+                        
+                        
+                        
+                        
+                        <div class="form-outline mb-4 text-end">
+                            <label class="form-label" for="newMaxTime">זמן השאלה החדש</label>
+                            <input type="text" id="newMaxTime" name="newMaxTime" class="form-control form-control-lg text-end" value="{{ new_max_time }}">
+                        </div>
+            
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">שמור שינויים</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="/static/borrow-script.js"></script>
+    </body>
+</html>
+{% endblock %}
+

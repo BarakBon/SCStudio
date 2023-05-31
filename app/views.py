@@ -7,14 +7,16 @@ from dateutil import parser
 from datetime import datetime
 from collections import namedtuple
 from sqlalchemy import or_
+from sqlalchemy import func
+from flask import request
 
 views = Blueprint('views', __name__, template_folder='templates')
-
 
 @views.route('/equipment')
 @login_required
 def equipment():
-    # Filter equipment by Type, model and Available
+    
+    # Filter equipment by Type, model, and Available
     type_filter = request.args.get('type')
     model_filter = request.args.get('model')
     available_filter = request.args.get('available')
@@ -28,6 +30,37 @@ def equipment():
     equipment_list = query.all()
 
     return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
+
+
+@views.route('/report_failure', methods=['POST'])
+@login_required
+def report_failure():
+    eq_serial = request.form['eq_serial']
+    equipment = Equipment.query.filter_by(serial_number=eq_serial).first()
+    if equipment:
+        equipment.status = 'faulty'
+        db.session.commit()
+        flash('סטטוס הציוד עודכן בהצלחה.')
+    else:
+        flash('ציוד לא נמצא במערכת.')
+
+    return redirect(url_for('views.equipment'))
+
+
+@views.route('/report_available', methods=['POST'])
+@login_required
+def report_available():
+    eq_serial = request.form['eq_serial']
+    equipment = Equipment.query.filter_by(serial_number=eq_serial).first()
+    if equipment:
+        equipment.status = 'available'
+        db.session.commit()
+        flash('סטטוס הציוד עודכן בהצלחה.')
+    else:
+        flash('ציוד לא נמצא במערכת.')
+
+    return redirect(url_for('views.equipment'))
+
 
 
 
@@ -387,4 +420,52 @@ def who_borrowed():
 
 
 
+@views.route('/return_policy', methods=['GET', 'POST'])
+@login_required
+def return_policy():
+    # Filter equipment by Type, model
+    type_filter = request.form.get('type')
+    model_filter = request.form.get('model')
+  
+    query = Equipment.query
 
+    if type_filter:
+        query = query.filter_by(Type=type_filter)
+    if model_filter:
+        query = query.filter_by(model=model_filter)
+    
+    equipment_list = query.all()
+
+    max_time = None
+    new_max_time = None
+
+    if type_filter and model_filter:
+        equipment = Equipment.query.filter_by(Type=type_filter, model=model_filter).first()
+        if equipment:
+            max_time = equipment.max_time
+
+    if request.method == 'POST':
+        new_max_time = request.form.get('newMaxTime')
+        if type_filter and model_filter and new_max_time:
+            # Update max borrowing time for all products with the same type and model
+            Equipment.query.filter_by(Type=type_filter, model=model_filter).update({Equipment.max_time: new_max_time})
+            db.session.commit()
+            flash('Max borrowing time updated successfully!', 'success')
+            return redirect(url_for('views.equipment'))
+
+    return render_template("return_policy.html", user=current_user, equipment_list=equipment_list, max_time=max_time, new_max_time=new_max_time)
+
+ 
+@views.route('/get_old_loan_time', methods=['POST'])
+def get_old_loan_time():
+    product_type = request.form.get('type')
+    product_model = request.form.get('model')
+
+    equipment = Equipment.query.filter_by(Type=product_type, model=product_model).first()
+
+    if equipment:
+        old_loan_time = equipment.max_time
+    else:
+        old_loan_time = ''
+
+    return jsonify({'old_loan_time': old_loan_time})
