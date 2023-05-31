@@ -54,6 +54,7 @@
 					    <thead class="thead-primary text-end">
 					      <tr>
 							<th></th>
+							<th> העברת ציוד </th>
                             <th> החזרת ציוד</th>
 					        <th>המשאיל הנוכחי</th>
                             <th>מספר סידורי</th>
@@ -70,6 +71,8 @@
 									<input type="hidden" name="borrow_id" value="{{ borrow.id }}" >
 									<input type="submit" class="btn btn-primary" value="תקול">
 									</form></td>
+
+								<td><a href="/transfer_form?eq_serial={{ borrow.item.serial_number }}" class="btn btn-primary">העבר ציוד</a></td>
 
 								<td><form method="POST" action="/report_return">
                                     <input type="hidden" name="borrow_id" value="{{ borrow.id }}">
