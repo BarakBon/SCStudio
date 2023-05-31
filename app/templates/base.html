@@ -125,23 +125,6 @@
             {% endif %}
 
 
-
-
-
-            {% if user.userType == 'Manager' %}
-            
-<<<<<<< HEAD
-            {% else %}
-=======
-            <a href="/Fixing_equipment" class='nav_link {{' active' if 'Fixing_equipment' in request.endpoint }}'>
-              <i class='bx bx-bug nav_icon'></i>
-              <span class="nav_name"> שליחה לתיקון </span> </a>
-           
->>>>>>> 628868dfdad05ad0c51cd392a160e1c358fb1733
-
-            {% endif %}
-
-
             {% if user.userType == 'Manager' %}
             
             <a href="/return_policy" class='nav_link {{' active' if request.endpoint=='views.Return_Policy' }}'>
