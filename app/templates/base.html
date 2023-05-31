@@ -76,6 +76,8 @@
             {% endif %}
 
 
+
+
             {% if user.userType == 'Manager' %}
 
             {% else %}
@@ -85,13 +87,29 @@
             {% endif %}
 
 
+
+
+
             {% if user.userType == 'Manager' %}
+            
             <a href="/Fixing_equipment" class='nav_link {{' active' if 'Fixing_equipment' in request.endpoint }}'>
               <i class='bx bx-bug nav_icon'></i>
               <span class="nav_name"> שליחה לתיקון </span> </a>
-            {% else %}
+           
 
             {% endif %}
+
+
+            {% if user.userType == 'Manager' %}
+            
+            <a href="/return_policy" class='nav_link {{' active' if request.endpoint=='views.Return_Policy' }}'>
+              <i class="bx bx-wrench"></i>
+              <span class="nav_name">מדיניות החזרה</span> </a>
+              {% else %}
+
+            {% endif %}
+       
+
 
 
 
