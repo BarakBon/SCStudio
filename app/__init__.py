@@ -7,10 +7,9 @@ db = SQLAlchemy()
 #-----
 #login_manager = LoginManager()
 
-
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'some key'
+    app.config['SECRET_KEY'] = 'some key' # nosec
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:scstudio@main-database.ce63v0984odx.eu-central-1.rds.amazonaws.com:3306/scstudio'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)

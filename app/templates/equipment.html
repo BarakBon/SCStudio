@@ -6,16 +6,46 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- Show error/success messages on the screen -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="alert alert-danger alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-success alert-dismissable fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='equipment-style.css') }}">
 </head>
 
 <body>
+  <div class="col-md-6 text-center mb-5">
+    <h2 class="heading-section"> רשימת ציוד </h2>
+  </div>
+
   <div class="container">
-    <h1>רשימת ציוד</h1>
+    
     <form method="GET">
       <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-primary">סנן</button>
+        </div>
         <div class="col">
           <select name="type">
             <option value="">סוג ציוד</option>
@@ -39,9 +69,7 @@
             {% endif %}
           </select>
         </div>
-        <div class="col">
-          <button type="submit" class="btn btn-primary">סנן</button>
-        </div>
+        
       </div>
     </form>
     <br>

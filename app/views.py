@@ -132,13 +132,55 @@ def transfer_form():
 @views.route('/check_trans', methods=['POST', 'GET'])
 @login_required
 def check_trans():
+    today = datetime.now().date().strftime("%d/%m/%Y")
     mail = request.form.get('email')
     user = User.query.filter_by(email=mail).first()
-    if user:
-        return redirect(url_for('views.equipment'))
+    serial = request.form.get('aq_serial')
+    borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
+    
+    ##
+    borrows = Borrow.query.filter_by(return_status='no').all()
+    all_borrowed = []
+    for borrow in borrows:
+        if borrow.item.status == 'borrowed':
+            all_borrowed.append(borrow)
+
+    if user :
+        if current_user.userType == 'Manager':
+            if user.id != borrowed_items.user.id and user.userType == borrowed_items.user.userType and user.userType != 'Manager':
+                new_order = Borrow(borrower=user.id, aq_serial=borrowed_items.aq_serial, borrow_date=today, return_date=borrowed_items.return_date, return_status="no")
+                new_noti = Notification(type="swap", date=today, user=user.id, item=borrowed_items.aq_serial, is_read="no")
+                borrowed_items.return_date = today
+                borrowed_items.return_status = "yes"
+                borrowed_items.item.status = 'borrowed'
+                db.session.add(new_order)
+                db.session.add(new_noti) 
+                db.session.commit()
+                flash(' הועבר בהצלחה ', category='success')
+                return redirect(url_for('views.borrowed_equipment'))      
+            else:
+                flash('לא ניתן להעביר ציוד למשתמש זה', category='error')
+                return redirect(url_for('views.transfer_form', eq_serial=borrowed_items.aq_serial))
+                
+        else:
+            if user.id != current_user.id and  user.userType == current_user.userType:
+                new_order = Borrow(borrower=user.id, aq_serial=borrowed_items.aq_serial, borrow_date=today, return_date=borrowed_items.return_date, return_status="no")
+                new_noti = Notification(type="swap", date=today, user=user.id, item=borrowed_items.aq_serial, is_read="no")
+                borrowed_items.return_date = today
+                borrowed_items.return_status = "yes"
+                borrowed_items.item.status = 'borrowed'
+                db.session.add(new_order)
+                db.session.add(new_noti) 
+                db.session.commit()
+                flash(' הועבר בהצלחה ', category='success')
+                return redirect(url_for('views.user_borrowing', borrows=borrows))
+            else:
+                flash('לא ניתן להעביר ציוד למשתמש זה', category='error')
+                return redirect(url_for('views.transfer_form', eq_serial=borrowed_items.aq_serial))
+
     else:
-        flash('User not found.', category='error')
-        return redirect(url_for('views.user_borrowing'))
+        flash('משתמש לא נמצא', category='error')
+        return redirect(url_for('views.transfer_form', eq_serial=borrowed_items.aq_serial))
 
 
 @views.route('/Fixing_equipment', methods=['GET', 'POST'])
@@ -336,10 +378,10 @@ def notifications():
     
     if current_user.userType == "Manager":
         noti_today = Notification.query.filter_by(date=today).filter(or_(Notification.is_read == "no", Notification.is_read == "u")).all()
-        desc_dict = {'order': 'השאלה שהוזמנה להיום', 'return': 'השאלה שאמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה במוצר שבהשאלה'}
+        desc_dict = {'order': 'השאלה שהוזמנה להיום', 'return': 'השאלה שאמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה במוצר שבהשאלה', 'swap': 'בוצעה החלפה בין משתמשים'}
     else:
         noti_today = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).all()
-        desc_dict = {'order': 'ההשאלה שבוקשה על ידך מתקיימת היום', 'return': 'ההשאלה שברשותך אמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה שביצעת התקבלה במערכת'}
+        desc_dict = {'order': 'ההשאלה שבוקשה על ידך מתקיימת היום', 'return': 'ההשאלה שברשותך אמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה שביצעת התקבלה במערכת','swap': 'בוצעה החלפה בין משתמשים'}
     return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict )
 
 
