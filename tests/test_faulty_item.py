@@ -1,7 +1,7 @@
 from flask import url_for, request
 from datetime import datetime, timedelta
 import pytest
-from app.models import Borrow, Room_Book
+from app.models import Borrow
 
 
 def test_faulty_item(client, init_database):
