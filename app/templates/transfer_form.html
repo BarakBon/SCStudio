@@ -7,29 +7,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Show error/success messages on the screen -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            {% if category == 'error' %}
-                <div class="alert alert-danger alert-dismissable fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-success alert-dismissable fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

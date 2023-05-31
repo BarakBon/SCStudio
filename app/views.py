@@ -105,7 +105,6 @@ def check_trans():
     serial = request.form.get('aq_serial')
     borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
     
-    ##
     borrows = Borrow.query.filter_by(return_status='no').all()
     all_borrowed = []
     for borrow in borrows:
@@ -192,10 +191,10 @@ def report_return():
                 borrow.return_status='late'
             borrow.return_date = today.strftime("%d/%m/%Y")
             db.session.commit()
-            flash('Equipment returned successfully', 'success')
+            flash(' ציוד הוחזר בהצלחה ', 'success')
             return redirect(url_for('views.borrowed_equipment'))
         else:
-            flash('Equipment not found', 'error')
+            flash('!ציוד לא נמצא', 'error')
     return render_template("borrowed_equipment.html", borrows=all_borrowed, user=current_user)
 
 
@@ -317,7 +316,7 @@ def eq_transfer():
             new_noti = Notification(type="return", date=borrow.return_date, user=current_user.id, item=borrow.aq_serial, is_read="no")
             db.session.add(new_noti)
             db.session.commit()
-            flash('Equipment returned successfully', 'success')
+            flash('!ציוד הוחזר בהצחלה', 'success')
             return redirect(url_for('views.eq_transfer'))
 
     return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
@@ -382,8 +381,6 @@ def who_borrowed():
 
     # Get the list of borrowed items
     borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
-    
-
     return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user)
 
 

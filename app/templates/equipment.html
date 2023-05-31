@@ -6,37 +6,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Show error/success messages on the screen -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            {% if category == 'error' %}
-                <div class="alert alert-danger alert-dismissable fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-success alert-dismissable fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='equipment-style.css') }}">
 </head>
 
 <body>
-  <div class="col-md-6 text-center mb-5">
-    <h2 class="heading-section"> רשימת ציוד </h2>
+  <div class="d-flex align-items-center justify-content-center vh-10">
+    <div class="col-md-6 text-center mb-5">
+      <h2 class="heading-section"> רשימת ציוד </h2>
+    </div>
   </div>
 
   <div class="container">
