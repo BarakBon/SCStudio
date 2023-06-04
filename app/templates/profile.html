@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} equipment failure {% endblock %}
-
+{% block title %} profile {% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -48,28 +47,42 @@
                                 </br>
                                 <p class="card-text"></p>
                                 <p class="card-text">
-                                <div clas="form-control">
-                                    <form>
-                                        <label for="old-pass">סיסמה ישנה</label>
-                                        <input type=" password" class="form-control" id="old-pass">
-                                        </br>
-                                        <label for="new-pass">סיסמה חדשה</label>
-                                        <input type="password" class="form-control" id="old-pass">
-                                        </br>
-                                        <label for="new-pass"> סיסמה חדשה שוב</label>
-                                        <input type="password" class="form-control" id="old-pass">
-                                        </br>
-                                        <button type="button" class="btn btn-primary">שלח יזבל</button>
-                                    </form>
-                                </div>
+                                    <div class="form-control mb-3 text-end">
+                                        <label class="form-label" for="old-pass">סיסמה ישנה</label>
+                                        <div class="input-group">
+                                            <input type="password" id="old-pass" name="old-pass" class="form-control form-control-lg text-end"
+                                                placeholder="הכנס סיסמה" />
+                                            <button class="btn btn-outline-secondary" type="button" id="toggleOldPassword">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-control mb-3 text-end">
+                                        <label class="form-label" for="pass1">סיסמה חדשה</label>
+                                        <div class="input-group">
+                                            <input type="password" id="pass1" name="pass1" class="form-control form-control-lg text-end"
+                                                placeholder="הכנס סיסמה חדשה" />
+                                            <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-control mb-3 text-end">
+                                        <label class="form-label" for="pass2">סיסמה חדשה שוב</label>
+                                        <div class="input-group">
+                                            <input type="password" id="pass2" name="pass2" class="form-control form-control-lg text-end"
+                                                placeholder="הכנס סיסמה חדשה שוב" />
+                                            <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">שנה סיסמה</button>
                                 </p>
                             </div>
                         </li>
                     </ul>
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -77,9 +90,31 @@
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        function togglePasswordVisibility(inputId) {
+            var input = document.getElementById(inputId);
+            var icon = input.nextElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+        document.getElementById("toggleOldPassword").addEventListener("click", function() {
+            togglePasswordVisibility("old-pass");
+        });
+        document.getElementById("toggleNewPassword").addEventListener("click", function() {
+            togglePasswordVisibility("pass1");
+        });
+        document.getElementById("toggleConfirmPassword").addEventListener("click", function() {
+            togglePasswordVisibility("pass2");
+        });
+    </script>
 </body>
 
 </html>
-
-
 {% endblock %}
