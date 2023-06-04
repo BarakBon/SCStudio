@@ -9,6 +9,9 @@ from collections import namedtuple
 from sqlalchemy import or_
 from sqlalchemy import func
 from flask import request
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, flash
 
 views = Blueprint('views', __name__, template_folder='templates')
 
@@ -471,7 +474,39 @@ def get_old_loan_time():
     return jsonify({'old_loan_time': old_loan_time})
 
 
+
+
 @views.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
-    
+    if request.method == 'POST':
+        user = User.query.get(current_user.id)
+        old_password = request.form.get('old-pass')
+        new_password = request.form.get('pass1')
+        confirm_password = request.form.get('pass2')
+
+        # Check if the old password matches the stored password
+        if check_password_hash(user.password, old_password):
+            if len(new_password) < 7:
+                    flash('הסיסמא חייבת להיות לפחות 7 תווים.', category='error')
+            else:
+                    # Check if the new password and confirm password match
+                    if new_password == confirm_password:
+                        # Hash the new password
+                        hashed_password = generate_password_hash(new_password, method='sha256')
+
+                        # Update the user's password in the database
+                        user.password = hashed_password
+                        db.session.commit()
+
+                        flash('סיסמה עודכנה בהצלחה', category='success')
+                    else:
+                        flash('הסיסמאות לא תואמות', category='error')
+        else:
+            flash('סיסמה ישנה שגויה', category='error')
+
     return render_template("profile.html", user=current_user)
+
+
+
+

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} equipment failure {% endblock %}
-
+{% block title %} profile {% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -46,40 +45,87 @@
                                 <h5 class="card-title" style="font-size:1.5rem;">שינוי סיסמה</h5>
                                 <hr />
                                 </br>
-                                <p class="card-text"></p>
-                                <p class="card-text">
-                                <div clas="form-control">
-                                    <form>
-                                        <label for="old-pass">סיסמה ישנה</label>
-                                        <input type=" password" class="form-control" id="old-pass">
-                                        </br>
-                                        <label for="new-pass">סיסמה חדשה</label>
-                                        <input type="password" class="form-control" id="old-pass">
-                                        </br>
-                                        <label for="new-pass"> סיסמה חדשה שוב</label>
-                                        <input type="password" class="form-control" id="old-pass">
-                                        </br>
-                                        <button type="button" class="btn btn-primary">שלח יזבל</button>
-                                    </form>
-                                </div>
-                                </p>
+                                <form method="POST" action="/profile">
+                                    <label class="form-label" for="oldpass">סיסמה ישנה</label>
+                                    <div class="input-group">
+                                        <input type="password" id="oldpass" name="old-pass" class="form-control form-control-lg text-end"
+                                            placeholder="הכנס סיסמה" />
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <label class="form-label" for="pass-1">סיסמה חדשה</label>
+                                    <div class="input-group">
+                                        <input type="password" id="pass1" name="pass1" class="form-control form-control-lg text-end"
+                                            placeholder="הכנס סיסמה חדשה" />
+                                        <button class="btn btn-outline-secondary" type="button" id="toggleNewPassword">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <label class="form-label" for="pass-2">סיסמה חדשה שוב</label>
+                                    <div class="input-group">
+                                        <input type="password" id="pass2" name="pass2" class="form-control form-control-lg text-end"
+                                            placeholder="הכנס סיסמה חדשה שוב" />
+                                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <p class="card-text"></p>
+                                    <button type="submit" class="btn btn-primary">שנה סיסמה</button>
+                                </form>
                             </div>
                         </li>
                     </ul>
                 </div>
-
-
-
             </div>
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#togglePassword").click(function() {
+                var passwordInput = $("#oldpass");
+                var passwordFieldType = passwordInput.attr("type");
+
+                if (passwordFieldType === "password") {
+                    passwordInput.attr("type", "text");
+                    $(this).html('<i class="fa fa-eye-slash"></i>');
+                } else {
+                    passwordInput.attr("type", "password");
+                    $(this).html('<i class="fa fa-eye"></i>');
+                }
+            });
+
+            $("#toggleNewPassword").click(function() {
+                var passwordInput = $("#pass1");
+                var passwordFieldType = passwordInput.attr("type");
+
+                if (passwordFieldType === "password") {
+                    passwordInput.attr("type", "text");
+                    $(this).html('<i class="fa fa-eye-slash"></i>');
+                } else {
+                    passwordInput.attr("type", "password");
+                    $(this).html('<i class="fa fa-eye"></i>');
+                }
+            });
+
+            $("#toggleConfirmPassword").click(function() {
+                var passwordInput = $("#pass2");
+                var passwordFieldType = passwordInput.attr("type");
+
+                if (passwordFieldType === "password") {
+                    passwordInput.attr("type", "text");
+                    $(this).html('<i class="fa fa-eye-slash"></i>');
+                } else {
+                    passwordInput.attr("type", "password");
+                    $(this).html('<i class="fa fa-eye"></i>');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
-
 
 {% endblock %}
