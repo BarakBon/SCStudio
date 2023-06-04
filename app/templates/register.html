@@ -82,24 +82,67 @@
                     <!-- Email input -->
                     <div class="form-outline mb-4 text-end">
                         <label class="form-label" for="form3Example3">אימייל</label>
-                        <input type="email" id="form3Example3" name='email' aria-describedby="emailHelp"
+                        <input type="email" id="form3Example3" name='email' aria-describedby="emailHelp" title='Israel@ac.sce.ac.il מייל לדוגמה '
                             class="form-control form-control-lg text-end" placeholder="הכנס מייל של המכללה" />
                     </div>
 
                     <!-- Password input -->
-                    <div class="form-outline mb-4 text-end">
+                    <div class="form-outline mb-3 text-end">
                         <label class="form-label" for="form3Example4">סיסמא</label>
-                        <input type="password" id="form3Example4" name="password1" class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
-                            placeholder="הכנס סיסמא" />
+                        <div class="input-group">
+                            <input type="password" id="form3Example4" name='password' class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
+                                placeholder="הכנס סיסמא" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="bx bx-show"></i>
+                            </button>
+                        </div>
                     </div>
+
+                    
+
 
                     <!-- Password validation input -->
                     <div class="form-outline mb-4 text-end">
-                        <label class="form-label" for="form3Example4">אימות סיסמא</label>
-                        <input type="password" id="form3Example4" name="password2" class="form-control form-control-lg text-end"
-                            placeholder="הכנס סיסמא שוב" />
+                        <label class="form-label" for="form3Example5">אימות סיסמא</label>
+                        <div class="input-group">
+                            <input type="password" id="form3Example5" name="password2" class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
+                                placeholder="הכנס סיסמא שוב" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
+                                <i class="bx bx-show"></i>
+                            </button>
+                        </div>
                     </div>
 
+
+                    <script>
+                        $(document).ready(function() {
+                            $("#togglePassword").click(function() {
+                                var passwordInput = $("#form3Example4");
+                                var passwordFieldType = passwordInput.attr("type");
+                    
+                                if (passwordFieldType === "password") {
+                                    passwordInput.attr("type", "text");
+                                    $(this).html('<i class="bx bx-hide"></i>');
+                                } else {
+                                    passwordInput.attr("type", "password");
+                                    $(this).html('<i class="bx bx-show"></i>');
+                                }
+                            });
+                    
+                            $("#togglePassword2").click(function() {
+                                var passwordInput = $("#form3Example5");
+                                var passwordFieldType = passwordInput.attr("type");
+                    
+                                if (passwordFieldType === "password") {
+                                    passwordInput.attr("type", "text");
+                                    $(this).html('<i class="bx bx-hide"></i>');
+                                } else {
+                                    passwordInput.attr("type", "password");
+                                    $(this).html('<i class="bx bx-show"></i>');
+                                }
+                            });
+                        });
+                    </script>
 
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
