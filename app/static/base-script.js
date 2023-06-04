@@ -34,6 +34,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
     linkColor.forEach(l => l.addEventListener('click', colorLink))
 
+
+        // Get the current time in Israel
+    var currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+
+    // Extract the hour from the current time
+    var currentHour = new Date(currentTime).getHours();
+
+    // Get a reference to the greeting element
+    var greetingElement = document.getElementById("hebrewGreeting");
+
+    // Update the greeting based on the current time
+    if (currentHour >= 0 && currentHour < 12) {
+        greetingElement.innerHTML = 'בוקר טוב';
+    } else if (currentHour >= 12 && currentHour < 18) {
+        greetingElement.innerHTML = 'צהריים טובים';
+    } else {
+        greetingElement.innerHTML = 'ערב טוב';
+    }
+
+
     // Your code to run since DOM is loaded and ready
 
     const notificationCountElement = document.getElementById('notificationCount');
@@ -45,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             .catch(error => {
                 console.log(error);
             });
+
+
 });
 
 var myLink = document.querySelector('a[href="#"]');
