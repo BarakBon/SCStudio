@@ -51,7 +51,7 @@
 								<td>{{ borrow.user.name }}</td>
 								<td>{{ borrow.aq_serial }}</td>
 								<td>{{ borrow.item.model }}</td>
-								<th scope="row" class="scope">{{ borrow.item.Type }}</th>
+								<th scope="row" class="scope">{{ eq_dict[borrow.item.Type] }}</th>
 							</tr>
 							{% endif %}
 						  {% endif %}
