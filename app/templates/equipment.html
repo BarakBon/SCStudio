@@ -23,8 +23,16 @@
     <form method="GET">
       <div class="row">
         <div class="col">
-          <button type="submit" class="btn btn-primary">סנן</button>
+          <select name="available">
+            <option value="">הכל</option>
+            <option value="available">זמין</option>
+            <option value="borrowed">מושאל</option>
+            {% if user.userType == 'Manager' %}
+            <option value="faulty">תקול </option>
+            {% endif %}
+          </select>
         </div>
+
         <div class="col">
           <select name="type">
             <option value="">סוג ציוד</option>
@@ -38,15 +46,9 @@
             <option value="Convertors">מתאמים </option>
           </select>
         </div>
+
         <div class="col">
-          <select name="available">
-            <option value="">הכל</option>
-            <option value="available">זמין</option>
-            <option value="borrowed">מושאל</option>
-            {% if user.userType == 'Manager' %}
-            <option value="faulty">תקול </option>
-            {% endif %}
-          </select>
+          <button type="submit" class="btn btn-primary">סנן</button>
         </div>
         
       </div>
@@ -55,11 +57,11 @@
     <table class="table">
       <thead>
         <tr>
-          <th></th>
-          <th>זמינות</th>
-          <th>מק"ט</th>
+          <th>סוג ציוד</th>
           <th>מודל</th>
-          <th>סוג ציוד</th>          
+          <th>מק"ט</th>
+          <th>זמינות</th>
+          <th></th>       
         </tr>
       </thead>
       <tbody>
@@ -68,31 +70,32 @@
         {% if user.userType == 'Manager' %}
         {% for equipment in equipment_list %}
           <tr>
+            <td>{{ eq_dict[equipment.Type] }}</td>
+            <td>{{ equipment.model }}</td>
+            <td>{{ equipment.serial_number }}</td>
+
             {% if equipment.status == 'available' %}
+            <td class="status"><span class="available">זמין</span></td>
               <td>
                 <form method="POST" action="/report_failure">
                   <input type="hidden" name="eq_serial" value="{{ equipment.serial_number }}">
                   <button type="submit" class="btn btn-primary">תקול</button>
                 </form>
               </td>
-              <td class="status"><span class="available">זמין</span></td>
+              
             {% elif equipment.status == 'borrowed' %}
-              <td></td>
               <td class="status"><span class="borrowed">מושאל</span></td>
+              <td></td>
 
               {% elif equipment.status == 'faulty' %}
+                <td class="status"><span class="faulty">תקול</span></td>
                 <td>
                   <form method="POST" action="/report_available">
                     <input type="hidden" name="eq_serial" value="{{ equipment.serial_number }}">
                     <button type="submit" class="btn btn-primary">תוקן</button>
                   </form>
                 </td>
-                <td class="status"><span class="faulty">תקול</span></td>
-              {% endif %}
-
-            <td>{{ equipment.serial_number }}</td>
-            <td>{{ equipment.model }}</td>
-            <td>{{ eq_dict[equipment.Type] }}</td>                                    
+              {% endif %}                                   
           </tr>
         {% endfor %}
       
@@ -104,23 +107,25 @@
         {% for equipment in equipment_list %}
         {% if equipment.status != 'faulty'%}
         <tr>
+          <td>{{ eq_dict[equipment.Type] }}</td>
+          <td>{{ equipment.model }}</td>
+          <td>{{ equipment.serial_number }}</td>
+
           {% if equipment.status == 'available'%}
-            <td></td>
             <td class="status"><span class="available">זמין</span></td>
+            <td></td>
           {% endif%}
           
-          {% if equipment.status == 'borrowed'%}
+        {% if equipment.status == 'borrowed'%}
+          <td class="status"><span class="borrowed">מושאל</span></td>
+
           <td><form method="POST" action="/who_borrowed">
             <input type="hidden" name="eq_serial" value="{{ equipment.serial_number }}">
             <button type="submit" class="btn btn-primary">פרטי משאיל</button>
           </form></td>
 
-          <td class="status"><span class="borrowed">מושאל</span></td>
-          {% endif%}
-
-          <td>{{ equipment.serial_number }}</td>
-          <td>{{ equipment.model }}</td>
-          <td>{{ eq_dict[equipment.Type] }}</td>                                    
+        {% endif%}
+                                             
         </tr>
         {% endif %}
         {% endfor %}

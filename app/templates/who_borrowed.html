@@ -15,14 +15,15 @@
 
         <div class="row">
             <div class="col-md-12 text-end"> 
-                <br>
+                
                 <div class="form-outline mb-4 text-end">
                     <p> <h5> שם: {{borrowed_items.user.name}} </h5></p>
-                    <p> <h5> {{borrowed_items.user.phone}} :מספר פלאפון </h5></p>
-                    <p> <h5> {{borrowed_items.user.email}} :מייל </h5></p>
-                    <p> <h5> {{borrowed_items.item.Type}} :סוג ציוד </h5></p>
-                    <p> <h5> {{borrowed_items.item.model}} :מודל </h5></p>
-                    <p> <h5> {{borrowed_items.aq_serial }} :מקט  </h5></p>
+                    <p> <h5> מספר פלאפון : {{borrowed_items.user.phone}}</h5></p>
+                    <p> <h5> מייל : {{borrowed_items.user.email}}</h5></p>
+                    <p> <h5> סוג ציוד : {{eq_dict[borrowed_items.item.Type]}}</h5></p>
+                    <p> <h5> מודל : {{borrowed_items.item.model}}</h5></p>
+                    <p> <h5> מקט : {{borrowed_items.aq_serial }}</h5></p>
+                    <p> <h5> מושאל עד : {{borrowed_items.return_date}}</h5></p>
                 </div>
             </div>
         </div>

@@ -383,7 +383,7 @@ def notifications():
     else:
         noti_today = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).all()
         desc_dict = {'order': 'ההשאלה שבוקשה על ידך מתקיימת היום', 'return': 'ההשאלה שברשותך אמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה שביצעת התקבלה במערכת','swap': 'בוצעה החלפה בין משתמשים'}
-    return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict )
+    return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict, eq_dict=eq_dict )
 
 
 @views.route('/seen_notification', methods=['GET', 'POST'])
@@ -416,7 +416,7 @@ def who_borrowed():
 
     # Get the list of borrowed items
     borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
-    return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user)
+    return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user, eq_dict=eq_dict)
 
 
 
