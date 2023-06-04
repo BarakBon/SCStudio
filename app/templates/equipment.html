@@ -89,10 +89,10 @@
                 </td>
                 <td class="status"><span class="faulty">תקול</span></td>
               {% endif %}
-              
+
             <td>{{ equipment.serial_number }}</td>
             <td>{{ equipment.model }}</td>
-            <td>{{ equipment.Type }}</td>                                    
+            <td>{{ eq_dict[equipment.Type] }}</td>                                    
           </tr>
         {% endfor %}
       
@@ -120,7 +120,7 @@
 
           <td>{{ equipment.serial_number }}</td>
           <td>{{ equipment.model }}</td>
-          <td>{{ equipment.Type }}</td>                                    
+          <td>{{ eq_dict[equipment.Type] }}</td>                                    
         </tr>
         {% endif %}
         {% endfor %}
