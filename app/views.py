@@ -469,3 +469,9 @@ def get_old_loan_time():
         old_loan_time = ''
 
     return jsonify({'old_loan_time': old_loan_time})
+
+
+@views.route('/profile', methods=['GET', 'POST'])
+def profile():
+    
+    return render_template("profile.html", user=current_user)

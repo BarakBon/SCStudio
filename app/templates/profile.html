@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %} equipment failure {% endblock %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/static/equipment_failure-style.css">
+
+</head>
+
+<body class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div>
+
+                <p class="fst-normal fs-2 text-end"> החשבון שלי</p>
+                <br>
+
+
+                <div class="card container-fluid" style="width: 50%; padding:0;">
+                    <div class="card card-header container-fluid">
+                        <div class="card-body text-end" style="font-size:1.25rem;">
+                            <h5 class="card-title" style="font-size:1.75rem;">{{ user.name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted" style="font-size:1.5rem;">{{ user.userType }}</h6>
+                            <p class="card-text"></p>
+                            <p class="card-text">{{ user.email }} :מייל </p>
+                            <p class="card-text">{{ user.phone}} :מספר נייד </p>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                    </ul>
+                </div>
+
+                <!-- example to card (use it inside the list-group ^)
+                <div class="card container-fluid">
+                    <div class="card-body text-end" style="font-size:1.25rem;">
+                        <h5 class="card-title" style="font-size:1.75rem;">{{ user.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" style="font-size:1.5rem;">{{ user.userType }}</h6>
+                        <p class="card-text"></p>
+                        <p class="card-text">{{ user.email }} :מייל </p>
+                        <p class="card-text">{{ user.phone}} :מספר נייד </p>
+                    </div>
+                </div>
+                -->
+
+
+
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
+
+
+{% endblock %}
