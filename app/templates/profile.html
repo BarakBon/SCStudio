@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} equipment failure {% endblock %}
-
+{% block title %} profile {% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
@@ -48,18 +47,18 @@
                                 </br>
                                 <p class="card-text"></p>
                                 <p class="card-text">
-                                <div clas="form-control">
-                                    <form>
+                                <div class="form-control">
+                                    <form method="POST">
                                         <label for="old-pass">סיסמה ישנה</label>
-                                        <input type=" password" class="form-control" id="old-pass">
+                                        <input type="password" class="form-control" id="old-pass" name="old-pass">
                                         </br>
                                         <label for="new-pass">סיסמה חדשה</label>
-                                        <input type="password" class="form-control" id="old-pass">
+                                        <input type="password" class="form-control" id="pass1" name="pass1">
                                         </br>
                                         <label for="new-pass"> סיסמה חדשה שוב</label>
-                                        <input type="password" class="form-control" id="old-pass">
+                                        <input type="password" class="form-control" id="pass2" name="pass2">
                                         </br>
-                                        <button type="button" class="btn btn-primary">שלח יזבל</button>
+                                        <button type="submit" class="btn btn-primary">שנה סיסמה</button>
                                     </form>
                                 </div>
                                 </p>
@@ -67,9 +66,6 @@
                         </li>
                     </ul>
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -78,8 +74,5 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
 </body>
-
 </html>
-
-
 {% endblock %}
