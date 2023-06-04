@@ -103,11 +103,11 @@
 
                     <!-- Password validation input -->
                     <div class="form-outline mb-4 text-end">
-                        <label class="form-label" for="form3Example4">אימות סיסמא</label>
+                        <label class="form-label" for="form3Example5">אימות סיסמא</label>
                         <div class="input-group">
-                        <input type="password" id="form3Example4" name="password2" class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
-                            placeholder="הכנס סיסמא שוב" />
-                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <input type="password" id="form3Example5" name="password2" class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
+                                placeholder="הכנס סיסמא שוב" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
                                 <i class="bx bx-show"></i>
                             </button>
                         </div>
@@ -128,9 +128,21 @@
                                     $(this).html('<i class="bx bx-show"></i>');
                                 }
                             });
+                    
+                            $("#togglePassword2").click(function() {
+                                var passwordInput = $("#form3Example5");
+                                var passwordFieldType = passwordInput.attr("type");
+                    
+                                if (passwordFieldType === "password") {
+                                    passwordInput.attr("type", "text");
+                                    $(this).html('<i class="bx bx-hide"></i>');
+                                } else {
+                                    passwordInput.attr("type", "password");
+                                    $(this).html('<i class="bx bx-show"></i>');
+                                }
+                            });
                         });
                     </script>
-
 
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
