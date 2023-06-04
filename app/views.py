@@ -12,6 +12,10 @@ from flask import request
 
 views = Blueprint('views', __name__, template_folder='templates')
 
+eq_dict = {'Camera':'מצלמה', 'Rec':'מיקרופון', 'Apple':'מוצר אפל', 'Tripod':'חצובה', 
+           'Projectors':'פרוזקטור', 'Cables':'כבל', 'Lights':'תאורה', 'Convertors':'מתאם'}
+
+
 @views.route('/equipment')
 @login_required
 def equipment():
@@ -28,8 +32,8 @@ def equipment():
     if available_filter:
         query = query.filter_by(status=available_filter)
     equipment_list = query.all()
-
-    return render_template("equipment.html", user=current_user, equipment_list=equipment_list)
+    
+    return render_template("equipment.html", user=current_user, equipment_list=equipment_list, eq_dict=eq_dict)
 
 
 @views.route('/report_failure', methods=['POST'])
@@ -60,8 +64,6 @@ def report_available():
         flash('ציוד לא נמצא במערכת.')
 
     return redirect(url_for('views.equipment'))
-
-
 
 
 
@@ -196,7 +198,7 @@ def borrowed_equipment():
         for borrow in borrows:
             if borrow.item.status == 'borrowed':
                 all_borrowed.append(borrow)
-        return render_template("borrowed_equipment.html" , borrows=all_borrowed , user=current_user)
+        return render_template("borrowed_equipment.html" , borrows=all_borrowed , user=current_user, eq_dict=eq_dict)
 
 
 #Equipment return reporting process
@@ -266,7 +268,7 @@ def user_borrowing():
     query = Borrow.query
     query = query.filter_by(borrower=current_user.id)
     borrows = query.all()
-    return render_template("user_borrowing.html", borrows=borrows , user=current_user)
+    return render_template("user_borrowing.html", borrows=borrows , user=current_user, eq_dict=eq_dict)
 
 
 @views.route('/rooms', methods=['GET', 'POST'])
@@ -352,7 +354,7 @@ def eq_transfer():
             flash('!ציוד הוחזר בהצחלה', 'success')
             return redirect(url_for('views.eq_transfer'))
 
-    return render_template("eq_transfer.html", user=current_user, borrows=borrows_today)
+    return render_template("eq_transfer.html", user=current_user, borrows=borrows_today, eq_dict=eq_dict)
 
 
 
@@ -415,8 +417,6 @@ def who_borrowed():
     # Get the list of borrowed items
     borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
     return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user)
-
-
 
 
 
