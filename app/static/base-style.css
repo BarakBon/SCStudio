@@ -101,7 +101,7 @@ a {
 .l-navbar {
     position: fixed;
     top: 0;
-    left: -30%;
+    right: -30%;
     width: var(--nav-width);
     height: 100vh;
     background-color: var(--main-color);
@@ -157,15 +157,15 @@ a {
 }
 
 .show {
-    left: 0
+    right: 0
 }
 
 .body-pd {
-    padding-left: calc(var(--nav-width) + 1rem)
+    padding-right: calc(var(--nav-width) + 1rem)
 }
 
 .active {
-    color: var(--select-color)
+    color: var(--select-color);
 }
 
 .active::before {
@@ -184,12 +184,12 @@ a {
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
-        padding-left: calc(var(--nav-width) + 2rem)
+        padding-right: calc(var(--nav-width) + 2rem)
     }
 
     .header {
         height: calc(var(--header-height) + 1rem);
-        padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
+        padding: 0 calc(var(--nav-width) + 2rem) 0 2rem
     }
 
     .header_img {
@@ -202,8 +202,16 @@ a {
     }
 
     .l-navbar {
-        left: 0;
-        padding: 1rem 1rem 0 0
+        right: 0;
+        padding: 1rem 0 0 0
+    }
+    
+    .l-navbar .nav_link , .nav_logo {
+        padding: .5rem 1.5rem .5rem 1.5rem
+    }
+
+    .l-navbar .nav_name , .nav_logo-name {
+        margin-right: 10px
     }
 
     .show {
@@ -211,6 +219,6 @@ a {
     }
 
     .body-pd {
-        padding-left: calc(var(--nav-width) + 188px)
+        padding-right: calc(var(--nav-width) + 188px)
     }
 }
