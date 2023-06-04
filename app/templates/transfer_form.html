@@ -34,10 +34,12 @@
 
                             <form method="POST" action="/check_trans" >
                                 <div class="form-outline mb-4 text-end">
-                                    <input type="hidden" name="aq_serial" value="{{ borrowed_items.aq_serial }}">
-                                    <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 1rem; padding-right: 1rem;">העבר</button>
                                     <input type="email" id="form3Example3" name="email" aria-describedby="emailHelp"
                                            class=" form-control-lg text-end" placeholder="הכנס מייל להעברה" />
+                                           
+                                    <input type="hidden" name="aq_serial" value="{{ borrowed_items.aq_serial }}">
+                                    <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 1rem; padding-right: 1rem;">העבר</button>
+                                    
                                 </div>
                             </form>
                             
