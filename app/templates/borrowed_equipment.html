@@ -33,36 +33,38 @@
 						<table class="table">
 					    <thead class="thead-primary text-end">
 					      <tr>
-							<th></th>
+							<th>סוג ציוד</th>
+							<th>מודל</th>
+							<th>מספר סידורי</th>
+							<th>המשאיל הנוכחי</th>
+							<th> החזרת ציוד</th>
 							<th> העברת ציוד </th>
-                            <th> החזרת ציוד</th>
-					        <th>המשאיל הנוכחי</th>
-                            <th>מספר סידורי</th>
-                            <th>מודל</th>
-         					<th>סוג ציוד</th> 
+							<th></th>
 					      </tr>
 					    </thead>
+
 					    <tbody>
 						  {% for borrow in borrows %}
 						  {% if borrow.return_status == 'no' %}
 							{% if borrow.aq_serial == borrow.item.serial_number %}
 							<tr>
-								<td><form method="POST" action="/report_fault">
-									<input type="hidden" name="borrow_id" value="{{ borrow.id }}" >
-									<input type="submit" class="btn btn-primary" value="תקול">
-									</form></td>
-
-								<td><a href="/transfer_form?eq_serial={{ borrow.item.serial_number }}" class="btn btn-primary">העבר ציוד</a></td>
+								<th scope="row" class="scope">{{ eq_dict[borrow.item.Type] }}</th>
+								<td>{{ borrow.item.model }}</td>
+								<td>{{ borrow.aq_serial }}</td>
+								<td>{{ borrow.user.name }}</td>
 
 								<td><form method="POST" action="/report_return">
                                     <input type="hidden" name="borrow_id" value="{{ borrow.id }}">
                                     <input type="submit" class="btn btn-primary" value="הוחזר">
                                     </form></td>
+
+									<td><a href="/transfer_form?eq_serial={{ borrow.item.serial_number }}" class="btn btn-primary">העבר ציוד</a></td>
+
+								<td><form method="POST" action="/report_fault">
+									<input type="hidden" name="borrow_id" value="{{ borrow.id }}" >
+									<input type="submit" class="btn btn-primary" value="תקול">
+									</form></td>
 									
-								<td>{{ borrow.user.name }}</td>
-								<td>{{ borrow.aq_serial }}</td>
-								<td>{{ borrow.item.model }}</td>
-								<th scope="row" class="scope">{{ eq_dict[borrow.item.Type] }}</th>
 							</tr>
 							{% endif %}
 						  {% endif %}

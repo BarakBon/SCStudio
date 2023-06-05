@@ -388,7 +388,7 @@ def notifications():
     else:
         noti_today = Notification.query.filter_by(date=today).filter_by(user=current_user.id).filter(or_(Notification.is_read == "no", Notification.is_read == "m")).all()
         desc_dict = {'order': 'ההשאלה שבוקשה על ידך מתקיימת היום', 'return': 'ההשאלה שברשותך אמורה להיות מוחזרת היום', 'fault': 'דווחה תקלה שביצעת התקבלה במערכת','swap': 'בוצעה החלפה בין משתמשים'}
-    return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict )
+    return render_template("notifications.html", user=current_user, notifs=noti_today, desc_dict=desc_dict, eq_dict=eq_dict )
 
 
 @views.route('/seen_notification', methods=['GET', 'POST'])
@@ -421,7 +421,7 @@ def who_borrowed():
 
     # Get the list of borrowed items
     borrowed_items = Borrow.query.filter_by(return_status='no').filter_by(aq_serial=serial).first()
-    return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user)
+    return render_template('who_borrowed.html', borrowed_items=borrowed_items, user=current_user, eq_dict=eq_dict)
 
 
 
@@ -482,23 +482,36 @@ def get_old_loan_time():
 @login_required
 def profile():
     if request.method == 'POST':
-        user = User.query.get(current_user.id)
-        old_password = request.form.get('old-pass')
+        old_password = request.form.get('old_pass')
         new_password = request.form.get('pass1')
         confirm_password = request.form.get('pass2')
 
         # Check if the old password matches the stored password
-        if check_password_hash(user.password, old_password):
+        if check_password_hash(current_user.password, old_password):
             if len(new_password) < 7:
-                    flash('הסיסמא חייבת להיות לפחות 7 תווים.', category='error')
+                flash('הסיסמא חייבת להיות לפחות 7 תווים.', category='error')
+            elif new_password != confirm_password:
+                flash('הסיסמאות לא תואמות', category='error')
+
+            elif check_password_hash(current_user.password, new_password):
+                flash('לא ניתן לשנות לסיסמה הקודמת.', category='error')
+
+                # Checks that the password is structured correctly
+            elif not any(char.isupper() for char in new_password):
+                flash('הסיסמה חייבת להכיל לפחות אות אחת גדולה.', category='error')
+            elif not any(char.islower() for char in new_password):
+                flash('הסיסמה חייבת להכיל לפחות אות קטנה אחת.', category='error')
+            elif not any(char.isdigit() for char in new_password):
+                flash('הסיסמה חייבת להכיל לפחות ספרה אחת.', category='error')   
+
             else:
-                    # Check if the new password and confirm password match
+                # Check if the new password and confirm password match
                     if new_password == confirm_password:
                         # Hash the new password
                         hashed_password = generate_password_hash(new_password, method='sha256')
 
                         # Update the user's password in the database
-                        user.password = hashed_password
+                        current_user.password = hashed_password
                         db.session.commit()
 
                         flash('סיסמה עודכנה בהצלחה', category='success')

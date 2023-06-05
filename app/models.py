@@ -9,6 +9,7 @@ class Equipment(db.Model, UserMixin):
     status = db.Column(db.String(15))
     max_time = db.Column(db.Integer) # in days
     borrow=db.relationship('Borrow', backref='item', lazy=True)
+    notification=db.relationship('Notification', backref='eq_type', lazy=True)
     
     
 class User(db.Model, UserMixin):
