@@ -7,22 +7,28 @@ from flask import Flask, request
 from flask_mail import Mail, Message
 import secrets , string
 
+import sendgrid
+from sendgrid.helpers.mail import Mail
+from sendgrid import SendGridAPIClient
+from flask import current_app
+
 
 import app
 
-
 app = Flask(__name__)
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'vcew2023@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Aa123456!'
+app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'apikey'
+app.config['MAIL_PASSWORD'] = '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'
+app.config['SENDGRID_API_KEY'] = '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'
+app.config['MAIL_DEFAULT_SENDER'] = 'vcew2023@gmail.com'
+
 mail = Mail(app)
 
 
-
-auth = Blueprint("auth", __name__, template_folder='templates')
+auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -45,10 +51,9 @@ def login():
     return render_template("login.html", user=current_user)
 
 
-
 @auth.route('/reset_password', methods=['POST'])
 def reset_password():
-    reset_email = request.form.get('resetEmail') 
+    reset_email = request.form.get('resetEmail')
     print(reset_email)
     user = User.query.filter_by(email=reset_email).first()
     if user:
@@ -58,21 +63,38 @@ def reset_password():
             password = ''.join(secrets.choice(alphabet) for _ in range(8))
             if any(c.islower() for c in password) and any(c.isupper() for c in password) and any(c in string.punctuation for c in password):
                 break
-        
+
         # Create the email message
-        msg = Message('Password Reset', sender='vcew2023@gmail.com', recipients=[reset_email])
-        msg.body = f'Your temporary password is: {password}'
+        message = Mail(
+            from_email='vcew2023@gmail.com',
+            to_emails=[reset_email],
+            subject='Password Reset',
+            plain_text_content=f'{password} :הסיסמא הזמנית שלך היא \n אנא החלף סיסמא לאחר ההתחברות'
+        )
+        
+        user.password=generate_password_hash(password, method='sha256')
+        db.session.commit()
+        
+       
+       
+            # Create a SendGrid client
+        sg = SendGridAPIClient(api_key=app.config['SENDGRID_API_KEY'])
+            
+            # Send the email
+        response = sg.send(message)
+            
+        if response.status_code == 202:
+                flash('סיסמא זמנית נשלחה', category='success')
+        else:
+                flash('שליחת מייל נכשלה, נסה שוב .', category='error')
 
-        # Send the email
-        mail.send(msg)
-
-
-        flash(' נשלחה סיסמא זמנית', category='success')
-        return render_template("login.html", user=current_user)
+        ''' except Exception as e:
+            flash('אירעה שגיאה בעת שליחת האימייל. בבקשה נסה שוב מאוחר יותר.', category='error')
+'''
     else:
-        flash(' מייל לא קיים ', category='error')
-        return render_template("login.html", user=current_user)
+        flash('כתובת האימייל לא קיימת', category='error')
 
+    return render_template("login.html", user=current_user)
 
 @auth.route('/logout', methods=['GET', 'POST'])
 @login_required
