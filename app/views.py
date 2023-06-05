@@ -480,23 +480,36 @@ def get_old_loan_time():
 @login_required
 def profile():
     if request.method == 'POST':
-        user = User.query.get(current_user.id)
-        old_password = request.form.get('old-pass')
+        old_password = request.form.get('old_pass')
         new_password = request.form.get('pass1')
         confirm_password = request.form.get('pass2')
 
         # Check if the old password matches the stored password
-        if check_password_hash(user.password, old_password):
+        if check_password_hash(current_user.password, old_password):
             if len(new_password) < 7:
-                    flash('הסיסמא חייבת להיות לפחות 7 תווים.', category='error')
+                flash('הסיסמא חייבת להיות לפחות 7 תווים.', category='error')
+            elif new_password != confirm_password:
+                flash('הסיסמאות לא תואמות', category='error')
+
+            elif check_password_hash(current_user.password, new_password):
+                flash('לא ניתן לשנות לסיסמה הקודמת.', category='error')
+
+                # Checks that the password is structured correctly
+            elif not any(char.isupper() for char in new_password):
+                flash('הסיסמה חייבת להכיל לפחות אות אחת גדולה.', category='error')
+            elif not any(char.islower() for char in new_password):
+                flash('הסיסמה חייבת להכיל לפחות אות קטנה אחת.', category='error')
+            elif not any(char.isdigit() for char in new_password):
+                flash('הסיסמה חייבת להכיל לפחות ספרה אחת.', category='error')   
+
             else:
-                    # Check if the new password and confirm password match
+                # Check if the new password and confirm password match
                     if new_password == confirm_password:
                         # Hash the new password
                         hashed_password = generate_password_hash(new_password, method='sha256')
 
                         # Update the user's password in the database
-                        user.password = hashed_password
+                        current_user.password = hashed_password
                         db.session.commit()
 
                         flash('סיסמה עודכנה בהצלחה', category='success')
