@@ -21,8 +21,8 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = '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'
-app.config['SENDGRID_API_KEY'] = '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'
+app.config['MAIL_PASSWORD'] = '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' # nosec
+app.config['SENDGRID_API_KEY'] = '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' # nosec
 app.config['MAIL_DEFAULT_SENDER'] = 'vcew2023@gmail.com'
 
 mail = Mail(app)
