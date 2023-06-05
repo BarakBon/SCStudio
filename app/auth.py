@@ -54,7 +54,6 @@ def login():
 @auth.route('/reset_password', methods=['POST'])
 def reset_password():
     reset_email = request.form.get('resetEmail')
-    print(reset_email)
     user = User.query.filter_by(email=reset_email).first()
     if user:
         # Generate a temporary password
@@ -75,8 +74,6 @@ def reset_password():
         user.password=generate_password_hash(password, method='sha256')
         db.session.commit()
         
-       
-       
             # Create a SendGrid client
         sg = SendGridAPIClient(api_key=app.config['SENDGRID_API_KEY'])
             
@@ -85,16 +82,13 @@ def reset_password():
             
         if response.status_code == 202:
                 flash('סיסמא זמנית נשלחה', category='success')
+                return redirect(url_for('auth.login'))
         else:
                 flash('שליחת מייל נכשלה, נסה שוב .', category='error')
-
-        ''' except Exception as e:
-            flash('אירעה שגיאה בעת שליחת האימייל. בבקשה נסה שוב מאוחר יותר.', category='error')
-'''
     else:
         flash('כתובת האימייל לא קיימת', category='error')
+    return redirect(url_for('auth.login'))
 
-    return render_template("login.html", user=current_user)
 
 @auth.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -160,4 +154,3 @@ def register():
                 return redirect(url_for('views.equipment'))
 
     return render_template("register.html", user=current_user)
-
