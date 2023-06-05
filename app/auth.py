@@ -3,8 +3,24 @@ from .models import Equipment, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask import Flask, request
+from flask_mail import Mail, Message
+import secrets , string
+
 
 import app
+
+
+app = Flask(__name__)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'vcew2023@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Aa123456!'
+mail = Mail(app)
+
+
 
 auth = Blueprint("auth", __name__, template_folder='templates')
 
@@ -27,6 +43,35 @@ def login():
             flash('מייל לא קיים ', category='error')
 
     return render_template("login.html", user=current_user)
+
+
+
+@auth.route('/reset_password', methods=['POST'])
+def reset_password():
+    reset_email = request.form.get('resetEmail') 
+    print(reset_email)
+    user = User.query.filter_by(email=reset_email).first()
+    if user:
+        # Generate a temporary password
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        while True:
+            password = ''.join(secrets.choice(alphabet) for _ in range(8))
+            if any(c.islower() for c in password) and any(c.isupper() for c in password) and any(c in string.punctuation for c in password):
+                break
+        
+        # Create the email message
+        msg = Message('Password Reset', sender='vcew2023@gmail.com', recipients=[reset_email])
+        msg.body = f'Your temporary password is: {password}'
+
+        # Send the email
+        mail.send(msg)
+
+
+        flash(' נשלחה סיסמא זמנית', category='success')
+        return render_template("login.html", user=current_user)
+    else:
+        flash(' מייל לא קיים ', category='error')
+        return render_template("login.html", user=current_user)
 
 
 @auth.route('/logout', methods=['GET', 'POST'])

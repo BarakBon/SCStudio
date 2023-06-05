@@ -13,6 +13,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, flash
 
+
+
 views = Blueprint('views', __name__, template_folder='templates')
 
 eq_dict = {'Camera':'מצלמה', 'Rec':'מיקרופון', 'Apple':'מוצר אפל', 'Tripod':'חצובה', 
@@ -519,6 +521,13 @@ def profile():
             flash('סיסמה ישנה שגויה', category='error')
 
     return render_template("profile.html", user=current_user)
+
+
+
+
+
+
+
 
 
 
