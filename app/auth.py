@@ -69,9 +69,13 @@ def reset_password():
             from_email='vcew2023@gmail.com',
             to_emails=[reset_email],
             subject='Password Reset',
-            plain_text_content=f'Your temporary password is: {password}'
+            plain_text_content=f'{password} :הסיסמא הזמנית שלך היא \n אנא החלף סיסמא לאחר ההתחברות'
         )
-
+        
+        user.password=generate_password_hash(password, method='sha256')
+        db.session.commit()
+        
+       
        
             # Create a SendGrid client
         sg = SendGridAPIClient(api_key=app.config['SENDGRID_API_KEY'])
