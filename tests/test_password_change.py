@@ -52,3 +52,12 @@ def test_profile_pass_change(client, init_database):
     response = client.post('/logout', follow_redirects=True)
     expected_url = url_for('auth.login')
     assert response.request.path == expected_url
+
+
+def test_forgot_password(client):
+    # login to student
+    response = client.post('/reset_password', data=dict(resetEmail='stud@ac.sce.ac.il'),
+                            follow_redirects=True)
+    # check that changed
+    user = User.query.filter_by(email='stud@ac.sce.ac.il').first()
+    assert not check_password_hash(user.password, "Ab654321")
