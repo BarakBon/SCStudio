@@ -69,7 +69,7 @@
                         <select type="text" id="form3Example3" name="userType" class="form-control form-control-lg text-end" >
                             <option value="Student">סטודנט</option>
                             <option value="Teacher">מורה</option>
-                        </select><br>
+                        </select>
                     </div>
                     
                     <!-- telephone input -->
@@ -90,7 +90,7 @@
                     <div class="form-outline mb-3 text-end">
                         <label class="form-label" for="form3Example4">סיסמא</label>
                         <div class="input-group">
-                            <input type="password" id="form3Example4" name='password' class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
+                            <input type="password" id="form3Example4" name='password1' class="form-control form-control-lg text-end" title='לפחות 8 תווים, כולל אות גדולה וקטנה באנגלית'
                                 placeholder="הכנס סיסמא" />
                             <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                 <i class="bx bx-show"></i>
@@ -113,37 +113,6 @@
                         </div>
                     </div>
 
-
-                    <script>
-                        $(document).ready(function() {
-                            $("#togglePassword").click(function() {
-                                var passwordInput = $("#form3Example4");
-                                var passwordFieldType = passwordInput.attr("type");
-                    
-                                if (passwordFieldType === "password") {
-                                    passwordInput.attr("type", "text");
-                                    $(this).html('<i class="bx bx-hide"></i>');
-                                } else {
-                                    passwordInput.attr("type", "password");
-                                    $(this).html('<i class="bx bx-show"></i>');
-                                }
-                            });
-                    
-                            $("#togglePassword2").click(function() {
-                                var passwordInput = $("#form3Example5");
-                                var passwordFieldType = passwordInput.attr("type");
-                    
-                                if (passwordFieldType === "password") {
-                                    passwordInput.attr("type", "text");
-                                    $(this).html('<i class="bx bx-hide"></i>');
-                                } else {
-                                    passwordInput.attr("type", "password");
-                                    $(this).html('<i class="bx bx-show"></i>');
-                                }
-                            });
-                        });
-                    </script>
-
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">הרשם</button>
@@ -159,3 +128,33 @@
 </body>
 <script type='text/javascript'
     src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            $("#togglePassword").click(function() {
+                var passwordInput = $("#form3Example4");
+                var passwordFieldType = passwordInput.attr("type");
+    
+                if (passwordFieldType === "password") {
+                    passwordInput.attr("type", "text");
+                    $(this).html('<i class="bx bx-hide"></i>');
+                } else {
+                    passwordInput.attr("type", "password");
+                    $(this).html('<i class="bx bx-show"></i>');
+                }
+            });
+    
+            $("#togglePassword2").click(function() {
+                var passwordInput = $("#form3Example5");
+                var passwordFieldType = passwordInput.attr("type");
+    
+                if (passwordFieldType === "password") {
+                    passwordInput.attr("type", "text");
+                    $(this).html('<i class="bx bx-hide"></i>');
+                } else {
+                    passwordInput.attr("type", "password");
+                    $(this).html('<i class="bx bx-show"></i>');
+                }
+            });
+        });
+    </script>
+</html>
