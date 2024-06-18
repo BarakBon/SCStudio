@@ -2,7 +2,7 @@
 # VCEW
 
 A Flask studio and equipment ordering management website.
-
+this project was written to meet the real demands of the college's real studio 
 
 ## Features
 
@@ -27,7 +27,7 @@ A Flask studio and equipment ordering management website.
 - Runnable testing
 
 ## Users
-The system have 3 types of users of the veterinary clinic:
+The system has 3 types of users in the veterinary clinic:
 * Manager
 
 * Student
@@ -36,6 +36,7 @@ The system have 3 types of users of the veterinary clinic:
 
 ## Demo
 [![Watch the video](https://img.youtube.com/vi/UUscPO7eMkg/0.jpg)](https://www.youtube.com/watch?v=UUscPO7eMkg)
+(video)
 
 ## Deployment
 
