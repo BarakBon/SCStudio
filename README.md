@@ -33,6 +33,10 @@ The system have 3 types of users of the veterinary clinic:
 * Student
 
 * Teacher
+
+## Demo
+[![Watch the video](https://img.youtube.com/vi/UUscPO7eMkg/0.jpg)](https://www.youtube.com/watch?v=UUscPO7eMkg)
+
 ## Deployment
 
 - Install the dependencies in the requirements.txt file
